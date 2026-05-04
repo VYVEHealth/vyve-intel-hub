@@ -271,11 +271,11 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
     </div>
     <div class="header-right">
       <div class="global-search-wrap">
-        <span class="search-icon">🔍</span>
+        <span class="search-icon"></span>
         <input type="text" placeholder="Search competitors, features, intel..." oninput="globalSearch(this.value)" onfocus="showDropdown()" onblur="setTimeout(hideDropdown,200)">
         <div class="search-dropdown" id="search-dropdown"></div>
       </div>
-      <span class="live-badge">⚡ LIVE INTEL</span>
+      <span class="live-badge"> LIVE INTEL</span>
       <span class="updated">May 2026 &middot; 19 Tracked</span>
     </div>
   </div>
@@ -283,12 +283,12 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 
 <div class="nav">
   <div class="nav-inner">
-    <button class="nav-btn active" onclick="switchTab('overview')">📊 Overview</button>
-    <button class="nav-btn" onclick="switchTab('matrix')">⚡ Feature Matrix</button>
-    <button class="nav-btn" onclick="switchTab('profiles')">🔍 Profiles</button>
-    <button class="nav-btn" onclick="switchTab('market')">🇬🇧 Market</button>
-    <button class="nav-btn" onclick="switchTab('advantage')">🏆 VYVE Advantage</button>
-    <button class="nav-btn new-tab" onclick="switchTab('deals')">🎯 Deal Intel</button>
+    <button class="nav-btn active" onclick="switchTab('overview')"> Overview</button>
+    <button class="nav-btn" onclick="switchTab('matrix')"> Feature Matrix</button>
+    <button class="nav-btn" onclick="switchTab('profiles')"> Profiles</button>
+    <button class="nav-btn" onclick="switchTab('market')"> Market</button>
+    <button class="nav-btn" onclick="switchTab('advantage')"> VYVE Advantage</button>
+    <button class="nav-btn new-tab" onclick="switchTab('deals')"> Deal Intel</button>
   </div>
 </div>
 
@@ -314,11 +314,11 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
     </div>
     <div>
       <div class="watchlist-panel" style="margin-bottom:16px;">
-        <h3>🚨 Threat Watchlist <span style="font-size:10px;color:var(--muted);font-weight:400;">Top 5 by threat score</span></h3>
+        <h3> Threat Watchlist <span style="font-size:10px;color:var(--muted);font-weight:400;">Top 5 by threat score</span></h3>
         <div id="watchlist"></div>
       </div>
       <div class="news-panel">
-        <h3>📡 Competitor Intelligence Feed</h3>
+        <h3> Competitor Intelligence Feed</h3>
         <div id="news-feed"></div>
       </div>
     </div>
@@ -329,7 +329,7 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 <div class="tab-panel" id="tab-matrix">
   <div class="section-header"><h2>Feature Comparison Matrix</h2><p>50+ features across 6 categories — VYVE vs 19 competitors · search any feature or category</p></div>
   <div class="matrix-controls">
-    <input class="matrix-search" type="text" placeholder="🔍  Search features..." oninput="filterMatrix(this.value)">
+    <input class="matrix-search" type="text" placeholder="  Search features..." oninput="filterMatrix(this.value)">
     <div class="filter-btns">
       <button class="filter-btn active" onclick="filterCategory('all',this)">All</button>
       <button class="filter-btn" onclick="filterCategory('platform',this)">Platform</button>
@@ -346,7 +346,7 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 <!-- PROFILES TAB -->
 <div class="tab-panel" id="tab-profiles">
   <div class="section-header"><h2>Competitor Profiles</h2><p>Full intelligence — strengths, weaknesses, sales angles, and battle card generation</p></div>
-  <input class="profiles-search" type="text" placeholder="🔍  Search by name, strength, weakness, or any keyword..." oninput="filterProfiles(this.value)">
+  <input class="profiles-search" type="text" placeholder="  Search by name, strength, weakness, or any keyword..." oninput="filterProfiles(this.value)">
   <div class="profiles-grid" id="profiles-grid"></div>
 </div>
 
@@ -355,35 +355,35 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
   <div class="section-header"><h2>UK Market Landscape</h2><p>Segment analysis, pricing landscape, opportunity whitespace and interactive quadrant</p></div>
   <div class="market-grid">
     <div class="mkt-card">
-      <h3>📐 Company Size Opportunities</h3>
-      <div class="segment-row"><div class="seg-info"><div class="seg-name">Micro (1–49)</div><div class="seg-comps">Health Assured · Everymind · Spectrum.Life</div></div><span class="seg-opp opp-strong">🟢 Strong</span></div>
-      <div class="segment-row"><div class="seg-info"><div class="seg-name">SME (50–249) ← Primary</div><div class="seg-comps">Champion · Everymind · Thrive · VYVE</div></div><span class="seg-opp opp-primary">🟢 Primary</span></div>
-      <div class="segment-row"><div class="seg-info"><div class="seg-name">Mid-market (250–999)</div><div class="seg-comps">Unmind · Champion · Spectrum · Koa</div></div><span class="seg-opp opp-growing">🟡 Growing</span></div>
-      <div class="segment-row"><div class="seg-info"><div class="seg-name">Large (1,000–4,999)</div><div class="seg-comps">Unmind · Bupa · AXA · Reward Gateway</div></div><span class="seg-opp opp-future">🔵 Phase 2</span></div>
-      <div class="segment-row"><div class="seg-info"><div class="seg-name">Enterprise (5,000+)</div><div class="seg-comps">Bupa · AXA · Vitality · Headspace</div></div><span class="seg-opp opp-future">🔵 Long-term</span></div>
+      <h3> Company Size Opportunities</h3>
+      <div class="segment-row"><div class="seg-info"><div class="seg-name">Micro (1–49)</div><div class="seg-comps">Health Assured · Everymind · Spectrum.Life</div></div><span class="seg-opp opp-strong"> Strong</span></div>
+      <div class="segment-row"><div class="seg-info"><div class="seg-name">SME (50–249) ← Primary</div><div class="seg-comps">Champion · Everymind · Thrive · VYVE</div></div><span class="seg-opp opp-primary"> Primary</span></div>
+      <div class="segment-row"><div class="seg-info"><div class="seg-name">Mid-market (250–999)</div><div class="seg-comps">Unmind · Champion · Spectrum · Koa</div></div><span class="seg-opp opp-growing"> Growing</span></div>
+      <div class="segment-row"><div class="seg-info"><div class="seg-name">Large (1,000–4,999)</div><div class="seg-comps">Unmind · Bupa · AXA · Reward Gateway</div></div><span class="seg-opp opp-future"> Phase 2</span></div>
+      <div class="segment-row"><div class="seg-info"><div class="seg-name">Enterprise (5,000+)</div><div class="seg-comps">Bupa · AXA · Vitality · Headspace</div></div><span class="seg-opp opp-future"> Long-term</span></div>
     </div>
-    <div class="mkt-card"><h3>💰 Pricing Landscape (£ pp/pm)</h3><div id="pricing-chart"></div></div>
+    <div class="mkt-card"><h3> Pricing Landscape (£ pp/pm)</h3><div id="pricing-chart"></div></div>
   </div>
   <div class="mkt-card" style="margin-bottom:20px;">
-    <h3>📊 Competitive Quadrant — Click a dot to explore</h3>
+    <h3> Competitive Quadrant — Click a dot to explore</h3>
     <p style="font-size:11px;color:var(--muted);margin-bottom:12px;">Price vs Feature Breadth · Click any competitor to open intel drawer</p>
     <canvas id="quadrant-canvas" width="800" height="400" style="width:100%;max-width:800px;display:block;margin:0 auto;cursor:crosshair;border-radius:8px;"></canvas>
   </div>
   <div class="whitespace-section">
     <div class="mkt-card">
-      <h3>🗺️ VYVE Opportunity Whitespace Map</h3>
+      <h3> VYVE Opportunity Whitespace Map</h3>
       <p style="font-size:11px;color:var(--muted);margin-bottom:4px;">Where VYVE has unique or unchallenged positioning vs the market</p>
       <div class="whitespace-grid" id="whitespace-grid"></div>
       <div style="display:flex;gap:16px;margin-top:12px;flex-wrap:wrap;">
-        <span style="font-size:10px;color:var(--mint);">🟢 Unique/Unchallenged</span>
-        <span style="font-size:10px;color:var(--mint-light);">🔵 Strong position</span>
-        <span style="font-size:10px;color:var(--amber);">🟡 Contested</span>
-        <span style="font-size:10px;color:var(--danger);">🔴 Weak</span>
+        <span style="font-size:10px;color:var(--mint);"> Unique/Unchallenged</span>
+        <span style="font-size:10px;color:var(--mint-light);"> Strong position</span>
+        <span style="font-size:10px;color:var(--amber);"> Contested</span>
+        <span style="font-size:10px;color:var(--danger);"> Weak</span>
       </div>
     </div>
   </div>
   <div class="pricing-calc">
-    <h3>🧮 Pricing Sensitivity Calculator</h3>
+    <h3> Pricing Sensitivity Calculator</h3>
     <p style="font-size:11px;color:var(--muted);margin-bottom:14px;">Enter your prospect's employee count to see total annual cost vs competitors</p>
     <div class="calc-row">
       <span class="calc-label">Number of employees:</span>
@@ -396,26 +396,26 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 <!-- ADVANTAGE TAB -->
 <div class="tab-panel" id="tab-advantage">
   <div class="section-header"><h2>The VYVE Advantage</h2><p>What nobody else does — and the objection library for every sales conversation</p></div>
-  <div class="diff-card"><div class="diff-icon">🎗️</div><div class="diff-content"><h3>1-in-5 Charity Pledge</h3><p>For every 5 paid employees, VYVE provides free wellbeing support to 1 community member. Powered by the Everyman Charity — no other UK platform does this at scale.</p><div class="diff-who">⚡ Zero direct competitors · Powerful CSR differentiator · Unique B2B conversation starter</div></div></div>
-  <div class="diff-card"><div class="diff-icon">🔮</div><div class="diff-content"><h3>Proactive, Not Reactive</h3><p>VYVE builds a 12-month wellbeing calendar. EAP players (Health Assured, Able Futures, WPO) are purely crisis-response tools.</p><div class="diff-who">⚡ Shifts framing from cost centre → culture investment · Resonates with progressive HR &amp; People leaders</div></div></div>
-  <div class="diff-card"><div class="diff-icon">🧩</div><div class="diff-content"><h3>Physical + Mental + Community in One Platform</h3><p>All three pillars at SME price point. Bupa/AXA offer breadth at £15–60pp/pm. Unmind is mental-only. Gympass is physical-only. VYVE delivers the full stack at £5–14pp/pm.</p><div class="diff-who">⚡ Breadth at SME price = unique market position · No direct competitor matches this combination</div></div></div>
-  <div class="diff-card"><div class="diff-icon">🎙️</div><div class="diff-content"><h3>Expert Podcast + Speaker Network</h3><p>The Everyman podcast and integrated speaker bureau give VYVE a content moat no EAP or app-only platform can replicate.</p><div class="diff-who">⚡ Unmind has content; no one has a podcast-native model · Builds trust at zero marginal cost</div></div></div>
-  <div class="diff-card"><div class="diff-icon">🤝</div><div class="diff-content"><h3>Ambassador / Champion Programme</h3><p>VYVE trains internal wellbeing champions inside client organisations — driving grassroots uptake without VYVE staff cost.</p><div class="diff-who">⚡ Drives retention and renewal from inside client orgs</div></div></div>
-  <div class="diff-card"><div class="diff-icon">🏟️</div><div class="diff-content"><h3>Community Events (In-Person)</h3><p>Quarterly community events, Forest Hall FC partnership, charity fundraising — a human layer pure-app platforms cannot match.</p><div class="diff-who">⚡ Nobody at VYVE's price combines digital + in-person community</div></div></div>
+  <div class="diff-card"><div class="diff-icon"></div><div class="diff-content"><h3>1-in-5 Charity Pledge</h3><p>For every 5 paid employees, VYVE provides free wellbeing support to 1 community member. Powered by the Everyman Charity — no other UK platform does this at scale.</p><div class="diff-who"> Zero direct competitors · Powerful CSR differentiator · Unique B2B conversation starter</div></div></div>
+  <div class="diff-card"><div class="diff-icon"></div><div class="diff-content"><h3>Proactive, Not Reactive</h3><p>VYVE builds a 12-month wellbeing calendar. EAP players (Health Assured, Able Futures, WPO) are purely crisis-response tools.</p><div class="diff-who"> Shifts framing from cost centre → culture investment · Resonates with progressive HR &amp; People leaders</div></div></div>
+  <div class="diff-card"><div class="diff-icon"></div><div class="diff-content"><h3>Physical + Mental + Community in One Platform</h3><p>All three pillars at SME price point. Bupa/AXA offer breadth at £15–60pp/pm. Unmind is mental-only. Gympass is physical-only. VYVE delivers the full stack at £5–14pp/pm.</p><div class="diff-who"> Breadth at SME price = unique market position · No direct competitor matches this combination</div></div></div>
+  <div class="diff-card"><div class="diff-icon"></div><div class="diff-content"><h3>Expert Podcast + Speaker Network</h3><p>The Everyman podcast and integrated speaker bureau give VYVE a content moat no EAP or app-only platform can replicate.</p><div class="diff-who"> Unmind has content; no one has a podcast-native model · Builds trust at zero marginal cost</div></div></div>
+  <div class="diff-card"><div class="diff-icon"></div><div class="diff-content"><h3>Ambassador / Champion Programme</h3><p>VYVE trains internal wellbeing champions inside client organisations — driving grassroots uptake without VYVE staff cost.</p><div class="diff-who"> Drives retention and renewal from inside client orgs</div></div></div>
+  <div class="diff-card"><div class="diff-icon"></div><div class="diff-content"><h3>Community Events (In-Person)</h3><p>Quarterly community events, Forest Hall FC partnership, charity fundraising — a human layer pure-app platforms cannot match.</p><div class="diff-who"> Nobody at VYVE's price combines digital + in-person community</div></div></div>
   <div style="background:linear-gradient(135deg,var(--teal-deep),var(--teal));border-radius:14px;padding:24px;margin:24px 0;">
-    <h3 style="font-size:15px;font-weight:800;color:var(--mint);margin-bottom:8px;">🎯 VYVE's Positioning Wedge</h3>
+    <h3 style="font-size:15px;font-weight:800;color:var(--mint);margin-bottom:8px;"> VYVE's Positioning Wedge</h3>
     <p style="font-size:14px;color:var(--text);line-height:1.7;max-width:800px;">"The only proactive, community-led workplace wellbeing platform in the UK that combines Physical, Mental and Social health — built for SMEs who want to invest in culture before crisis — with a 1-in-5 charity pledge that no competitor matches."</p>
   </div>
   <div class="objection-section">
-    <div class="section-header"><h2>💬 Objection Library</h2><p>Every objection you'll face — with the VYVE response</p></div>
-    <input class="obj-search" type="text" id="obj-search" placeholder="🔍  Search objections..." oninput="filterObjections(this.value)">
+    <div class="section-header"><h2> Objection Library</h2><p>Every objection you'll face — with the VYVE response</p></div>
+    <input class="obj-search" type="text" id="obj-search" placeholder="  Search objections..." oninput="filterObjections(this.value)">
     <div id="objections-list"></div>
   </div>
 </div>
 
 <!-- DEAL INTEL TAB -->
 <div class="tab-panel" id="tab-deals">
-  <div class="section-header"><h2>🎯 Deal Intelligence</h2><p>Log every competitive deal — win or lose — and build VYVE's proprietary win/loss library</p></div>
+  <div class="section-header"><h2> Deal Intelligence</h2><p>Log every competitive deal — win or lose — and build VYVE's proprietary win/loss library</p></div>
   <div class="deal-stats" id="deal-stats">
     <div class="deal-stat-card"><div class="ds-label">Deals Logged</div><div class="ds-val" id="ds-total">0</div><div class="ds-sub">Total tracked</div></div>
     <div class="deal-stat-card"><div class="ds-label">Win Rate</div><div class="ds-val" id="ds-winrate">—</div><div class="ds-sub">Overall</div></div>
@@ -428,7 +428,7 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
       <div class="form-group"><label>Company Name</label><input type="text" id="d-company" placeholder="e.g. Acme Ltd"></div>
       <div class="form-group"><label>Employee Count</label><input type="number" id="d-size" placeholder="e.g. 150" min="1"></div>
       <div class="form-group"><label>Competitor Faced</label><select id="d-comp"><option value="">Select...</option></select></div>
-      <div class="form-group"><label>Outcome</label><select id="d-outcome"><option value="won">Won ✅</option><option value="lost">Lost ❌</option><option value="nd">No Decision 🟡</option></select></div>
+      <div class="form-group"><label>Outcome</label><select id="d-outcome"><option value="won">Won </option><option value="lost">Lost </option><option value="nd">No Decision </option></select></div>
       <div class="form-group"><label>Date</label><input type="date" id="d-date"></div>
       <div class="form-group"><label>Deal Value (£/yr)</label><input type="number" id="d-value" placeholder="e.g. 9000" min="0"></div>
     </div>
@@ -436,7 +436,7 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
     <button class="btn-log" onclick="logDeal()">Log Deal →</button>
   </div>
   <div class="deal-log-wrap">
-    <h3>📋 Deal History</h3>
+    <h3> Deal History</h3>
     <div id="deal-log-body"></div>
   </div>
 </div>
@@ -458,25 +458,25 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 <script>
 
 const COMPS = [
-  { id:'unmind', name:'Unmind', match:58, matchType:'closest', segment:'Enterprise', hq:'UK', revenue:'~£20m', users:'3m+', price:'£4–8', focus:'🇬🇧🌍', category:'Mental Health Platform', tagline:'AI-powered workplace mental health with analytics', strengths:['Strong analytics & manager insights','Nova AI mental health agent (2025)','NHS-endorsed, blue-chip client base','Science-backed programmes','Strong brand credibility'], weaknesses:['No physical health pillar','No community or in-person layer','Enterprise pricing — not SME-friendly','No charity pledge or social mission'], threat:72, threatTrend:'up', notes:'Raised €30m+ in 2025. Released Nova AI agent. 92% increase in usage. Biggest direct threat in mental health pillar. VYVE wins on breadth, community, price and mission.' },
-  { id:'headspace', name:'Headspace for Work', match:null, matchType:'other', segment:'Enterprise', hq:'USA', revenue:'>£100m', users:'70m+', price:'£5–12', focus:'🌍', category:'Meditation & Mental Health', tagline:'Consumer meditation giant, enterprise edition', strengths:['Massive brand recognition','Science-backed content library','Clinical care pathway','Strong app UX'], weaknesses:['US-centric — limited UK localisation','Meditation-heavy, limited breadth','No physical, community or social pillars','No proactive calendar approach'], threat:45, threatTrend:'same', notes:'Strong consumer brand but limited enterprise depth. VYVE wins on UK focus, community, physical pillar and proactive model.' },
-  { id:'calm', name:'Calm for Business', match:null, matchType:'other', segment:'Enterprise', hq:'USA', revenue:'>£200m', users:'100m+', price:'£4–10', focus:'🌍', category:'Mindfulness / Sleep', tagline:'Sleep and mindfulness content for teams', strengths:['Iconic consumer brand','Deep sleep and meditation library','Low price entry'], weaknesses:['Mindfulness/sleep only','No physical, community or social','US-centric','No proactive programme'], threat:35, threatTrend:'down', notes:'Lowest functional threat. Content-only platform. VYVE wins on every dimension except brand recognition.' },
-  { id:'bupa', name:'Bupa Wellbeing', match:51, matchType:'close', segment:'Enterprise', hq:'UK', revenue:'>£1bn', users:'10m+', price:'£15–40', focus:'🇬🇧🌍', category:'Insurance-led Wellbeing', tagline:'UK insurance giant with corporate wellbeing suite', strengths:['Trusted brand — highest credibility','Full clinical suite','Onsite delivery capability','Deep enterprise relationships'], weaknesses:['Price excludes SMEs (£15–40pp/pm)','Reactive/clinical — not culture-first','No community or ambassador programme','Slow sales cycle'], threat:55, threatTrend:'same', notes:'A credibility benchmark, not a direct SME threat. VYVE positions as the proactive, community-led alternative for cost-conscious mid-market.' },
-  { id:'axa', name:'AXA Health', match:45, matchType:'close', segment:'Enterprise', hq:'UK/FR', revenue:'>£500m', users:'5m+', price:'£20–50', focus:'🇬🇧🌍', category:'Insurance + Wellbeing', tagline:'Health insurance with embedded wellbeing layer', strengths:['Insurance-backed credibility','Broad clinical services','Strong enterprise distribution'], weaknesses:['Insurance-first = complex procurement','Price too high for SMEs','No community/gamification','Limited proactive programming'], threat:40, threatTrend:'same', notes:'Insurance complexity is AXA\'s barrier. SMEs don\'t want insurance procurement for wellbeing. VYVE is simpler, human, purpose-driven.' },
-  { id:'vitality', name:'Vitality Health', match:40, matchType:'close', segment:'Enterprise', hq:'UK', revenue:'>£500m', users:'2m+', price:'£25–60', focus:'🇬🇧', category:'Insurance + Rewards', tagline:'Health insurance with rewards-driven wellness', strengths:['Rewards/gamification model','Strong gym and partner network','Activity-based incentives'], weaknesses:['Insurance-led = high price','No mental health depth','No community layer at VYVE price'], threat:42, threatTrend:'same', notes:'Vitality rewards model is engaging but insurance-led. VYVE\'s community and mental health depth is superior. Price delta decisive at SME.' },
-  { id:'wpo', name:'Workplace Options', match:44, matchType:'close', segment:'Enterprise', hq:'USA', revenue:'>£200m', users:'75m+', price:'£1–5', focus:'🌍', category:'Global EAP Provider', tagline:'Global EAP with 75m+ covered lives', strengths:['Enormous scale (75m lives)','24/7 crisis helpline','Global reach','Low price'], weaknesses:['Pure EAP = reactive only','US-centric delivery','No physical, community or inspiration pillars','Low engagement rates'], threat:38, threatTrend:'down', notes:'WPO is the "big number on a slide" EAP. Reactive, impersonal, global-generic. VYVE wins on human connection and UK community.' },
-  { id:'healthassured', name:'Health Assured', match:null, matchType:'other', segment:'SME–Enterprise', hq:'UK', revenue:'~£50m', users:'8m+', price:'£1–4', focus:'🇬🇧', category:'UK EAP Market Leader', tagline:'UK\'s highest-volume EAP provider', strengths:['UK EAP market leader by volume','Strong HR brand awareness','Low price','Large sales force'], weaknesses:['Reactive crisis support only','No physical, community or social','Low engagement','No proactive programming'], threat:50, threatTrend:'same', notes:'High volume, low depth. HR buyers familiar but frustrated with low engagement. VYVE: "EAP was the floor — VYVE is the ceiling."' },
-  { id:'rewardgateway', name:'Reward Gateway', match:42, matchType:'close', segment:'SME–Enterprise', hq:'UK', revenue:'~£120m', users:'4m+', price:'£2–8', focus:'🇬🇧🌍', category:'Employee Benefits + Wellbeing', tagline:'Benefits platform with wellbeing module bolted on', strengths:['Strong HR benefits relationships','Large UK installed base','Survey and analytics tools'], weaknesses:['Wellbeing is secondary product — not core','No physical health depth','No community events or speakers'], threat:45, threatTrend:'same', notes:'Reward Gateway sells benefits; wellbeing is a module add-on. VYVE is a pure-play wellbeing specialist — deeper and more engaging.' },
-  { id:'wellhub', name:'Wellhub (Gympass)', match:null, matchType:'other', segment:'Enterprise', hq:'Brazil/UK', revenue:'>£300m', users:'15m+', price:'£10–30', focus:'🇬🇧🌍', category:'Gym/Fitness Network', tagline:'Global gym access platform for employees', strengths:['Massive gym network','Strong app and UX','Physical health leader'], weaknesses:['No mental health depth','No community, events or speakers','Higher price for full access'], threat:35, threatTrend:'down', notes:'Physical-only play. VYVE complements rather than competes — or wins by showing breadth at comparable price.' },
-  { id:'classpass', name:'ClassPass for Business', match:null, matchType:'other', segment:'Enterprise', hq:'USA', revenue:'>£200m', users:'35m+', price:'£20–50', focus:'🌍', category:'Boutique Fitness Credits', tagline:'Boutique fitness credit system for teams', strengths:['Premium boutique fitness access','Strong consumer brand','Flexible credit model'], weaknesses:['Cost can spike','No mental health, community or social','US-centric','No proactive programme'], threat:25, threatTrend:'down', notes:'High price, narrow scope. VYVE offers broader wellbeing at lower cost with community layer. Lowest direct threat.' },
-  { id:'ablefutures', name:'Able Futures', match:null, matchType:'other', segment:'Enterprise', hq:'UK', revenue:'~£10m', users:'1m+', price:'£2–5', focus:'🇬🇧', category:'Specialist EAP', tagline:'Mental health-focused EAP with 1:1 support', strengths:['Specialist mental health focus','1:1 mental health support','UK government-backed','Good in regulated sectors'], weaknesses:['EAP-only = reactive','No physical or community','Limited digital product','Small scale'], threat:30, threatTrend:'same', notes:'Niche EAP. Limited digital. VYVE wins on breadth and digital engagement. Low direct threat at SME level.' },
-  { id:'koa', name:'Koa Health', match:45, matchType:'close', segment:'Enterprise', hq:'Spain/UK', revenue:'~£30m', users:'500k+', price:'£3–8', focus:'🇬🇧🌍', category:'Psychological Flexibility', tagline:'Evidence-based mental health via ACT therapy', strengths:['Strong clinical evidence base','ACT therapy','Psychiatric assessment capability','Good enterprise sales'], weaknesses:['Mental health only','Clinical/academic tone — lower engagement','No community or events','Limited UK brand awareness'], threat:42, threatTrend:'up', notes:'Koa is strong on clinical depth but narrow. VYVE wins on breadth, community, engagement and mission.' },
-  { id:'thrive', name:'Thrive Mental Wellbeing', match:45, matchType:'close', segment:'Enterprise', hq:'UK', revenue:'~£20m', users:'2m+', price:'£2–5', focus:'🇬🇧', category:'Digital Mental Health App', tagline:'NHS-approved digital mental health tool', strengths:['NHS-approved credibility','CBT and crisis tools','Low price','MHFA training built in'], weaknesses:['Mental health only','Limited community or physical','Lower engagement than Unmind'], threat:40, threatTrend:'same', notes:'NHS badge is strong but mental-only and app-only. VYVE wins on breadth, community and proactive model.' },
-  { id:'peppy', name:'Peppy Health', match:49, matchType:'close', segment:'SME–Enterprise', hq:'UK', revenue:'~£15m', users:'500k+', price:'£4–10', focus:'🇬🇧', category:'Life Stage Wellbeing', tagline:'Personalised support for life-stage health events', strengths:['Menopause, fertility, MSK specialist','Highly personalised 1:1 practitioner access','Strong female workforce appeal'], weaknesses:['Life-stage specific — not always-on','No community or gamification','Niche audience vs whole workforce'], threat:48, threatTrend:'up', notes:'Peppy is highly complementary — not head-to-head. They serve life-stage needs; VYVE serves always-on wellbeing culture.' },
-  { id:'champion', name:'Champion Health', match:50, matchType:'close', segment:'SME–Enterprise', hq:'UK', revenue:'~£5m', users:'200k+', price:'£3–8', focus:'🇬🇧', category:'Holistic Wellbeing Platform', tagline:'Science-backed holistic wellbeing for UK SMEs', strengths:['Strong multi-pillar (physical, mental, financial)','Built by clinicians','10x engagement vs standard','Growing fast','Recently acquired'], weaknesses:['Smaller scale — 200k users','No community events or charity pledge','No ambassador programme','No podcast/content model'], threat:62, threatTrend:'up', notes:'Champion is VYVE\'s closest peer competitor — similar segment, breadth, price. DIFFERENTIATOR: community events, charity pledge, ambassador programme, podcast. Acquired Feb 2025 — watch for integration risk.' },
-  { id:'nuffield', name:'Nuffield Health', match:null, matchType:'other', segment:'SME–Enterprise', hq:'UK', revenue:'>£500m', users:'3m+', price:'£20–60', focus:'🇬🇧', category:'Clinical Corporate Health', tagline:'UK\'s largest healthcare charity — corporate arm', strengths:['Full clinical suite (GP, physio, MH)','Gym and hospital network','Strong brand and charitable mission','Onsite delivery'], weaknesses:['Price excludes most SMEs','Offline-first — weak digital','No community or gamification','Slow innovation cycle'], threat:35, threatTrend:'same', notes:'Credibility benchmark, not a direct SME competitor. VYVE positions as digital, community-led complement.' },
-  { id:'everymind', name:'Everymind at Work', match:55, matchType:'closest', segment:'SME–Enterprise', hq:'UK/AUS', revenue:'~£5m', users:'100k+', price:'£3–6', focus:'🇬🇧🌍', category:'MH Champion Platform', tagline:'Proactive mental health champion network builder', strengths:['12-month wellbeing roadmap approach','Conversation logging and safeguarding','Insights dashboard for HR','Strong champion/supporter network','Proactive stance similar to VYVE'], weaknesses:['Mental health only — no physical pillar','Smaller brand vs Unmind','No charity pledge','Limited community events/gamification'], threat:60, threatTrend:'up', notes:'Everymind is VYVE\'s philosophical twin on proactive approach but mental-health-only. VYVE wins on all three pillars, community events, charity mission and content.' },
-  { id:'spectrum', name:'Spectrum.Life', match:null, matchType:'other', segment:'SME–Enterprise', hq:'UK/IRE', revenue:'~£10m', users:'1m+', price:'£3–7', focus:'🇬🇧🌍', category:'EAP + Multi-pillar', tagline:'Irish-UK wellbeing platform with EAP and multi-pillar coverage', strengths:['Good multi-pillar coverage (EAP + digital)','UK and Ireland footprint','Competitive pricing','Growing SME client base'], weaknesses:['EAP-led heritage = reactive framing','Less UK recognition','No community events or charity pledge','No podcast or content model'], threat:45, threatTrend:'up', notes:'Spectrum is a credible multi-pillar option at SME prices. VYVE differentiates on community, charity, content and UK-first identity. Watch — growing fast.' }
+  { id:'unmind', name:'Unmind', match:58, matchType:'closest', segment:'Enterprise', hq:'UK', revenue:'~£20m', users:'3m+', price:'£4–8', focus:'', category:'Mental Health Platform', tagline:'AI-powered workplace mental health with analytics', strengths:['Strong analytics & manager insights','Nova AI mental health agent (2025)','NHS-endorsed, blue-chip client base','Science-backed programmes','Strong brand credibility'], weaknesses:['No physical health pillar','No community or in-person layer','Enterprise pricing — not SME-friendly','No charity pledge or social mission'], threat:72, threatTrend:'up', notes:'Raised €30m+ in 2025. Released Nova AI agent. 92% increase in usage. Biggest direct threat in mental health pillar. VYVE wins on breadth, community, price and mission.' },
+  { id:'headspace', name:'Headspace for Work', match:null, matchType:'other', segment:'Enterprise', hq:'USA', revenue:'>£100m', users:'70m+', price:'£5–12', focus:'', category:'Meditation & Mental Health', tagline:'Consumer meditation giant, enterprise edition', strengths:['Massive brand recognition','Science-backed content library','Clinical care pathway','Strong app UX'], weaknesses:['US-centric — limited UK localisation','Meditation-heavy, limited breadth','No physical, community or social pillars','No proactive calendar approach'], threat:45, threatTrend:'same', notes:'Strong consumer brand but limited enterprise depth. VYVE wins on UK focus, community, physical pillar and proactive model.' },
+  { id:'calm', name:'Calm for Business', match:null, matchType:'other', segment:'Enterprise', hq:'USA', revenue:'>£200m', users:'100m+', price:'£4–10', focus:'', category:'Mindfulness / Sleep', tagline:'Sleep and mindfulness content for teams', strengths:['Iconic consumer brand','Deep sleep and meditation library','Low price entry'], weaknesses:['Mindfulness/sleep only','No physical, community or social','US-centric','No proactive programme'], threat:35, threatTrend:'down', notes:'Lowest functional threat. Content-only platform. VYVE wins on every dimension except brand recognition.' },
+  { id:'bupa', name:'Bupa Wellbeing', match:51, matchType:'close', segment:'Enterprise', hq:'UK', revenue:'>£1bn', users:'10m+', price:'£15–40', focus:'', category:'Insurance-led Wellbeing', tagline:'UK insurance giant with corporate wellbeing suite', strengths:['Trusted brand — highest credibility','Full clinical suite','Onsite delivery capability','Deep enterprise relationships'], weaknesses:['Price excludes SMEs (£15–40pp/pm)','Reactive/clinical — not culture-first','No community or ambassador programme','Slow sales cycle'], threat:55, threatTrend:'same', notes:'A credibility benchmark, not a direct SME threat. VYVE positions as the proactive, community-led alternative for cost-conscious mid-market.' },
+  { id:'axa', name:'AXA Health', match:45, matchType:'close', segment:'Enterprise', hq:'UK/FR', revenue:'>£500m', users:'5m+', price:'£20–50', focus:'', category:'Insurance + Wellbeing', tagline:'Health insurance with embedded wellbeing layer', strengths:['Insurance-backed credibility','Broad clinical services','Strong enterprise distribution'], weaknesses:['Insurance-first = complex procurement','Price too high for SMEs','No community/gamification','Limited proactive programming'], threat:40, threatTrend:'same', notes:'Insurance complexity is AXA\'s barrier. SMEs don\'t want insurance procurement for wellbeing. VYVE is simpler, human, purpose-driven.' },
+  { id:'vitality', name:'Vitality Health', match:40, matchType:'close', segment:'Enterprise', hq:'UK', revenue:'>£500m', users:'2m+', price:'£25–60', focus:'', category:'Insurance + Rewards', tagline:'Health insurance with rewards-driven wellness', strengths:['Rewards/gamification model','Strong gym and partner network','Activity-based incentives'], weaknesses:['Insurance-led = high price','No mental health depth','No community layer at VYVE price'], threat:42, threatTrend:'same', notes:'Vitality rewards model is engaging but insurance-led. VYVE\'s community and mental health depth is superior. Price delta decisive at SME.' },
+  { id:'wpo', name:'Workplace Options', match:44, matchType:'close', segment:'Enterprise', hq:'USA', revenue:'>£200m', users:'75m+', price:'£1–5', focus:'', category:'Global EAP Provider', tagline:'Global EAP with 75m+ covered lives', strengths:['Enormous scale (75m lives)','24/7 crisis helpline','Global reach','Low price'], weaknesses:['Pure EAP = reactive only','US-centric delivery','No physical, community or inspiration pillars','Low engagement rates'], threat:38, threatTrend:'down', notes:'WPO is the "big number on a slide" EAP. Reactive, impersonal, global-generic. VYVE wins on human connection and UK community.' },
+  { id:'healthassured', name:'Health Assured', match:null, matchType:'other', segment:'SME–Enterprise', hq:'UK', revenue:'~£50m', users:'8m+', price:'£1–4', focus:'', category:'UK EAP Market Leader', tagline:'UK\'s highest-volume EAP provider', strengths:['UK EAP market leader by volume','Strong HR brand awareness','Low price','Large sales force'], weaknesses:['Reactive crisis support only','No physical, community or social','Low engagement','No proactive programming'], threat:50, threatTrend:'same', notes:'High volume, low depth. HR buyers familiar but frustrated with low engagement. VYVE: "EAP was the floor — VYVE is the ceiling."' },
+  { id:'rewardgateway', name:'Reward Gateway', match:42, matchType:'close', segment:'SME–Enterprise', hq:'UK', revenue:'~£120m', users:'4m+', price:'£2–8', focus:'', category:'Employee Benefits + Wellbeing', tagline:'Benefits platform with wellbeing module bolted on', strengths:['Strong HR benefits relationships','Large UK installed base','Survey and analytics tools'], weaknesses:['Wellbeing is secondary product — not core','No physical health depth','No community events or speakers'], threat:45, threatTrend:'same', notes:'Reward Gateway sells benefits; wellbeing is a module add-on. VYVE is a pure-play wellbeing specialist — deeper and more engaging.' },
+  { id:'wellhub', name:'Wellhub (Gympass)', match:null, matchType:'other', segment:'Enterprise', hq:'Brazil/UK', revenue:'>£300m', users:'15m+', price:'£10–30', focus:'', category:'Gym/Fitness Network', tagline:'Global gym access platform for employees', strengths:['Massive gym network','Strong app and UX','Physical health leader'], weaknesses:['No mental health depth','No community, events or speakers','Higher price for full access'], threat:35, threatTrend:'down', notes:'Physical-only play. VYVE complements rather than competes — or wins by showing breadth at comparable price.' },
+  { id:'classpass', name:'ClassPass for Business', match:null, matchType:'other', segment:'Enterprise', hq:'USA', revenue:'>£200m', users:'35m+', price:'£20–50', focus:'', category:'Boutique Fitness Credits', tagline:'Boutique fitness credit system for teams', strengths:['Premium boutique fitness access','Strong consumer brand','Flexible credit model'], weaknesses:['Cost can spike','No mental health, community or social','US-centric','No proactive programme'], threat:25, threatTrend:'down', notes:'High price, narrow scope. VYVE offers broader wellbeing at lower cost with community layer. Lowest direct threat.' },
+  { id:'ablefutures', name:'Able Futures', match:null, matchType:'other', segment:'Enterprise', hq:'UK', revenue:'~£10m', users:'1m+', price:'£2–5', focus:'', category:'Specialist EAP', tagline:'Mental health-focused EAP with 1:1 support', strengths:['Specialist mental health focus','1:1 mental health support','UK government-backed','Good in regulated sectors'], weaknesses:['EAP-only = reactive','No physical or community','Limited digital product','Small scale'], threat:30, threatTrend:'same', notes:'Niche EAP. Limited digital. VYVE wins on breadth and digital engagement. Low direct threat at SME level.' },
+  { id:'koa', name:'Koa Health', match:45, matchType:'close', segment:'Enterprise', hq:'Spain/UK', revenue:'~£30m', users:'500k+', price:'£3–8', focus:'', category:'Psychological Flexibility', tagline:'Evidence-based mental health via ACT therapy', strengths:['Strong clinical evidence base','ACT therapy','Psychiatric assessment capability','Good enterprise sales'], weaknesses:['Mental health only','Clinical/academic tone — lower engagement','No community or events','Limited UK brand awareness'], threat:42, threatTrend:'up', notes:'Koa is strong on clinical depth but narrow. VYVE wins on breadth, community, engagement and mission.' },
+  { id:'thrive', name:'Thrive Mental Wellbeing', match:45, matchType:'close', segment:'Enterprise', hq:'UK', revenue:'~£20m', users:'2m+', price:'£2–5', focus:'', category:'Digital Mental Health App', tagline:'NHS-approved digital mental health tool', strengths:['NHS-approved credibility','CBT and crisis tools','Low price','MHFA training built in'], weaknesses:['Mental health only','Limited community or physical','Lower engagement than Unmind'], threat:40, threatTrend:'same', notes:'NHS badge is strong but mental-only and app-only. VYVE wins on breadth, community and proactive model.' },
+  { id:'peppy', name:'Peppy Health', match:49, matchType:'close', segment:'SME–Enterprise', hq:'UK', revenue:'~£15m', users:'500k+', price:'£4–10', focus:'', category:'Life Stage Wellbeing', tagline:'Personalised support for life-stage health events', strengths:['Menopause, fertility, MSK specialist','Highly personalised 1:1 practitioner access','Strong female workforce appeal'], weaknesses:['Life-stage specific — not always-on','No community or gamification','Niche audience vs whole workforce'], threat:48, threatTrend:'up', notes:'Peppy is highly complementary — not head-to-head. They serve life-stage needs; VYVE serves always-on wellbeing culture.' },
+  { id:'champion', name:'Champion Health', match:50, matchType:'close', segment:'SME–Enterprise', hq:'UK', revenue:'~£5m', users:'200k+', price:'£3–8', focus:'', category:'Holistic Wellbeing Platform', tagline:'Science-backed holistic wellbeing for UK SMEs', strengths:['Strong multi-pillar (physical, mental, financial)','Built by clinicians','10x engagement vs standard','Growing fast','Recently acquired'], weaknesses:['Smaller scale — 200k users','No community events or charity pledge','No ambassador programme','No podcast/content model'], threat:62, threatTrend:'up', notes:'Champion is VYVE\'s closest peer competitor — similar segment, breadth, price. DIFFERENTIATOR: community events, charity pledge, ambassador programme, podcast. Acquired Feb 2025 — watch for integration risk.' },
+  { id:'nuffield', name:'Nuffield Health', match:null, matchType:'other', segment:'SME–Enterprise', hq:'UK', revenue:'>£500m', users:'3m+', price:'£20–60', focus:'', category:'Clinical Corporate Health', tagline:'UK\'s largest healthcare charity — corporate arm', strengths:['Full clinical suite (GP, physio, MH)','Gym and hospital network','Strong brand and charitable mission','Onsite delivery'], weaknesses:['Price excludes most SMEs','Offline-first — weak digital','No community or gamification','Slow innovation cycle'], threat:35, threatTrend:'same', notes:'Credibility benchmark, not a direct SME competitor. VYVE positions as digital, community-led complement.' },
+  { id:'everymind', name:'Everymind at Work', match:55, matchType:'closest', segment:'SME–Enterprise', hq:'UK/AUS', revenue:'~£5m', users:'100k+', price:'£3–6', focus:'', category:'MH Champion Platform', tagline:'Proactive mental health champion network builder', strengths:['12-month wellbeing roadmap approach','Conversation logging and safeguarding','Insights dashboard for HR','Strong champion/supporter network','Proactive stance similar to VYVE'], weaknesses:['Mental health only — no physical pillar','Smaller brand vs Unmind','No charity pledge','Limited community events/gamification'], threat:60, threatTrend:'up', notes:'Everymind is VYVE\'s philosophical twin on proactive approach but mental-health-only. VYVE wins on all three pillars, community events, charity mission and content.' },
+  { id:'spectrum', name:'Spectrum.Life', match:null, matchType:'other', segment:'SME–Enterprise', hq:'UK/IRE', revenue:'~£10m', users:'1m+', price:'£3–7', focus:'', category:'EAP + Multi-pillar', tagline:'Irish-UK wellbeing platform with EAP and multi-pillar coverage', strengths:['Good multi-pillar coverage (EAP + digital)','UK and Ireland footprint','Competitive pricing','Growing SME client base'], weaknesses:['EAP-led heritage = reactive framing','Less UK recognition','No community events or charity pledge','No podcast or content model'], threat:45, threatTrend:'up', notes:'Spectrum is a credible multi-pillar option at SME prices. VYVE differentiates on community, charity, content and UK-first identity. Watch — growing fast.' }
 ];
 
 const COMP_ORDER = ['unmind','headspace','calm','bupa','axa','vitality','wpo','healthassured','rewardgateway','wellhub','classpass','ablefutures','koa','thrive','peppy','champion','nuffield','everymind','spectrum'];
@@ -649,7 +649,7 @@ const QUAD_DOTS = [];
 function renderOverview() {
   const grid = document.getElementById('comp-grid');
   COMPS.forEach(c => {
-    const mb = c.match ? `<span class="comp-match ${c.matchType==='closest'?'match-closest':'match-close'}">⚡ ${c.match}%</span>` : '';
+    const mb = c.match ? `<span class="comp-match ${c.matchType==='closest'?'match-closest':'match-close'}"> ${c.match}%</span>` : '';
     grid.innerHTML += `<div class="comp-card ${c.matchType}" onclick="openProfile('${c.id}')">
       <div class="comp-header"><div class="comp-name">${c.name}</div>${mb}</div>
       <div class="comp-meta"><span class="tag">${c.segment}</span><span class="tag">${c.hq}</span><span class="tag">${c.category}</span></div>
@@ -711,9 +711,9 @@ function renderMatrix() {
 }
 
 function icon(v) {
-  if(v==='Y') return '<span class="icon-yes">✓</span>';
-  if(v==='P') return '<span class="icon-partial">◐</span>';
-  return '<span class="icon-no">✗</span>';
+  if(v==='Y') return '<span class="icon-yes"></span>';
+  if(v==='P') return '<span class="icon-partial"></span>';
+  return '<span class="icon-no"></span>';
 }
 
 function filterMatrix(q) {
@@ -734,15 +734,15 @@ function filterCategory(cat, btn) {
 function renderProfiles() {
   const grid = document.getElementById('profiles-grid');
   COMPS.forEach(c => {
-    const mb = c.match ? `<span class="comp-match ${c.matchType==='closest'?'match-closest':'match-close'}">⚡ ${c.match}% Overlap</span>` : '';
+    const mb = c.match ? `<span class="comp-match ${c.matchType==='closest'?'match-closest':'match-close'}"> ${c.match}% Overlap</span>` : '';
     grid.innerHTML += `<div class="profile-card" id="profile-${c.id}">
       <div class="profile-header">
         <div><div class="profile-name">${c.name}</div><div class="profile-tagline">${c.tagline}</div></div>
-        <div class="profile-header-right">${mb}<button class="btn-battle" onclick="openBattleCard('${c.id}')">🃏 Battle Card</button></div>
+        <div class="profile-header-right">${mb}<button class="btn-battle" onclick="openBattleCard('${c.id}')"> Battle Card</button></div>
       </div>
       <div class="profile-body">
         <div class="profile-section">
-          <h4>📊 Intelligence</h4>
+          <h4> Intelligence</h4>
           <div class="info-row"><span class="info-label">Segment</span><span class="info-val">${c.segment}</span></div>
           <div class="info-row"><span class="info-label">HQ</span><span class="info-val">${c.hq}</span></div>
           <div class="info-row"><span class="info-label">Revenue</span><span class="info-val">${c.revenue}</span></div>
@@ -755,15 +755,15 @@ function renderProfiles() {
           </div>
         </div>
         <div class="profile-section">
-          <h4>💪 Strengths</h4>
+          <h4> Strengths</h4>
           <ul>${c.strengths.map(s=>`<li>${s}</li>`).join('')}</ul>
-          <h4 style="margin-top:14px;">⚠️ Weaknesses</h4>
+          <h4 style="margin-top:14px;"> Weaknesses</h4>
           <ul>${c.weaknesses.map(w=>`<li>${w}</li>`).join('')}</ul>
         </div>
         <div class="profile-section">
-          <h4>🎯 VYVE Sales Intel</h4>
+          <h4> VYVE Sales Intel</h4>
           <p>${c.notes}</p>
-          <div class="vyve-win"><strong>🏆 VYVE Wins Because:</strong>${WIN_STATEMENTS[c.id]||'Proactive model · all 3 pillars · community · charity pledge'}</div>
+          <div class="vyve-win"><strong> VYVE Wins Because:</strong>${WIN_STATEMENTS[c.id]||'Proactive model · all 3 pillars · community · charity pledge'}</div>
         </div>
       </div>
     </div>`;
@@ -790,29 +790,29 @@ function openBattleCard(id) {
   const modal = document.getElementById('battle-modal');
   document.getElementById('battle-inner').innerHTML = `
     <div class="battle-header">
-      <div><h2>🃏 Battle Card: ${c.name}</h2><div class="bh-sub">${c.category} · ${c.segment} · ${c.price}pp/pm · Threat: ${c.threat}%</div></div>
+      <div><h2> Battle Card: ${c.name}</h2><div class="bh-sub">${c.category} · ${c.segment} · ${c.price}pp/pm · Threat: ${c.threat}%</div></div>
       <div class="battle-actions">
-        <button class="btn-print" onclick="window.print()">🖨️ Print</button>
-        <button class="btn-close-modal" onclick="closeBattleCard()">✕</button>
+        <button class="btn-print" onclick="window.print()"> Print</button>
+        <button class="btn-close-modal" onclick="closeBattleCard()"></button>
       </div>
     </div>
     <div class="battle-body">
       <div class="battle-grid">
         <div class="battle-section">
-          <h4>💪 Their Strengths (Know These)</h4>
+          <h4> Their Strengths (Know These)</h4>
           <ul>${c.strengths.map(s=>`<li>${s}</li>`).join('')}</ul>
         </div>
         <div class="battle-section">
-          <h4>⚠️ Their Weaknesses (Attack Here)</h4>
+          <h4> Their Weaknesses (Attack Here)</h4>
           <ul>${c.weaknesses.map(w=>`<li>${w}</li>`).join('')}</ul>
         </div>
       </div>
       <div class="battle-section" style="margin-bottom:16px;">
-        <h4>🎯 Counter-Pitches — Weakness by Weakness</h4>
-        ${pitches.map(p=>`<div class="counter-item"><div class="counter-weakness">❌ Their weakness: ${p.weakness}</div><div class="counter-pitch">✅ VYVE response: ${p.pitch}</div></div>`).join('')}
+        <h4> Counter-Pitches — Weakness by Weakness</h4>
+        ${pitches.map(p=>`<div class="counter-item"><div class="counter-weakness"> Their weakness: ${p.weakness}</div><div class="counter-pitch"> VYVE response: ${p.pitch}</div></div>`).join('')}
       </div>
       <div class="battle-section" style="margin-bottom:16px;">
-        <h4>📊 Quick Stats Comparison</h4>
+        <h4> Quick Stats Comparison</h4>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
           <div style="background:var(--card);border-radius:8px;padding:12px;border-left:3px solid var(--mint);">
             <div style="font-size:10px;color:var(--mint);font-weight:700;text-transform:uppercase;margin-bottom:6px;">VYVE</div>
@@ -824,9 +824,9 @@ function openBattleCard(id) {
           </div>
         </div>
       </div>
-      <div class="talk-track"><h4>🗣️ Opening Talk Track</h4><p>${track}</p></div>
+      <div class="talk-track"><h4> Opening Talk Track</h4><p>${track}</p></div>
       <div style="margin-top:16px;padding:14px;background:rgba(94,196,176,0.08);border-radius:10px;border:1px solid rgba(94,196,176,0.2);">
-        <div style="font-size:10px;color:var(--mint);font-weight:700;text-transform:uppercase;margin-bottom:6px;">🏆 VYVE Wins Because:</div>
+        <div style="font-size:10px;color:var(--mint);font-weight:700;text-transform:uppercase;margin-bottom:6px;"> VYVE Wins Because:</div>
         <div style="font-size:13px;color:var(--text);">${WIN_STATEMENTS[id]||'Proactive model · all 3 pillars · community · charity pledge'}</div>
       </div>
     </div>`;
@@ -931,11 +931,11 @@ function openDrawer(id) {
   dc.innerHTML = `
     <div class="drawer-header">
       <div><div class="drawer-name">${c.name}</div><div class="drawer-tagline">${c.tagline}</div></div>
-      <button class="btn-close-drawer" onclick="closeDrawer()">✕</button>
+      <button class="btn-close-drawer" onclick="closeDrawer()"></button>
     </div>
     <div class="drawer-body">
       <div class="drawer-section">
-        <h4>📊 Quick Stats</h4>
+        <h4> Quick Stats</h4>
         <div class="info-row"><span class="info-label">Segment</span><span class="info-val">${c.segment}</span></div>
         <div class="info-row"><span class="info-label">Revenue</span><span class="info-val">${c.revenue}</span></div>
         <div class="info-row"><span class="info-label">Users</span><span class="info-val">${c.users}</span></div>
@@ -946,15 +946,15 @@ function openDrawer(id) {
         </div>
       </div>
       <div class="drawer-section">
-        <h4>⚠️ Key Weaknesses</h4>
+        <h4> Key Weaknesses</h4>
         <ul>${c.weaknesses.map(w=>`<li>${w}</li>`).join('')}</ul>
       </div>
       <div class="drawer-section">
-        <h4>🎯 VYVE Intel</h4>
+        <h4> VYVE Intel</h4>
         <p>${c.notes}</p>
       </div>
-      <div class="vyve-win"><strong>🏆 VYVE Wins:</strong>${WIN_STATEMENTS[c.id]||'Proactive model · all 3 pillars · community · charity pledge'}</div>
-      <button class="drawer-btn-battle" onclick="closeDrawer();openBattleCard('${c.id}')">🃏 Open Full Battle Card</button>
+      <div class="vyve-win"><strong> VYVE Wins:</strong>${WIN_STATEMENTS[c.id]||'Proactive model · all 3 pillars · community · charity pledge'}</div>
+      <button class="drawer-btn-battle" onclick="closeDrawer();openBattleCard('${c.id}')"> Open Full Battle Card</button>
     </div>`;
   document.getElementById('drawer-bg').classList.add('open');
   document.getElementById('comp-drawer').classList.add('open');
@@ -969,11 +969,11 @@ function closeDrawer() {
 function renderWhitespaceMap() {
   const segments = ['Micro (1–49)','SME (50–249)','Mid (250–999)','Enterprise (1k+)'];
   const pillars = [
-    {label:'Physical', data:['ws-strong','ws-unique','ws-contested','ws-weak'], icons:['🟢','🟢','🟡','🔴'], notes:['Workouts+nutrition','Core VYVE strength','Wellhub competes','Big players dominate']},
-    {label:'Mental', data:['ws-strong','ws-unique','ws-contested','ws-weak'], icons:['🟢','🟢','🟡','🔴'], notes:['Thrive/H.Assured low','VYVE proactive edge','Unmind+Champion','Unmind/Headspace']},
-    {label:'Social & Community', data:['ws-unique','ws-unique','ws-unique','ws-contested'], icons:['🟢','🟢','🟢','🟡'], notes:['VYVE only at price','Unique market pos.','No real competitor','Reward GW partial']},
-    {label:'Charity Mission', data:['ws-unique','ws-unique','ws-unique','ws-unique'], icons:['🟢','🟢','🟢','🟢'], notes:['Zero competitors','Zero competitors','Zero competitors','Zero competitors']},
-    {label:'In-person Events', data:['ws-unique','ws-unique','ws-strong','ws-contested'], icons:['🟢','🟢','🟢','🟡'], notes:['Zero competitors','Zero competitors','Nuffield/Bupa basic','Enterprise budget']}
+    {label:'Physical', data:['ws-strong','ws-unique','ws-contested','ws-weak'], icons:['','','',''], notes:['Workouts+nutrition','Core VYVE strength','Wellhub competes','Big players dominate']},
+    {label:'Mental', data:['ws-strong','ws-unique','ws-contested','ws-weak'], icons:['','','',''], notes:['Thrive/H.Assured low','VYVE proactive edge','Unmind+Champion','Unmind/Headspace']},
+    {label:'Social & Community', data:['ws-unique','ws-unique','ws-unique','ws-contested'], icons:['','','',''], notes:['VYVE only at price','Unique market pos.','No real competitor','Reward GW partial']},
+    {label:'Charity Mission', data:['ws-unique','ws-unique','ws-unique','ws-unique'], icons:['','','',''], notes:['Zero competitors','Zero competitors','Zero competitors','Zero competitors']},
+    {label:'In-person Events', data:['ws-unique','ws-unique','ws-strong','ws-contested'], icons:['','','',''], notes:['Zero competitors','Zero competitors','Nuffield/Bupa basic','Enterprise budget']}
   ];
   let html = '<div class="ws-header"></div>';
   segments.forEach(s => { html += `<div class="ws-header">${s}</div>`; });
@@ -1000,7 +1000,7 @@ function updateCalc() {
     const lo = (c.min*emp*12).toLocaleString('en-GB',{style:'currency',currency:'GBP',maximumFractionDigits:0});
     const hi = (c.max*emp*12).toLocaleString('en-GB',{style:'currency',currency:'GBP',maximumFractionDigits:0});
     return `<div class="calc-item ${c.highlight?'vyve-highlight':''}">
-      <div class="ci-name">${c.highlight?'⚡ '+c.name:c.name}</div>
+      <div class="ci-name">${c.highlight?' '+c.name:c.name}</div>
       <div class="ci-cost">${lo}–${hi}</div>
       <div class="ci-range">/yr · ${emp} employees</div>
     </div>`;
@@ -1017,7 +1017,7 @@ function renderObjList(list) {
     <div class="obj-item" id="obj-${i}">
       <div class="obj-question" onclick="toggleObj(${i})">
         <span>${o.q}</span>
-        <span class="obj-arrow">▼</span>
+        <span class="obj-arrow"></span>
       </div>
       <div class="obj-answer">
         <div class="obj-comp">Common when vs: ${o.comp}</div>
@@ -1105,7 +1105,7 @@ function renderDeals() {
   }
 
   const outcomeClass = {won:'outcome-won',lost:'outcome-lost',nd:'outcome-nd'};
-  const outcomeLabel = {won:'Won ✅',lost:'Lost ❌',nd:'No Decision 🟡'};
+  const outcomeLabel = {won:'Won ',lost:'Lost ',nd:'No Decision '};
   const body = document.getElementById('deal-log-body');
   if(!deals.length) { body.innerHTML='<div class="empty-deals">No deals logged yet. Add your first deal above to start building VYVE\'s competitive intelligence library.</div>'; return; }
   body.innerHTML = `<table class="deal-table">
