@@ -578,10 +578,18 @@ const COMPS = [
   { id:'champion', name:'Champion Health', match:50, matchType:'close', segment:'SME–Enterprise', hq:'UK', revenue:'~£5m', users:'200k+', price:'£3–8', focus:'', category:'Holistic Wellbeing Platform', tagline:'Science-backed holistic wellbeing for UK SMEs', strengths:['Strong multi-pillar (physical, mental, financial)','Built by clinicians','10x engagement vs standard','Growing fast','Recently acquired'], weaknesses:['Smaller scale — 200k users','No community events or charity pledge','No ambassador programme','No podcast/content model'], threat:62, threatTrend:'up', notes:'Champion is VYVE\'s closest peer competitor — similar segment, breadth, price. DIFFERENTIATOR: community events, charity pledge, ambassador programme, podcast. Acquired Feb 2025 — watch for integration risk.' },
   { id:'nuffield', name:'Nuffield Health', match:null, matchType:'other', segment:'SME–Enterprise', hq:'UK', revenue:'>£500m', users:'3m+', price:'£20–60', focus:'', category:'Clinical Corporate Health', tagline:'UK\'s largest healthcare charity — corporate arm', strengths:['Full clinical suite (GP, physio, MH)','Gym and hospital network','Strong brand and charitable mission','Onsite delivery'], weaknesses:['Price excludes most SMEs','Offline-first — weak digital','No community or gamification','Slow innovation cycle'], threat:35, threatTrend:'same', notes:'Credibility benchmark, not a direct SME competitor. VYVE positions as digital, community-led complement.' },
   { id:'everymind', name:'Everymind at Work', match:55, matchType:'closest', segment:'SME–Enterprise', hq:'UK/AUS', revenue:'~£5m', users:'100k+', price:'£3–6', focus:'', category:'MH Champion Platform', tagline:'Proactive mental health champion network builder', strengths:['12-month wellbeing roadmap approach','Conversation logging and safeguarding','Insights dashboard for HR','Strong champion/supporter network','Proactive stance similar to VYVE'], weaknesses:['Mental health only — no physical pillar','Smaller brand vs Unmind','No charity pledge','Limited community events/gamification'], threat:60, threatTrend:'up', notes:'Everymind is VYVE\'s philosophical twin on proactive approach but mental-health-only. VYVE wins on all three pillars, community events, charity mission and content.' },
-  { id:'spectrum', name:'Spectrum.Life', match:null, matchType:'other', segment:'SME–Enterprise', hq:'UK/IRE', revenue:'~£10m', users:'1m+', price:'£3–7', focus:'', category:'EAP + Multi-pillar', tagline:'Irish-UK wellbeing platform with EAP and multi-pillar coverage', strengths:['Good multi-pillar coverage (EAP + digital)','UK and Ireland footprint','Competitive pricing','Growing SME client base'], weaknesses:['EAP-led heritage = reactive framing','Less UK recognition','No community events or charity pledge','No podcast or content model'], threat:45, threatTrend:'up', notes:'Spectrum is a credible multi-pillar option at SME prices. VYVE differentiates on community, charity, content and UK-first identity. Watch — growing fast.' }
+  { id:'spectrum', name:'Spectrum.Life', match:null, matchType:'other', segment:'SME–Enterprise', hq:'UK/IRE', revenue:'~£10m', users:'1m+', price:'£3–7', focus:'', category:'EAP + Multi-pillar', tagline:'Irish-UK wellbeing platform with EAP and multi-pillar coverage', strengths:['Good multi-pillar coverage (EAP + digital)','UK and Ireland footprint','Competitive pricing','Growing SME client base'], weaknesses:['EAP-led heritage = reactive framing','Less UK recognition','No community events or charity pledge','No podcast or content model'], threat:45, threatTrend:'up', notes:'Spectrum is a credible multi-pillar option at SME prices. VYVE differentiates on community, charity, content and UK-first identity. Watch — growing fast.' },
+  { id:'virginhealth', name:'Virgin Health', match:54, matchType:'close', segment:'SME-Enterprise', hq:'UK', revenue:'~£30m', users:'500k+', price:'£4–10', focus:'', category:'Holistic Wellbeing', tagline:'Virgin-branded workplace wellbeing combining digital tools with physical health access',
+    strengths:['Virgin brand recognition','Physical health via Virgin Active gyms','Corporate perks platform','Financial wellbeing tools'],
+    weaknesses:['No community events','No 1-in-5 charity pledge','App engagement lower than pure-play','Expensive for SMEs under 100 staff'],
+    threat:52, threatTrend:'stable',
+    intel:'Repositioning post-Virgin Active ownership changes. Strong brand but platform is not proactive — reactive EAP model. No ambassador programme or community pillar.',
+    pricing:'£4–10 pp/pm depending on package size',
+    tactics:'VYVE wins on community, charity pledge and proactive calendar vs Virgin Health's brand-heavy but reactive model. Highlight the 3-pillar approach.'
+  }
 ];
 
-const COMP_ORDER = ['unmind','headspace','calm','bupa','axa','vitality','wpo','healthassured','rewardgateway','wellhub','classpass','ablefutures','koa','thrive','peppy','champion','nuffield','everymind','spectrum'];
+const COMP_ORDER = ['unmind','headspace','calm','bupa','axa','vitality','wpo','healthassured','rewardgateway','wellhub','classpass','ablefutures','koa','thrive','peppy','champion','nuffield','everymind','spectrum','virginhealth'];
 
 const FEATURES = {
   platform:{ label:'Platform & Access', items:[{name:'Mobile App',key:'mobile'},{name:'Web Platform',key:'web'},{name:'API / Integrations',key:'api'},{name:'SSO / HR Integration',key:'sso'},{name:'White-label Option',key:'whitelabel'},{name:'Multi-language',key:'multilang'}]},
@@ -594,55 +602,55 @@ const FEATURES = {
 
 // Order: vyve, unmind, headspace, calm, bupa, axa, vitality, wpo, healthassured, rewardgateway, wellhub, classpass, ablefutures, koa, thrive, peppy, champion, nuffield, everymind, spectrum
 const FDATA = {
-  mobile:     ['Y','Y','Y','Y','Y','Y','Y','Y','N','Y','Y','Y','N','Y','Y','Y','Y','N','Y','Y'],
-  web:        ['N','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y'],
-  api:        ['N','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','N','N','Y','Y','Y','P','N','P','Y'],
-  sso:        ['P','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','N','N','Y','Y','Y','Y','N','Y','Y'],
-  whitelabel: ['N','N','N','N','N','N','N','Y','N','P','N','N','N','N','N','N','N','N','N','N'],
-  multilang:  ['N','Y','Y','Y','N','N','N','Y','N','N','Y','N','N','Y','N','N','N','N','N','N'],
-  workouts:   ['Y','N','N','N','Y','Y','Y','N','N','N','Y','N','N','N','N','N','Y','Y','N','N'],
-  ondemand:   ['Y','Y','Y','Y','Y','Y','Y','Y','N','Y','Y','Y','N','N','Y','N','Y','Y','Y','Y'],
-  live:       ['Y','N','N','N','Y','Y','Y','N','N','N','Y','Y','N','N','N','N','N','Y','N','N'],
-  pt:         ['N','N','N','N','Y','Y','N','Y','N','N','Y','Y','N','N','N','N','N','Y','N','N'],
-  nutrition:  ['Y','Y','N','N','Y','Y','N','N','N','N','Y','N','N','N','N','N','Y','Y','N','N'],
-  steps:      ['Y','Y','Y','N','Y','Y','Y','N','N','Y','Y','Y','N','N','Y','N','Y','Y','N','N'],
-  wearable:   ['N','Y','Y','N','Y','Y','Y','N','N','Y','Y','Y','N','N','N','N','N','Y','N','N'],
-  physio:     ['N','N','N','N','Y','Y','N','N','N','N','N','N','N','N','N','N','N','Y','N','N'],
-  mot:        ['N','N','N','N','Y','Y','Y','N','N','N','N','N','N','N','N','N','Y','Y','N','N'],
-  gym:        ['N','N','N','N','Y','Y','Y','N','N','Y','Y','Y','N','N','N','N','N','Y','N','N'],
-  eap:        ['P','Y','Y','Y','Y','Y','Y','Y','Y','Y','P','N','Y','Y','Y','Y','Y','Y','Y','Y'],
-  therapy:    ['N','Y','N','N','Y','Y','N','Y','Y','N','N','N','Y','Y','Y','Y','N','Y','Y','Y'],
-  cbt:        ['Y','Y','N','N','Y','Y','N','Y','P','N','N','N','Y','Y','Y','Y','N','Y','Y','Y'],
-  mindfulness:['Y','Y','Y','Y','Y','Y','Y','Y','N','Y','Y','N','N','Y','Y','N','Y','Y','Y','Y'],
-  stress:     ['Y','Y','N','N','Y','Y','N','Y','Y','N','N','N','Y','Y','Y','N','Y','Y','Y','Y'],
-  sleep:      ['Y','Y','Y','Y','Y','Y','Y','N','N','N','Y','N','N','Y','Y','N','Y','Y','Y','Y'],
-  grouptherapy:['Y','P','N','N','Y','P','N','Y','P','N','N','N','N','P','N','N','N','Y','N','Y'],
-  mhfa:       ['N','Y','N','N','Y','Y','N','Y','Y','N','N','N','Y','Y','Y','Y','Y','Y','Y','Y'],
-  crisis:     ['P','Y','N','N','Y','Y','Y','Y','Y','N','N','N','Y','Y','Y','Y','N','Y','Y','Y'],
-  psych:      ['N','N','N','N','Y','Y','N','Y','P','N','N','N','P','Y','N','Y','N','Y','N','Y'],
-  social:     ['Y','P','P','N','N','N','N','N','N','N','N','N','N','N','N','N','N','N','P','N'],
-  gamify:     ['Y','Y','Y','N','N','N','Y','N','N','Y','Y','Y','N','N','Y','N','Y','N','Y','Y'],
-  ambassador: ['Y','N','N','N','N','N','N','N','N','N','N','N','N','N','N','N','N','N','P','N'],
-  events:     ['Y','N','N','N','Y','Y','N','N','N','N','Y','Y','N','N','N','N','N','Y','N','N'],
-  charity:    ['Y','N','N','N','N','N','N','N','N','N','N','N','N','N','N','N','N','N','N','N'],
-  podcast:    ['Y','Y','Y','Y','N','N','N','Y','N','Y','N','N','N','N','Y','N','Y','N','Y','Y'],
-  speakers:   ['Y','Y','N','N','P','N','N','Y','N','N','N','N','N','Y','N','N','N','N','Y','Y'],
-  library:    ['Y','Y','Y','Y','Y','Y','Y','Y','N','Y','N','N','N','Y','Y','N','Y','Y','Y','Y'],
-  habits:     ['Y','Y','Y','Y','Y','N','N','N','N','Y','N','N','N','N','Y','N','Y','N','Y','N'],
-  tips:       ['Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','N','N','N','Y','Y','N','Y','Y','Y','Y'],
-  mgmt:       ['Y','Y','N','N','Y','Y','N','Y','N','N','N','N','N','N','N','N','Y','Y','Y','N'],
-  financial:  ['Y','N','N','N','N','N','Y','N','N','Y','N','N','N','N','N','N','N','Y','N','N'],
-  lived:      ['Y','Y','N','N','N','N','N','Y','N','N','N','N','N','N','N','N','N','Y','Y','N'],
-  am:         ['Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','N','Y','Y','Y','Y','Y','Y','Y','Y'],
-  surveys:    ['Y','Y','N','N','Y','Y','Y','Y','Y','Y','N','N','N','Y','Y','Y','Y','Y','Y','Y'],
-  absence:    ['N','Y','N','N','Y','Y','Y','Y','Y','Y','P','N','Y','Y','Y','N','Y','Y','Y','Y'],
-  dashboard:  ['P','Y','Y','Y','Y','Y','Y','Y','P','Y','Y','N','P','Y','Y','Y','Y','Y','Y','Y'],
-  custom:     ['P','Y','N','N','Y','Y','P','Y','N','Y','N','N','N','Y','Y','N','N','Y','Y','Y'],
-  calendar:   ['Y','Y','N','N','Y','Y','N','Y','N','Y','N','N','N','N','N','N','Y','Y','Y','Y'],
-  onsite:     ['N','N','N','N','Y','Y','N','Y','N','N','Y','Y','N','N','N','N','N','Y','N','N'],
-  tiered:     ['Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y'],
-  trial:      ['Y','Y','Y','Y','P','N','N','P','P','Y','Y','Y','N','Y','Y','Y','Y','N','Y','P'],
-  pep:        ['Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','N','Y','Y','Y','Y','Y','Y','Y','Y']
+  mobile:     ['Y','Y','Y','Y','Y','Y','Y','Y','N','Y','Y','Y','N','Y','Y','Y','Y','N','Y','Y','Y'],
+  web:        ['N','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y'],
+  api:        ['N','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','N','N','Y','Y','Y','P','N','P','Y','Y'],
+  sso:        ['P','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','N','N','Y','Y','Y','Y','N','Y','Y','Y'],
+  whitelabel: ['N','N','N','N','N','N','N','Y','N','P','N','N','N','N','N','N','N','N','N','N','P'],
+  multilang:  ['N','Y','Y','Y','N','N','N','Y','N','N','Y','N','N','Y','N','N','N','N','N','N','P'],
+  workouts:   ['Y','N','N','N','Y','Y','Y','N','N','N','Y','N','N','N','N','N','Y','Y','N','N','P'],
+  ondemand:   ['Y','Y','Y','Y','Y','Y','Y','Y','N','Y','Y','Y','N','N','Y','N','Y','Y','Y','Y','P'],
+  live:       ['Y','N','N','N','Y','Y','Y','N','N','N','Y','Y','N','N','N','N','N','Y','N','N','N'],
+  pt:         ['N','N','N','N','Y','Y','N','Y','N','N','Y','Y','N','N','N','N','N','Y','N','N','N'],
+  nutrition:  ['Y','Y','N','N','Y','Y','N','N','N','N','Y','N','N','N','N','N','Y','Y','N','N','P'],
+  steps:      ['Y','Y','Y','N','Y','Y','Y','N','N','Y','Y','Y','N','N','Y','N','Y','Y','N','N','Y'],
+  wearable:   ['N','Y','Y','N','Y','Y','Y','N','N','Y','Y','Y','N','N','N','N','N','Y','N','N','Y'],
+  physio:     ['N','N','N','N','Y','Y','N','N','N','N','N','N','N','N','N','N','N','Y','N','N','N'],
+  mot:        ['N','N','N','N','Y','Y','Y','N','N','N','N','N','N','N','N','N','Y','Y','N','N','N'],
+  gym:        ['N','N','N','N','Y','Y','Y','N','N','Y','Y','Y','N','N','N','N','N','Y','N','N','Y'],
+  eap:        ['P','Y','Y','Y','Y','Y','Y','Y','Y','Y','P','N','Y','Y','Y','Y','Y','Y','Y','Y','Y'],
+  therapy:    ['N','Y','N','N','Y','Y','N','Y','Y','N','N','N','Y','Y','Y','Y','N','Y','Y','Y','P'],
+  cbt:        ['Y','Y','N','N','Y','Y','N','Y','P','N','N','N','Y','Y','Y','Y','N','Y','Y','Y','N'],
+  mindfulness:['Y','Y','Y','Y','Y','Y','Y','Y','N','Y','Y','N','N','Y','Y','N','Y','Y','Y','Y','Y'],
+  stress:     ['Y','Y','N','N','Y','Y','N','Y','Y','N','N','N','Y','Y','Y','N','Y','Y','Y','Y','P'],
+  sleep:      ['Y','Y','Y','Y','Y','Y','Y','N','N','N','Y','N','N','Y','Y','N','Y','Y','Y','Y','P'],
+  grouptherapy:['Y','P','N','N','Y','P','N','Y','P','N','N','N','N','P','N','N','N','Y','N','Y','N'],
+  mhfa:       ['N','Y','N','N','Y','Y','N','Y','Y','N','N','N','Y','Y','Y','Y','Y','Y','Y','Y','N'],
+  crisis:     ['P','Y','N','N','Y','Y','Y','Y','Y','N','N','N','Y','Y','Y','Y','N','Y','Y','Y','Y'],
+  psych:      ['N','N','N','N','Y','Y','N','Y','P','N','N','N','P','Y','N','Y','N','Y','N','Y','N'],
+  social:     ['Y','P','P','N','N','N','N','N','N','N','N','N','N','N','N','N','N','N','P','N','N'],
+  gamify:     ['Y','Y','Y','N','N','N','Y','N','N','Y','Y','Y','N','N','Y','N','Y','N','Y','Y','P'],
+  ambassador: ['Y','N','N','N','N','N','N','N','N','N','N','N','N','N','N','N','N','N','P','N','N'],
+  events:     ['Y','N','N','N','Y','Y','N','N','N','N','Y','Y','N','N','N','N','N','Y','N','N','N'],
+  charity:    ['Y','N','N','N','N','N','N','N','N','N','N','N','N','N','N','N','N','N','N','N','N'],
+  podcast:    ['Y','Y','Y','Y','N','N','N','Y','N','Y','N','N','N','N','Y','N','Y','N','Y','Y','N'],
+  speakers:   ['Y','Y','N','N','P','N','N','Y','N','N','N','N','N','Y','N','N','N','N','Y','Y','N'],
+  library:    ['Y','Y','Y','Y','Y','Y','Y','Y','N','Y','N','N','N','Y','Y','N','Y','Y','Y','Y','P'],
+  habits:     ['Y','Y','Y','Y','Y','N','N','N','N','Y','N','N','N','N','Y','N','Y','N','Y','N','P'],
+  tips:       ['Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','N','N','N','Y','Y','N','Y','Y','Y','Y','Y'],
+  mgmt:       ['Y','Y','N','N','Y','Y','N','Y','N','N','N','N','N','N','N','N','Y','Y','Y','N','N'],
+  financial:  ['Y','N','N','N','N','N','Y','N','N','Y','N','N','N','N','N','N','N','Y','N','N','Y'],
+  lived:      ['Y','Y','N','N','N','N','N','Y','N','N','N','N','N','N','N','N','N','Y','Y','N','N'],
+  am:         ['Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','N','Y','Y','Y','Y','Y','Y','Y','Y','Y'],
+  surveys:    ['Y','Y','N','N','Y','Y','Y','Y','Y','Y','N','N','N','Y','Y','Y','Y','Y','Y','Y','P'],
+  absence:    ['N','Y','N','N','Y','Y','Y','Y','Y','Y','P','N','Y','Y','Y','N','Y','Y','Y','Y','N'],
+  dashboard:  ['P','Y','Y','Y','Y','Y','Y','Y','P','Y','Y','N','P','Y','Y','Y','Y','Y','Y','Y','Y'],
+  custom:     ['P','Y','N','N','Y','Y','P','Y','N','Y','N','N','N','Y','Y','N','N','Y','Y','Y','P'],
+  calendar:   ['Y','Y','N','N','Y','Y','N','Y','N','Y','N','N','N','N','N','N','Y','Y','Y','Y','N'],
+  onsite:     ['N','N','N','N','Y','Y','N','Y','N','N','Y','Y','N','N','N','N','N','Y','N','N','N'],
+  tiered:     ['Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y'],
+  trial:      ['Y','Y','Y','Y','P','N','N','P','P','Y','Y','Y','N','Y','Y','Y','Y','N','Y','P','Y'],
+  pep:        ['Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','N','Y','Y','Y','Y','Y','Y','Y','Y','N']
 };
 
 const OBJECTIONS = [
@@ -752,8 +760,11 @@ function renderOverview() {
   const grid = document.getElementById('comp-grid');
   COMPS.forEach(c => {
     const mb = c.match ? `<span class="comp-match ${c.matchType==='closest'?'match-closest':'match-close'}"> ${c.match}%</span>` : '';
+    const compIdx = COMP_ORDER.indexOf(c.id)+1;
+    const ovlap = compIdx>0 ? calcOverlap(compIdx) : 0;
+    const ovBadge = ovlap>0 ? `<span style="font-size:9px;background:rgba(255,90,90,0.12);color:var(--danger);padding:2px 6px;border-radius:10px;font-weight:700;">${ovlap}% feature overlap</span>` : '';
     grid.innerHTML += `<div class="comp-card ${c.matchType}" onclick="openProfile('${c.id}')">
-      <div class="comp-header"><div class="comp-name">${c.name}</div>${mb}</div>
+      <div class="comp-header"><div class="comp-name">${c.name}</div>${mb}${ovBadge}</div>
       <div class="comp-meta"><span class="tag">${c.segment}</span><span class="tag">${c.hq}</span><span class="tag">${c.category}</span></div>
       <div class="comp-stats">
         <div class="comp-stat"><div class="cs-label">Revenue</div><div class="cs-val">${c.revenue}</div></div>
@@ -791,11 +802,29 @@ function renderNewsFeed() {
 }
 
 // ============ RENDER MATRIX ============
+
+function calcOverlap(compIdx) {
+  // compIdx: 0=VYVE(skip), 1..20 = competitors in COMP_ORDER
+  let vyveYes = 0, shared = 0;
+  Object.values(FDATA).forEach(row => {
+    if(row[0]==='Y') {
+      vyveYes++;
+      if(row[compIdx]==='Y') shared++;
+    }
+  });
+  return vyveYes ? Math.round((shared/vyveYes)*100) : 0;
+}
+
 function renderMatrix() {
   const head = document.getElementById('matrix-head');
   const body = document.getElementById('matrix-body');
-  let th = '<tr><th class="feature-label">Feature</th><th class="comp-col" style="background:rgba(94,196,176,0.2);color:var(--mint)">VYVE</th>';
-  COMP_ORDER.forEach(id => { const c = COMPS.find(x=>x.id===id); th += `<th class="comp-col">${c.name.replace(' for Work','').replace(' Health','').replace(' at Work','')}</th>`; });
+  let th = '<tr><th class="feature-label">Feature</th><th class="comp-col" style="background:rgba(94,196,176,0.2);color:var(--mint)">VYVE<div style="font-size:9px;color:var(--mint);font-weight:400;margin-top:2px;">Baseline</div></th>';
+  COMP_ORDER.forEach((id,i) => {
+    const c = COMPS.find(x=>x.id===id);
+    const ovlap = calcOverlap(i+1);
+    const ovCol = ovlap>=70?'var(--danger)':ovlap>=50?'var(--amber)':'var(--mint)';
+    th += `<th class="comp-col">${c.name.replace(' for Work','').replace(' Health','').replace(' at Work','')}<div style="font-size:9px;color:${ovCol};font-weight:700;margin-top:2px;">${ovlap}% overlap</div></th>`;
+  });
   head.innerHTML = th + '</tr>';
   let rows = '';
   Object.entries(FEATURES).forEach(([catKey, cat]) => {
@@ -813,9 +842,9 @@ function renderMatrix() {
 }
 
 function icon(v) {
-  if(v==='Y') return '<span class="icon-yes"></span>';
-  if(v==='P') return '<span class="icon-partial"></span>';
-  return '<span class="icon-no"></span>';
+  if(v==='Y') return '<span class="icon-yes">✓</span>';
+  if(v==='P') return '<span class="icon-partial">~</span>';
+  return '<span class="icon-no">—</span>';
 }
 
 function filterMatrix(q) {
@@ -995,7 +1024,8 @@ function renderQuadrant() {
     {id:'axa',name:'AXA',bx:68,by:22},{id:'vitality',name:'Vitality',bx:60,by:18},
     {id:'nuffield',name:'Nuffield',bx:72,by:15},{id:'wellhub',name:'Wellhub',bx:40,by:45},
     {id:'classpass',name:'ClassPass',bx:22,by:20},{id:'wpo',name:'WPO',bx:30,by:88},
-    {id:'ablefutures',name:'Able F.',bx:22,by:80}
+    {id:'ablefutures',name:'Able F.',bx:22,by:80},
+    {id:'virginhealth',name:'Virgin H.',bx:55,by:68}
   ];
 
   pts.forEach(p => {
