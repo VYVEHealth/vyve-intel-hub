@@ -478,6 +478,34 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 <div class="drawer-bg" id="drawer-bg" onclick="closeDrawer()"></div>
 <div class="drawer" id="comp-drawer">
   <div id="drawer-content"></div>
+
+
+<!-- FUNDING TAB -->
+<div class="tab-panel" id="tab-funding">
+  <div class="section-header">
+    <h2>Grants &amp; Funding — Top 40 Sources for VYVE</h2>
+    <p>CIC-eligible funding across health, mental, physical &amp; social pillars. Scored 1-10 for VYVE's likelihood of success.</p>
+  </div>
+  <div class="stat-grid" style="margin-bottom:24px;">
+    <div class="stat-card"><div class="label">Funders Tracked</div><div class="value">40</div><div class="sub">National · Foundation · Government</div></div>
+    <div class="stat-card"><div class="label">Total Pool (est.)</div><div class="value">£2.4bn+</div><div class="sub">Annual UK health &amp; community funding</div></div>
+    <div class="stat-card"><div class="label">High Fit (8-10)</div><div class="value" id="high-fit-count">-</div><div class="sub">Strong VYVE match</div></div>
+    <div class="stat-card"><div class="label">CIC Eligible</div><div class="value" id="cic-count">-</div><div class="sub">Confirmed open to CICs</div></div>
+  </div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px;align-items:center;">
+    <input id="funding-search" type="text" placeholder="Search funders..." oninput="filterFunding(this.value)"
+      style="background:var(--surface);border:1px solid var(--border);color:var(--text);padding:8px 14px;border-radius:8px;font-size:13px;min-width:220px;">
+    <button class="filter-btn active" onclick="filterFundingCat('all',this)">All</button>
+    <button class="filter-btn" onclick="filterFundingCat('lottery',this)">National Lottery</button>
+    <button class="filter-btn" onclick="filterFundingCat('government',this)">Government</button>
+    <button class="filter-btn" onclick="filterFundingCat('foundation',this)">Foundations</button>
+    <button class="filter-btn" onclick="filterFundingCat('health',this)">Health Funds</button>
+    <button class="filter-btn" onclick="filterFundingCat('social',this)">Social Enterprise</button>
+    <button class="filter-btn" onclick="filterFundingCat('sport',this)">Sport &amp; Physical</button>
+    <button class="filter-btn" onclick="filterFundingCat('corporate',this)">Corporate</button>
+  </div>
+  <div id="funding-grid"><div class="funding-grid-inner" id="funding-inner"></div></div>
+</div>
 </div>
 
 <button class="scroll-top" id="scroll-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
@@ -1302,34 +1330,5 @@ updateCalc();
 initDealForm();
 renderFunding();
 </script>
-
-<!-- FUNDING TAB -->
-<div class="tab-panel" id="tab-funding">
-  <div class="section-header">
-    <h2>Grants &amp; Funding — Top 40 Sources for VYVE</h2>
-    <p>CIC-eligible funding across health, mental, physical &amp; social pillars. Scored 1-10 for VYVE's likelihood of success.</p>
-  </div>
-  <div class="stat-grid" style="margin-bottom:24px;">
-    <div class="stat-card"><div class="label">Funders Tracked</div><div class="value">40</div><div class="sub">National · Foundation · Government</div></div>
-    <div class="stat-card"><div class="label">Total Pool (est.)</div><div class="value">£2.4bn+</div><div class="sub">Annual UK health &amp; community funding</div></div>
-    <div class="stat-card"><div class="label">High Fit (8-10)</div><div class="value" id="high-fit-count">-</div><div class="sub">Strong VYVE match</div></div>
-    <div class="stat-card"><div class="label">CIC Eligible</div><div class="value" id="cic-count">-</div><div class="sub">Confirmed open to CICs</div></div>
-  </div>
-  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px;align-items:center;">
-    <input id="funding-search" type="text" placeholder="Search funders..." oninput="filterFunding(this.value)"
-      style="background:var(--surface);border:1px solid var(--border);color:var(--text);padding:8px 14px;border-radius:8px;font-size:13px;min-width:220px;">
-    <button class="filter-btn active" onclick="filterFundingCat('all',this)">All</button>
-    <button class="filter-btn" onclick="filterFundingCat('lottery',this)">National Lottery</button>
-    <button class="filter-btn" onclick="filterFundingCat('government',this)">Government</button>
-    <button class="filter-btn" onclick="filterFundingCat('foundation',this)">Foundations</button>
-    <button class="filter-btn" onclick="filterFundingCat('health',this)">Health Funds</button>
-    <button class="filter-btn" onclick="filterFundingCat('social',this)">Social Enterprise</button>
-    <button class="filter-btn" onclick="filterFundingCat('sport',this)">Sport &amp; Physical</button>
-    <button class="filter-btn" onclick="filterFundingCat('corporate',this)">Corporate</button>
-  </div>
-  <div id="funding-grid"><div class="funding-grid-inner" id="funding-inner"></div></div>
-</div>
-
-
 </body>
 </html>
