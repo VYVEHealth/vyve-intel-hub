@@ -3,148 +3,259 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>VYVE Intel Hub — Competitive Intelligence</title>
+<title>VYVE Intel Hub v2 — Competitive Intelligence</title>
 <style>
-  :root {
-    --bg: #0d1117;
-    --card: #131f2b;
-    --surface: #1a2b3a;
-    --teal: #1a6b6b;
-    --teal-deep: #0f4c4c;
-    --mint: #5ec4b0;
-    --mint-light: #7dd4c4;
-    --blue-teal: #4a9eba;
-    --amber: #e8a855;
-    --text: #f0f4f4;
-    --muted: #8aacac;
-    --muted-light: #a8c8c8;
-    --danger: #e06060;
-    --border: rgba(94,196,176,0.12);
-    --border-teal: rgba(26,107,107,0.4);
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 14px; line-height: 1.6; }
-
-  .header { background: linear-gradient(135deg, #0f4c4c 0%, #1a6b6b 50%, #163a3e 100%); border-bottom: 1px solid var(--border-teal); padding: 0 32px; }
-  .header-inner { max-width: 1400px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; padding: 20px 0; }
-  .logo-area { display: flex; align-items: center; gap: 16px; }
-  .logo-mark { width: 48px; height: 48px; background: var(--mint); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 22px; font-weight: 900; color: #0f4c4c; letter-spacing: -1px; flex-shrink: 0; }
-  .header-title h1 { font-size: 22px; font-weight: 700; color: var(--text); letter-spacing: -0.3px; }
-  .header-title p { font-size: 12px; color: var(--muted-light); margin-top: 2px; }
-  .header-meta { display: flex; align-items: center; gap: 20px; }
-  .live-badge { background: rgba(94,196,176,0.15); border: 1px solid var(--mint); color: var(--mint); padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 600; letter-spacing: 0.5px; }
-  .updated { font-size: 11px; color: var(--muted); }
-
-  .nav { background: var(--card); border-bottom: 1px solid var(--border); padding: 0 32px; position: sticky; top: 0; z-index: 100; }
-  .nav-inner { max-width: 1400px; margin: 0 auto; display: flex; gap: 4px; }
-  .nav-btn { background: none; border: none; color: var(--muted); padding: 14px 20px; font-size: 13px; font-weight: 500; cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.2s; white-space: nowrap; }
-  .nav-btn:hover { color: var(--mint-light); }
-  .nav-btn.active { color: var(--mint); border-bottom-color: var(--mint); }
-
-  .main { max-width: 1400px; margin: 0 auto; padding: 32px; }
-  .tab-panel { display: none; }
-  .tab-panel.active { display: block; }
-  .section-header { margin-bottom: 24px; }
-  .section-header h2 { font-size: 20px; font-weight: 700; color: var(--text); }
-  .section-header p { color: var(--muted); font-size: 13px; margin-top: 4px; }
-
-  .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 32px; }
-  .stat-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
-  .stat-card .label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 8px; }
-  .stat-card .value { font-size: 26px; font-weight: 800; color: var(--mint); line-height: 1; }
-  .stat-card .sub { font-size: 11px; color: var(--muted); margin-top: 6px; }
-
-  .comp-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; margin-bottom: 32px; }
-  .comp-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; cursor: pointer; transition: all 0.2s; position: relative; overflow: hidden; }
-  .comp-card:hover { border-color: var(--mint); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(94,196,176,0.1); }
-  .comp-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
-  .comp-card.closest::before { background: var(--mint); }
-  .comp-card.close::before { background: var(--amber); }
-  .comp-card.other::before { background: var(--surface); }
-  .comp-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 12px; }
-  .comp-name { font-size: 15px; font-weight: 700; color: var(--text); }
-  .comp-match { font-size: 11px; font-weight: 600; padding: 3px 8px; border-radius: 20px; }
-  .match-closest { background: rgba(94,196,176,0.15); color: var(--mint); border: 1px solid var(--mint); }
-  .match-close { background: rgba(232,168,85,0.15); color: var(--amber); border: 1px solid var(--amber); }
-  .comp-meta { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
-  .tag { font-size: 11px; color: var(--muted); background: var(--surface); padding: 2px 8px; border-radius: 4px; }
-  .comp-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-  .comp-stat .cs-label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; }
-  .comp-stat .cs-val { font-size: 13px; font-weight: 600; color: var(--text); }
-  .comp-desc { font-size: 12px; color: var(--muted); margin-top: 10px; line-height: 1.5; border-top: 1px solid var(--border); padding-top: 10px; }
-
-  .matrix-controls { display: flex; gap: 12px; margin-bottom: 20px; flex-wrap: wrap; align-items: center; }
-  .matrix-search { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 8px 14px; color: var(--text); font-size: 13px; width: 260px; outline: none; }
-  .matrix-search:focus { border-color: var(--mint); }
-  .filter-btns { display: flex; gap: 6px; flex-wrap: wrap; }
-  .filter-btn { background: var(--card); border: 1px solid var(--border); color: var(--muted); padding: 6px 14px; border-radius: 6px; font-size: 12px; cursor: pointer; transition: all 0.2s; }
-  .filter-btn:hover, .filter-btn.active { background: rgba(94,196,176,0.12); border-color: var(--mint); color: var(--mint); }
-  .matrix-wrap { overflow-x: auto; border-radius: 12px; border: 1px solid var(--border); }
-  .matrix-table { width: 100%; border-collapse: collapse; white-space: nowrap; }
-  .matrix-table th { background: var(--teal-deep); color: var(--mint-light); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--border-teal); position: sticky; top: 0; }
-  .matrix-table th.comp-col { text-align: center; font-size: 10px; min-width: 80px; max-width: 100px; white-space: normal; }
-  .matrix-table td { padding: 8px 12px; border-bottom: 1px solid var(--border); font-size: 12px; }
-  .matrix-table td.cell-center { text-align: center; }
-  .matrix-table tr:hover td { background: rgba(94,196,176,0.04); }
-  .matrix-table .category-row td { background: var(--surface); color: var(--mint); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; padding: 6px 12px; }
-  .matrix-table .feature-label { color: var(--text); font-size: 12px; min-width: 220px; }
-  .matrix-table .vyve-col { background: rgba(94,196,176,0.06); font-weight: 700; }
-  .icon-yes { color: var(--mint); font-size: 14px; }
-  .icon-partial { color: var(--amber); font-size: 14px; }
-  .icon-no { color: #3a4a5a; font-size: 14px; }
-
-  .profiles-grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
-  .profile-card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
-  .profile-header { background: linear-gradient(135deg, var(--teal-deep), var(--teal)); padding: 20px 24px; display: flex; align-items: flex-start; justify-content: space-between; }
-  .profile-name { font-size: 18px; font-weight: 800; color: var(--text); }
-  .profile-tagline { font-size: 12px; color: var(--muted-light); margin-top: 4px; }
-  .profile-body { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0; }
-  .profile-section { padding: 20px 24px; border-right: 1px solid var(--border); }
-  .profile-section:last-child { border-right: none; }
-  .profile-section h4 { font-size: 11px; text-transform: uppercase; letter-spacing: 0.8px; color: var(--mint); margin-bottom: 12px; font-weight: 700; }
-  .profile-section p, .profile-section li { font-size: 12px; color: var(--muted-light); line-height: 1.6; }
-  .profile-section ul { padding-left: 16px; }
-  .profile-section li { margin-bottom: 4px; }
-  .info-row { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 12px; }
-  .info-row .info-label { color: var(--muted); }
-  .info-row .info-val { color: var(--text); font-weight: 600; }
-  .threat-bar { margin-bottom: 10px; }
-  .threat-label { display: flex; justify-content: space-between; font-size: 11px; color: var(--muted); margin-bottom: 4px; }
-  .threat-track { background: var(--surface); border-radius: 4px; height: 6px; overflow: hidden; }
-  .threat-fill { height: 100%; border-radius: 4px; background: linear-gradient(90deg, var(--teal), var(--mint)); }
-  .vyve-win { background: rgba(94,196,176,0.08); border: 1px solid rgba(94,196,176,0.2); border-radius: 8px; padding: 10px 14px; margin-top: 12px; font-size: 12px; color: var(--mint-light); }
-  .vyve-win strong { color: var(--mint); display: block; margin-bottom: 4px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; }
-
-  .market-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 24px; }
-  .mkt-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 22px; }
-  .mkt-card h3 { font-size: 14px; font-weight: 700; color: var(--mint); margin-bottom: 16px; }
-  .segment-row { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--border); }
-  .segment-row:last-child { border-bottom: none; }
-  .seg-info { flex: 1; }
-  .seg-name { font-size: 13px; font-weight: 600; color: var(--text); }
-  .seg-comps { font-size: 11px; color: var(--muted); margin-top: 2px; }
-  .seg-opp { font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; margin-left: 12px; white-space: nowrap; }
-  .opp-strong { background: rgba(94,196,176,0.15); color: var(--mint); }
-  .opp-primary { background: rgba(94,196,176,0.25); color: var(--mint); border: 1px solid var(--mint); }
-  .opp-growing { background: rgba(232,168,85,0.15); color: var(--amber); }
-  .opp-future { background: rgba(74,158,186,0.15); color: var(--blue-teal); }
-  .diff-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 22px; margin-bottom: 16px; display: flex; gap: 20px; align-items: flex-start; }
-  .diff-icon { width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; background: rgba(94,196,176,0.1); }
-  .diff-content h3 { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
-  .diff-content p { font-size: 13px; color: var(--muted-light); }
-  .diff-who { font-size: 11px; color: var(--amber); margin-top: 6px; }
-
-  .global-search { width: 100%; background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 12px 16px; color: var(--text); font-size: 14px; outline: none; margin-bottom: 24px; }
-  .global-search:focus { border-color: var(--mint); }
-
-  @media (max-width: 900px) {
-    .main { padding: 16px; }
-    .profile-body { grid-template-columns: 1fr; }
-    .profile-section { border-right: none; border-bottom: 1px solid var(--border); }
-    .market-grid { grid-template-columns: 1fr; }
-  }
-  .scroll-top { position: fixed; bottom: 24px; right: 24px; background: var(--teal); border: none; color: var(--mint); width: 40px; height: 40px; border-radius: 50%; font-size: 18px; cursor: pointer; display: none; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.3); z-index: 200; }
-  .scroll-top.visible { display: flex; }
+:root{--bg:#0d1117;--card:#131f2b;--surface:#1a2b3a;--teal:#1a6b6b;--teal-deep:#0f4c4c;--mint:#5ec4b0;--mint-light:#7dd4c4;--blue-teal:#4a9eba;--amber:#e8a855;--text:#f0f4f4;--muted:#8aacac;--muted-light:#a8c8c8;--danger:#e06060;--border:rgba(94,196,176,0.12);--border-teal:rgba(26,107,107,0.4);}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;font-size:14px;line-height:1.6;}
+.header{background:linear-gradient(135deg,#0f4c4c 0%,#1a6b6b 50%,#163a3e 100%);border-bottom:1px solid var(--border-teal);padding:0 32px;}
+.header-inner{max-width:1440px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:18px 0;}
+.logo-area{display:flex;align-items:center;gap:14px;}
+.logo-mark{width:44px;height:44px;background:var(--mint);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:900;color:#0f4c4c;letter-spacing:-1px;flex-shrink:0;}
+.header-title h1{font-size:20px;font-weight:700;color:var(--text);letter-spacing:-0.3px;}
+.header-title p{font-size:11px;color:var(--muted-light);margin-top:2px;}
+.header-right{display:flex;align-items:center;gap:14px;}
+.live-badge{background:rgba(94,196,176,0.15);border:1px solid var(--mint);color:var(--mint);padding:4px 12px;border-radius:20px;font-size:11px;font-weight:600;letter-spacing:0.5px;}
+.global-search-wrap{position:relative;}
+.global-search-wrap input{background:rgba(255,255,255,0.08);border:1px solid var(--border-teal);border-radius:8px;padding:7px 14px 7px 32px;color:var(--text);font-size:13px;width:220px;outline:none;transition:all .2s;}
+.global-search-wrap input:focus{border-color:var(--mint);background:rgba(94,196,176,0.08);width:280px;}
+.global-search-wrap .search-icon{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:13px;pointer-events:none;}
+.search-dropdown{display:none;position:absolute;top:calc(100% + 6px);right:0;width:340px;background:var(--card);border:1px solid var(--border);border-radius:10px;box-shadow:0 12px 40px rgba(0,0,0,0.5);z-index:500;max-height:360px;overflow-y:auto;}
+.search-dropdown.visible{display:block;}
+.search-result-item{padding:10px 16px;cursor:pointer;border-bottom:1px solid var(--border);transition:background .15s;}
+.search-result-item:last-child{border-bottom:none;}
+.search-result-item:hover{background:rgba(94,196,176,0.08);}
+.sri-name{font-size:13px;font-weight:600;color:var(--text);}
+.sri-excerpt{font-size:11px;color:var(--muted);margin-top:2px;}
+.updated{font-size:11px;color:var(--muted);}
+.nav{background:var(--card);border-bottom:1px solid var(--border);padding:0 32px;position:sticky;top:0;z-index:100;}
+.nav-inner{max-width:1440px;margin:0 auto;display:flex;gap:2px;overflow-x:auto;}
+.nav-btn{background:none;border:none;color:var(--muted);padding:13px 18px;font-size:13px;font-weight:500;cursor:pointer;border-bottom:2px solid transparent;transition:all .2s;white-space:nowrap;}
+.nav-btn:hover{color:var(--mint-light);}
+.nav-btn.active{color:var(--mint);border-bottom-color:var(--mint);}
+.nav-btn.new-tab::after{content:"NEW";font-size:8px;background:var(--amber);color:#0d1117;border-radius:3px;padding:1px 4px;margin-left:5px;font-weight:800;vertical-align:top;margin-top:2px;display:inline-block;}
+.main{max-width:1440px;margin:0 auto;padding:28px 32px;}
+.tab-panel{display:none;}
+.tab-panel.active{display:block;}
+.section-header{margin-bottom:22px;}
+.section-header h2{font-size:19px;font-weight:700;color:var(--text);}
+.section-header p{color:var(--muted);font-size:13px;margin-top:3px;}
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(185px,1fr));gap:14px;margin-bottom:28px;}
+.stat-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:18px;}
+.stat-card .label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:6px;}
+.stat-card .value{font-size:24px;font-weight:800;color:var(--mint);line-height:1;}
+.stat-card .sub{font-size:11px;color:var(--muted);margin-top:5px;}
+.two-col{display:grid;grid-template-columns:1fr 320px;gap:20px;margin-bottom:28px;}
+.comp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:14px;margin-bottom:28px;}
+.comp-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:18px;cursor:pointer;transition:all .2s;position:relative;overflow:hidden;}
+.comp-card:hover{border-color:var(--mint);transform:translateY(-2px);box-shadow:0 8px 24px rgba(94,196,176,0.1);}
+.comp-card::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;}
+.comp-card.closest::before{background:var(--mint);}
+.comp-card.close::before{background:var(--amber);}
+.comp-card.other::before{background:var(--surface);}
+.comp-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px;}
+.comp-name{font-size:14px;font-weight:700;color:var(--text);}
+.comp-match{font-size:10px;font-weight:600;padding:2px 7px;border-radius:20px;}
+.match-closest{background:rgba(94,196,176,0.15);color:var(--mint);border:1px solid var(--mint);}
+.match-close{background:rgba(232,168,85,0.15);color:var(--amber);border:1px solid var(--amber);}
+.comp-meta{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px;}
+.tag{font-size:10px;color:var(--muted);background:var(--surface);padding:2px 7px;border-radius:4px;}
+.comp-stats{display:grid;grid-template-columns:1fr 1fr;gap:6px;}
+.comp-stat .cs-label{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;}
+.comp-stat .cs-val{font-size:12px;font-weight:600;color:var(--text);}
+.comp-desc{font-size:11px;color:var(--muted);margin-top:8px;line-height:1.5;border-top:1px solid var(--border);padding-top:8px;}
+.watchlist-panel{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px;}
+.watchlist-panel h3{font-size:13px;font-weight:700;color:var(--mint);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+.threat-item{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);}
+.threat-item:last-child{border-bottom:none;}
+.threat-rank{font-size:18px;font-weight:900;color:var(--muted);width:24px;flex-shrink:0;}
+.threat-info{flex:1;}
+.threat-name{font-size:13px;font-weight:600;color:var(--text);}
+.threat-cat{font-size:10px;color:var(--muted);}
+.threat-score-wrap{text-align:right;}
+.threat-pct{font-size:16px;font-weight:800;color:var(--danger);}
+.threat-trend{font-size:10px;margin-top:1px;}
+.trend-up{color:var(--danger);}
+.trend-same{color:var(--muted);}
+.trend-down{color:var(--mint);}
+.news-panel{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px;margin-bottom:24px;}
+.news-panel h3{font-size:13px;font-weight:700;color:var(--mint);margin-bottom:14px;}
+.news-item{display:flex;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);}
+.news-item:last-child{border-bottom:none;}
+.news-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:5px;}
+.dot-funding{background:var(--amber);}
+.dot-product{background:var(--mint);}
+.dot-threat{background:var(--danger);}
+.dot-partnership{background:var(--blue-teal);}
+.news-content .news-comp{font-size:11px;font-weight:700;color:var(--mint);}
+.news-content .news-text{font-size:12px;color:var(--muted-light);line-height:1.4;}
+.news-content .news-date{font-size:10px;color:var(--muted);margin-top:2px;}
+.matrix-controls{display:flex;gap:10px;margin-bottom:18px;flex-wrap:wrap;align-items:center;}
+.matrix-search{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:7px 14px;color:var(--text);font-size:13px;width:240px;outline:none;}
+.matrix-search:focus{border-color:var(--mint);}
+.filter-btns{display:flex;gap:5px;flex-wrap:wrap;}
+.filter-btn{background:var(--card);border:1px solid var(--border);color:var(--muted);padding:5px 12px;border-radius:6px;font-size:12px;cursor:pointer;transition:all .2s;}
+.filter-btn:hover,.filter-btn.active{background:rgba(94,196,176,0.12);border-color:var(--mint);color:var(--mint);}
+.matrix-wrap{overflow-x:auto;border-radius:12px;border:1px solid var(--border);}
+.matrix-table{width:100%;border-collapse:collapse;white-space:nowrap;}
+.matrix-table th{background:var(--teal-deep);color:var(--mint-light);font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;padding:9px 10px;text-align:left;border-bottom:1px solid var(--border-teal);position:sticky;top:0;}
+.matrix-table th.comp-col{text-align:center;min-width:72px;max-width:90px;white-space:normal;}
+.matrix-table td{padding:7px 10px;border-bottom:1px solid var(--border);font-size:12px;}
+.matrix-table td.cell-center{text-align:center;}
+.matrix-table tr:hover td{background:rgba(94,196,176,0.04);}
+.matrix-table .category-row td{background:var(--surface);color:var(--mint);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;padding:5px 10px;}
+.matrix-table .feature-label{color:var(--text);font-size:12px;min-width:200px;}
+.matrix-table .vyve-col{background:rgba(94,196,176,0.06);font-weight:700;}
+.icon-yes{color:var(--mint);font-size:13px;}
+.icon-partial{color:var(--amber);font-size:13px;}
+.icon-no{color:#3a4a5a;font-size:13px;}
+.profiles-search{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:10px 16px;color:var(--text);font-size:14px;outline:none;width:100%;margin-bottom:20px;}
+.profiles-search:focus{border-color:var(--mint);}
+.profiles-grid{display:grid;grid-template-columns:1fr;gap:18px;}
+.profile-card{background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;}
+.profile-header{background:linear-gradient(135deg,var(--teal-deep),var(--teal));padding:18px 22px;display:flex;align-items:flex-start;justify-content:space-between;}
+.profile-name{font-size:17px;font-weight:800;color:var(--text);}
+.profile-tagline{font-size:11px;color:var(--muted-light);margin-top:3px;}
+.profile-header-right{display:flex;flex-direction:column;align-items:flex-end;gap:8px;}
+.btn-battle{background:var(--mint);color:#0f4c4c;border:none;border-radius:7px;padding:6px 14px;font-size:11px;font-weight:700;cursor:pointer;letter-spacing:0.3px;transition:all .2s;white-space:nowrap;}
+.btn-battle:hover{background:var(--mint-light);}
+.profile-body{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0;}
+.profile-section{padding:18px 22px;border-right:1px solid var(--border);}
+.profile-section:last-child{border-right:none;}
+.profile-section h4{font-size:10px;text-transform:uppercase;letter-spacing:0.8px;color:var(--mint);margin-bottom:10px;font-weight:700;}
+.profile-section p,.profile-section li{font-size:12px;color:var(--muted-light);line-height:1.6;}
+.profile-section ul{padding-left:14px;}
+.profile-section li{margin-bottom:3px;}
+.info-row{display:flex;justify-content:space-between;margin-bottom:6px;font-size:12px;}
+.info-row .info-label{color:var(--muted);}
+.info-row .info-val{color:var(--text);font-weight:600;}
+.threat-bar{margin-bottom:8px;}
+.threat-label{display:flex;justify-content:space-between;font-size:10px;color:var(--muted);margin-bottom:3px;}
+.threat-track{background:var(--surface);border-radius:4px;height:5px;overflow:hidden;}
+.threat-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--teal),var(--mint));}
+.vyve-win{background:rgba(94,196,176,0.08);border:1px solid rgba(94,196,176,0.2);border-radius:8px;padding:10px 12px;margin-top:10px;font-size:11px;color:var(--mint-light);}
+.vyve-win strong{color:var(--mint);display:block;margin-bottom:3px;font-size:10px;text-transform:uppercase;letter-spacing:0.5px;}
+.market-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:20px;}
+.mkt-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px;}
+.mkt-card h3{font-size:13px;font-weight:700;color:var(--mint);margin-bottom:14px;}
+.segment-row{display:flex;align-items:center;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--border);}
+.segment-row:last-child{border-bottom:none;}
+.seg-info{flex:1;}
+.seg-name{font-size:12px;font-weight:600;color:var(--text);}
+.seg-comps{font-size:10px;color:var(--muted);margin-top:1px;}
+.seg-opp{font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;margin-left:10px;white-space:nowrap;}
+.opp-strong{background:rgba(94,196,176,0.15);color:var(--mint);}
+.opp-primary{background:rgba(94,196,176,0.25);color:var(--mint);border:1px solid var(--mint);}
+.opp-growing{background:rgba(232,168,85,0.15);color:var(--amber);}
+.opp-future{background:rgba(74,158,186,0.15);color:var(--blue-teal);}
+.diff-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px;margin-bottom:14px;display:flex;gap:16px;align-items:flex-start;}
+.diff-icon{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;background:rgba(94,196,176,0.1);}
+.diff-content h3{font-size:14px;font-weight:700;color:var(--text);margin-bottom:3px;}
+.diff-content p{font-size:12px;color:var(--muted-light);}
+.diff-who{font-size:11px;color:var(--amber);margin-top:5px;}
+.whitespace-section{margin-bottom:20px;}
+.whitespace-grid{display:grid;grid-template-columns:120px repeat(4,1fr);gap:4px;margin-top:12px;}
+.ws-header{background:none;font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;padding:6px 8px;text-align:center;}
+.ws-label{background:var(--surface);border-radius:6px;font-size:11px;color:var(--muted-light);padding:8px 10px;display:flex;align-items:center;font-weight:600;}
+.ws-cell{border-radius:6px;padding:8px 6px;text-align:center;font-size:10px;font-weight:600;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;min-height:56px;}
+.ws-unique{background:rgba(94,196,176,0.2);border:1px solid var(--mint);color:var(--mint);}
+.ws-strong{background:rgba(94,196,176,0.1);border:1px solid rgba(94,196,176,0.3);color:var(--mint-light);}
+.ws-contested{background:rgba(232,168,85,0.1);border:1px solid rgba(232,168,85,0.3);color:var(--amber);}
+.ws-weak{background:rgba(224,96,96,0.1);border:1px solid rgba(224,96,96,0.2);color:var(--danger);}
+.ws-cell .ws-icon{font-size:16px;}
+.pricing-calc{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:22px;margin-bottom:20px;}
+.pricing-calc h3{font-size:13px;font-weight:700;color:var(--mint);margin-bottom:16px;}
+.calc-row{display:flex;align-items:center;gap:14px;margin-bottom:16px;flex-wrap:wrap;}
+.calc-label{font-size:12px;color:var(--muted);white-space:nowrap;}
+.calc-input{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:8px 14px;color:var(--text);font-size:14px;font-weight:600;width:120px;outline:none;}
+.calc-input:focus{border-color:var(--mint);}
+.calc-results{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;margin-top:4px;}
+.calc-item{background:var(--surface);border-radius:8px;padding:12px;border-left:3px solid var(--teal);}
+.calc-item.vyve-highlight{border-left-color:var(--mint);background:rgba(94,196,176,0.08);}
+.calc-item .ci-name{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;}
+.calc-item .ci-cost{font-size:16px;font-weight:800;color:var(--text);}
+.calc-item .ci-range{font-size:10px;color:var(--muted);margin-top:1px;}
+.objection-section{margin-top:28px;}
+.obj-search{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:8px 14px;color:var(--text);font-size:13px;width:300px;outline:none;margin-bottom:14px;}
+.obj-search:focus{border-color:var(--mint);}
+.obj-item{background:var(--card);border:1px solid var(--border);border-radius:10px;margin-bottom:8px;overflow:hidden;}
+.obj-question{padding:14px 18px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;font-size:13px;font-weight:600;color:var(--text);transition:background .2s;}
+.obj-question:hover{background:rgba(94,196,176,0.06);}
+.obj-question .obj-arrow{color:var(--muted);transition:transform .2s;font-size:11px;}
+.obj-item.open .obj-arrow{transform:rotate(180deg);}
+.obj-answer{display:none;padding:0 18px 14px;font-size:12px;color:var(--muted-light);line-height:1.7;border-top:1px solid var(--border);}
+.obj-answer .obj-comp{font-size:10px;color:var(--amber);font-weight:600;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;padding-top:10px;}
+.obj-item.open .obj-answer{display:block;}
+.deal-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin-bottom:24px;}
+.deal-stat-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:16px;}
+.deal-stat-card .ds-label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:6px;}
+.deal-stat-card .ds-val{font-size:22px;font-weight:800;color:var(--mint);}
+.deal-stat-card .ds-sub{font-size:11px;color:var(--muted);margin-top:4px;}
+.deal-form-wrap{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:22px;margin-bottom:24px;}
+.deal-form-wrap h3{font-size:13px;font-weight:700;color:var(--mint);margin-bottom:16px;}
+.deal-form-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px;margin-bottom:14px;}
+.form-group label{display:block;font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:5px;}
+.form-group input,.form-group select,.form-group textarea{background:var(--surface);border:1px solid var(--border);border-radius:7px;padding:8px 12px;color:var(--text);font-size:13px;width:100%;outline:none;font-family:inherit;}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--mint);}
+.form-group select option{background:var(--surface);}
+.btn-log{background:var(--mint);color:#0f4c4c;border:none;border-radius:8px;padding:10px 24px;font-size:13px;font-weight:700;cursor:pointer;transition:all .2s;}
+.btn-log:hover{background:var(--mint-light);}
+.deal-log-wrap{background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden;}
+.deal-log-wrap h3{font-size:13px;font-weight:700;color:var(--mint);padding:16px 20px;border-bottom:1px solid var(--border);}
+.deal-table{width:100%;border-collapse:collapse;}
+.deal-table th{background:var(--teal-deep);color:var(--mint-light);font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;padding:8px 14px;text-align:left;}
+.deal-table td{padding:10px 14px;border-bottom:1px solid var(--border);font-size:12px;color:var(--muted-light);}
+.deal-table tr:last-child td{border-bottom:none;}
+.deal-table tr:hover td{background:rgba(94,196,176,0.04);}
+.outcome-won{color:var(--mint);font-weight:700;}
+.outcome-lost{color:var(--danger);font-weight:700;}
+.outcome-nd{color:var(--amber);font-weight:700;}
+.empty-deals{padding:32px;text-align:center;color:var(--muted);font-size:13px;}
+.battle-modal{position:fixed;inset:0;z-index:800;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,0.7);backdrop-filter:blur(4px);}
+.battle-modal.open{display:flex;}
+.battle-inner{background:var(--card);border:1px solid var(--border-teal);border-radius:16px;width:min(780px,95vw);max-height:90vh;overflow-y:auto;position:relative;}
+.battle-header{background:linear-gradient(135deg,var(--teal-deep),var(--teal));padding:22px 28px;display:flex;align-items:flex-start;justify-content:space-between;border-radius:16px 16px 0 0;}
+.battle-header h2{font-size:18px;font-weight:800;color:var(--text);}
+.battle-header .bh-sub{font-size:12px;color:var(--muted-light);margin-top:3px;}
+.battle-actions{display:flex;gap:8px;}
+.btn-print{background:rgba(255,255,255,0.15);color:var(--text);border:1px solid rgba(255,255,255,0.2);border-radius:7px;padding:6px 14px;font-size:12px;cursor:pointer;}
+.btn-close-modal{background:rgba(224,96,96,0.2);color:var(--danger);border:1px solid rgba(224,96,96,0.3);border-radius:7px;padding:6px 12px;font-size:14px;cursor:pointer;line-height:1;}
+.battle-body{padding:24px 28px;}
+.battle-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px;}
+.battle-section{background:var(--surface);border-radius:10px;padding:16px;}
+.battle-section h4{font-size:10px;text-transform:uppercase;letter-spacing:0.8px;color:var(--mint);margin-bottom:12px;font-weight:700;}
+.battle-section p,.battle-section li{font-size:12px;color:var(--muted-light);line-height:1.6;}
+.battle-section ul{padding-left:14px;}
+.battle-section li{margin-bottom:4px;}
+.counter-item{background:var(--card);border-radius:8px;padding:12px;margin-bottom:8px;border-left:3px solid var(--mint);}
+.counter-weakness{font-size:11px;color:var(--amber);font-weight:600;margin-bottom:4px;}
+.counter-pitch{font-size:12px;color:var(--muted-light);}
+.talk-track{background:linear-gradient(135deg,rgba(94,196,176,0.08),rgba(26,107,107,0.1));border:1px solid rgba(94,196,176,0.2);border-radius:10px;padding:16px;margin-top:16px;}
+.talk-track h4{font-size:10px;text-transform:uppercase;letter-spacing:0.8px;color:var(--mint);margin-bottom:10px;font-weight:700;}
+.talk-track p{font-size:13px;color:var(--text);line-height:1.7;font-style:italic;}
+.drawer{position:fixed;right:0;top:0;bottom:0;width:380px;background:var(--card);border-left:1px solid var(--border-teal);z-index:400;transform:translateX(100%);transition:transform .3s ease;overflow-y:auto;}
+.drawer.open{transform:translateX(0);}
+.drawer-bg{position:fixed;inset:0;z-index:399;background:rgba(0,0,0,0.4);display:none;}
+.drawer-bg.open{display:block;}
+.drawer-header{background:linear-gradient(135deg,var(--teal-deep),var(--teal));padding:20px;display:flex;align-items:flex-start;justify-content:space-between;position:sticky;top:0;}
+.drawer-name{font-size:16px;font-weight:800;color:var(--text);}
+.drawer-tagline{font-size:11px;color:var(--muted-light);margin-top:2px;}
+.btn-close-drawer{background:rgba(255,255,255,0.1);color:var(--text);border:none;border-radius:6px;padding:5px 10px;cursor:pointer;font-size:16px;line-height:1;}
+.drawer-body{padding:20px;}
+.drawer-section{margin-bottom:18px;}
+.drawer-section h4{font-size:10px;text-transform:uppercase;letter-spacing:0.8px;color:var(--mint);margin-bottom:8px;font-weight:700;}
+.drawer-section p,.drawer-section li{font-size:12px;color:var(--muted-light);line-height:1.6;}
+.drawer-section ul{padding-left:14px;}
+.drawer-section li{margin-bottom:3px;}
+.drawer-btn-battle{display:block;width:100%;background:var(--mint);color:#0f4c4c;border:none;border-radius:8px;padding:10px;font-size:13px;font-weight:700;cursor:pointer;margin-top:12px;text-align:center;}
+.scroll-top{position:fixed;bottom:24px;right:24px;background:var(--teal);border:none;color:var(--mint);width:38px;height:38px;border-radius:50%;font-size:16px;cursor:pointer;display:none;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(0,0,0,0.3);z-index:200;}
+.scroll-top.visible{display:flex;}
+.pillar{display:inline-block;font-size:9px;font-weight:600;padding:1px 7px;border-radius:3px;margin-right:3px;}
+.pillar-physical{background:rgba(94,196,176,0.15);color:var(--mint);}
+.pillar-mental{background:rgba(74,158,186,0.15);color:var(--blue-teal);}
+.pillar-social{background:rgba(232,168,85,0.15);color:var(--amber);}
+@media(max-width:900px){.main{padding:16px;}.profile-body{grid-template-columns:1fr;}.profile-section{border-right:none;border-bottom:1px solid var(--border);}.market-grid{grid-template-columns:1fr;}.battle-grid{grid-template-columns:1fr;}.two-col{grid-template-columns:1fr;}.whitespace-grid{grid-template-columns:100px repeat(4,1fr);}}
+@media print{.nav,.scroll-top,.battle-actions,.header{display:none!important;}.battle-inner{max-height:none;border:none;}}
 </style>
 </head>
 <body>
@@ -155,143 +266,919 @@
       <div class="logo-mark">V</div>
       <div class="header-title">
         <h1>VYVE Intel Hub</h1>
-        <p>UK Corporate Wellbeing · Competitive Intelligence Dashboard</p>
+        <p>UK Corporate Wellbeing &middot; Competitive Intelligence &middot; v2</p>
       </div>
     </div>
-    <div class="header-meta">
+    <div class="header-right">
+      <div class="global-search-wrap">
+        <span class="search-icon">🔍</span>
+        <input type="text" placeholder="Search competitors, features, intel..." oninput="globalSearch(this.value)" onfocus="showDropdown()" onblur="setTimeout(hideDropdown,200)">
+        <div class="search-dropdown" id="search-dropdown"></div>
+      </div>
       <span class="live-badge">⚡ LIVE INTEL</span>
-      <span class="updated">Updated May 2026 · 19 Competitors</span>
+      <span class="updated">May 2026 &middot; 19 Tracked</span>
     </div>
   </div>
 </div>
 
 <div class="nav">
   <div class="nav-inner">
-    <button class="nav-btn active" onclick="switchTab('overview')">&#128202; Overview</button>
+    <button class="nav-btn active" onclick="switchTab('overview')">📊 Overview</button>
     <button class="nav-btn" onclick="switchTab('matrix')">⚡ Feature Matrix</button>
-    <button class="nav-btn" onclick="switchTab('profiles')">&#128269; Competitor Profiles</button>
-    <button class="nav-btn" onclick="switchTab('market')">&#127468;&#127463; Market Landscape</button>
-    <button class="nav-btn" onclick="switchTab('advantage')">&#127942; VYVE Advantage</button>
+    <button class="nav-btn" onclick="switchTab('profiles')">🔍 Profiles</button>
+    <button class="nav-btn" onclick="switchTab('market')">🇬🇧 Market</button>
+    <button class="nav-btn" onclick="switchTab('advantage')">🏆 VYVE Advantage</button>
+    <button class="nav-btn new-tab" onclick="switchTab('deals')">🎯 Deal Intel</button>
   </div>
 </div>
 
 <div class="main">
 
-  <div class="tab-panel active" id="tab-overview">
-    <div class="section-header"><h2>UK Corporate Wellbeing Market — Snapshot</h2><p>VYVE operates in the fastest-growing sub-segment of a £3bn UK market</p></div>
-    <div class="stat-grid">
-      <div class="stat-card"><div class="label">Market Size (UK 2024)</div><div class="value">£3bn</div><div class="sub">Growing at ~8% CAGR</div></div>
-      <div class="stat-card"><div class="label">VYVE's Segment</div><div class="value">£400m</div><div class="sub">Proactive holistic wellbeing — fastest growing</div></div>
-      <div class="stat-card"><div class="label">Cost of Poor MH to UK Employers</div><div class="value">£51bn</div><div class="sub">Source: Deloitte / Mind 2024</div></div>
-      <div class="stat-card"><div class="label">Days Lost to MH (2024)</div><div class="value">20.5m</div><div class="sub">Up 40% vs prior year</div></div>
-      <div class="stat-card"><div class="label">ROI on Wellbeing</div><div class="value">£5:1</div><div class="sub">Return per £1 invested (Deloitte)</div></div>
-      <div class="stat-card"><div class="label">EAP UK Penetration</div><div class="value">~45%</div><div class="sub">Most reactive / low usage</div></div>
-      <div class="stat-card"><div class="label">Competitors Tracked</div><div class="value">19</div><div class="sub">2 closest · 7 close match · 10 other</div></div>
-      <div class="stat-card"><div class="label">VYVE Price vs Market</div><div class="value">£5–14</div><div class="sub">Per employee/month — competitive SME tier</div></div>
-    </div>
-    <div class="section-header"><h2>Competitor Landscape</h2><p>Click any card to jump to the full profile</p></div>
-    <div class="comp-grid" id="comp-grid"></div>
+<!-- OVERVIEW TAB -->
+<div class="tab-panel active" id="tab-overview">
+  <div class="section-header"><h2>UK Corporate Wellbeing Market — Snapshot</h2><p>VYVE operates in the fastest-growing sub-segment of a £3bn UK market</p></div>
+  <div class="stat-grid">
+    <div class="stat-card"><div class="label">Market Size (UK)</div><div class="value">£3bn</div><div class="sub">~8% CAGR</div></div>
+    <div class="stat-card"><div class="label">VYVE's Segment</div><div class="value">£400m</div><div class="sub">Proactive holistic — fastest growing</div></div>
+    <div class="stat-card"><div class="label">Cost of Poor MH</div><div class="value">£51bn</div><div class="sub">To UK employers (Deloitte/Mind 2024)</div></div>
+    <div class="stat-card"><div class="label">Days Lost to MH</div><div class="value">20.5m</div><div class="sub">Up 40% vs prior year</div></div>
+    <div class="stat-card"><div class="label">ROI on Wellbeing</div><div class="value">£5:1</div><div class="sub">Per £1 invested (Deloitte)</div></div>
+    <div class="stat-card"><div class="label">EAP Penetration</div><div class="value">~45%</div><div class="sub">Mostly reactive / low usage</div></div>
+    <div class="stat-card"><div class="label">Competitors Tracked</div><div class="value">19</div><div class="sub">2 closest · 7 close · 10 other</div></div>
+    <div class="stat-card"><div class="label">VYVE Price Range</div><div class="value">£5–14</div><div class="sub">Per employee/month</div></div>
   </div>
-
-  <div class="tab-panel" id="tab-matrix">
-    <div class="section-header"><h2>Feature Comparison Matrix</h2><p>50+ features across 6 categories — VYVE vs 19 competitors</p></div>
-    <div class="matrix-controls">
-      <input class="matrix-search" type="text" placeholder="Search features..." oninput="filterMatrix(this.value)">
-      <div class="filter-btns">
-        <button class="filter-btn active" onclick="filterCategory('all',this)">All</button>
-        <button class="filter-btn" onclick="filterCategory('platform',this)">Platform</button>
-        <button class="filter-btn" onclick="filterCategory('physical',this)">Physical</button>
-        <button class="filter-btn" onclick="filterCategory('mental',this)">Mental</button>
-        <button class="filter-btn" onclick="filterCategory('community',this)">Community</button>
-        <button class="filter-btn" onclick="filterCategory('education',this)">Education</button>
-        <button class="filter-btn" onclick="filterCategory('corporate',this)">Corporate</button>
+  <div class="two-col">
+    <div>
+      <div class="section-header"><h2>Competitor Landscape</h2><p>Click any card to open full profile</p></div>
+      <div class="comp-grid" id="comp-grid"></div>
+    </div>
+    <div>
+      <div class="watchlist-panel" style="margin-bottom:16px;">
+        <h3>🚨 Threat Watchlist <span style="font-size:10px;color:var(--muted);font-weight:400;">Top 5 by threat score</span></h3>
+        <div id="watchlist"></div>
       </div>
-    </div>
-    <div class="matrix-wrap"><table class="matrix-table" id="matrix-table"><thead id="matrix-head"></thead><tbody id="matrix-body"></tbody></table></div>
-  </div>
-
-  <div class="tab-panel" id="tab-profiles">
-    <div class="section-header"><h2>Competitor Profiles</h2><p>Deep-dive intelligence on each competitor — strengths, weaknesses, and VYVE's angle</p></div>
-    <input class="global-search" type="text" placeholder="Search competitors by name..." oninput="filterProfiles(this.value)">
-    <div class="profiles-grid" id="profiles-grid"></div>
-  </div>
-
-  <div class="tab-panel" id="tab-market">
-    <div class="section-header"><h2>UK Market Landscape</h2><p>Where VYVE sits, who it beats, and where to go next</p></div>
-    <div class="market-grid">
-      <div class="mkt-card">
-        <h3>Company Size Opportunities</h3>
-        <div class="segment-row"><div class="seg-info"><div class="seg-name">Micro (1–49)</div><div class="seg-comps">Health Assured · Everymind · Spectrum.Life · £1–5pp/pm</div></div><span class="seg-opp opp-strong">Strong</span></div>
-        <div class="segment-row"><div class="seg-info"><div class="seg-name">SME (50–249) ← Primary Target</div><div class="seg-comps">Champion · Everymind · Thrive · VYVE · £3–8pp/pm</div></div><span class="seg-opp opp-primary">Primary</span></div>
-        <div class="segment-row"><div class="seg-info"><div class="seg-name">Mid-market (250–999)</div><div class="seg-comps">Unmind · Champion · Spectrum · Koa · Peppy · £4–10pp/pm</div></div><span class="seg-opp opp-growing">Growing</span></div>
-        <div class="segment-row"><div class="seg-info"><div class="seg-name">Large (1,000–4,999)</div><div class="seg-comps">Unmind · Bupa · AXA · Reward Gateway · £4–15pp/pm</div></div><span class="seg-opp opp-future">Phase 2</span></div>
-        <div class="segment-row"><div class="seg-info"><div class="seg-name">Enterprise (5,000+)</div><div class="seg-comps">Bupa · AXA · Vitality · Headspace · WPO · £10–60pp/pm</div></div><span class="seg-opp opp-future">Long-term</span></div>
-      </div>
-      <div class="mkt-card"><h3>Pricing Landscape (£ pp/pm)</h3><div id="pricing-chart"></div></div>
-    </div>
-    <div class="mkt-card" style="margin-bottom:20px;"><h3>Competitor Quadrant: Price vs Breadth</h3><canvas id="quadrant-canvas" width="700" height="380" style="width:100%;max-width:700px;display:block;margin:0 auto;"></canvas></div>
-    <div class="mkt-card">
-      <h3>UK Market Sub-segments</h3>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-top:12px;">
-        <div style="text-align:center;padding:16px;background:var(--surface);border-radius:10px;"><div style="font-size:28px;font-weight:800;color:var(--mint);">~£1.2bn</div><div style="font-size:12px;color:var(--muted);margin-top:4px;">Physical / Fitness</div></div>
-        <div style="text-align:center;padding:16px;background:var(--surface);border-radius:10px;"><div style="font-size:28px;font-weight:800;color:var(--blue-teal);">~£1.4bn</div><div style="font-size:12px;color:var(--muted);margin-top:4px;">EAP / Mental Health</div></div>
-        <div style="text-align:center;padding:16px;background:rgba(94,196,176,0.1);border:1px solid var(--mint);border-radius:10px;"><div style="font-size:28px;font-weight:800;color:var(--mint);">~£400m</div><div style="font-size:12px;color:var(--muted);margin-top:4px;">Holistic Proactive ← VYVE</div></div>
+      <div class="news-panel">
+        <h3>📡 Competitor Intelligence Feed</h3>
+        <div id="news-feed"></div>
       </div>
     </div>
   </div>
-
-  <div class="tab-panel" id="tab-advantage">
-    <div class="section-header"><h2>The VYVE Advantage</h2><p>What nobody else in the UK market is doing — and why it matters to buyers</p></div>
-    <div class="diff-card"><div class="diff-icon">🎗️</div><div class="diff-content"><h3>1-in-5 Charity Pledge</h3><p>For every 5 paid employees, VYVE provides free wellbeing support to 1 community member. Powered by the Everyman Charity — no other UK platform does this at scale.</p><div class="diff-who">⚡ Zero direct competitors in this space · Powerful CSR & PR differentiator</div></div></div>
-    <div class="diff-card"><div class="diff-icon">🔮</div><div class="diff-content"><h3>Proactive, Not Reactive</h3><p>VYVE builds a 12-month wellbeing calendar — structured habits, events, and interventions before crisis hits. EAP players are purely crisis-response tools.</p><div class="diff-who">⚡ Shifts framing from cost centre → culture investment</div></div></div>
-    <div class="diff-card"><div class="diff-icon">🧩</div><div class="diff-content"><h3>Physical + Mental + Community in One Platform</h3><p>All three pillars at SME price point. Bupa and AXA offer breadth but cost £15–60pp/pm. Unmind is mental-only. VYVE delivers the full stack at £5–14pp/pm.</p><div class="diff-who">⚡ Breadth at SME price = unique market position</div></div></div>
-    <div class="diff-card"><div class="diff-icon">🎙️</div><div class="diff-content"><h3>Expert Podcast + Speaker Network</h3><p>The Everyman podcast and integrated speaker bureau give VYVE a content moat that no EAP or app-only platform can replicate.</p><div class="diff-who">⚡ No one else has a podcast-native model</div></div></div>
-    <div class="diff-card"><div class="diff-icon">🤝</div><div class="diff-content"><h3>Ambassador / Champion Programme</h3><p>VYVE trains internal wellbeing champions inside client organisations — driving grassroots uptake without VYVE staff cost.</p><div class="diff-who">⚡ Drives retention and renewal from inside client orgs</div></div></div>
-    <div class="diff-card"><div class="diff-icon">🏙️</div><div class="diff-content"><h3>Community Events (In-Person)</h3><p>Quarterly community events, Forest Hall FC partnership, charity fundraising — a human connection layer pure-app platforms cannot offer at VYVE's price point.</p><div class="diff-who">⚡ Nobody at VYVE's price combines digital + in-person community</div></div></div>
-    <div style="background:linear-gradient(135deg,var(--teal-deep),var(--teal));border-radius:14px;padding:28px;margin-top:24px;">
-      <h3 style="font-size:16px;font-weight:800;color:var(--mint);margin-bottom:8px;">VYVE's Positioning Wedge</h3>
-      <p style="font-size:14px;color:var(--text);line-height:1.7;max-width:800px;">&ldquo;The only proactive, community-led workplace wellbeing platform in the UK that combines Physical, Mental and Social health — built for SMEs who want to invest in culture before crisis — with a 1-in-5 charity pledge that no competitor matches.&rdquo;</p>
-    </div>
-  </div>
-
 </div>
 
-<button class="scroll-top" id="scroll-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">&#8593;</button>
+<!-- MATRIX TAB -->
+<div class="tab-panel" id="tab-matrix">
+  <div class="section-header"><h2>Feature Comparison Matrix</h2><p>50+ features across 6 categories — VYVE vs 19 competitors · search any feature or category</p></div>
+  <div class="matrix-controls">
+    <input class="matrix-search" type="text" placeholder="🔍  Search features..." oninput="filterMatrix(this.value)">
+    <div class="filter-btns">
+      <button class="filter-btn active" onclick="filterCategory('all',this)">All</button>
+      <button class="filter-btn" onclick="filterCategory('platform',this)">Platform</button>
+      <button class="filter-btn" onclick="filterCategory('physical',this)">Physical</button>
+      <button class="filter-btn" onclick="filterCategory('mental',this)">Mental</button>
+      <button class="filter-btn" onclick="filterCategory('community',this)">Community</button>
+      <button class="filter-btn" onclick="filterCategory('education',this)">Education</button>
+      <button class="filter-btn" onclick="filterCategory('corporate',this)">Corporate</button>
+    </div>
+  </div>
+  <div class="matrix-wrap"><table class="matrix-table"><thead id="matrix-head"></thead><tbody id="matrix-body"></tbody></table></div>
+</div>
 
+<!-- PROFILES TAB -->
+<div class="tab-panel" id="tab-profiles">
+  <div class="section-header"><h2>Competitor Profiles</h2><p>Full intelligence — strengths, weaknesses, sales angles, and battle card generation</p></div>
+  <input class="profiles-search" type="text" placeholder="🔍  Search by name, strength, weakness, or any keyword..." oninput="filterProfiles(this.value)">
+  <div class="profiles-grid" id="profiles-grid"></div>
+</div>
+
+<!-- MARKET TAB -->
+<div class="tab-panel" id="tab-market">
+  <div class="section-header"><h2>UK Market Landscape</h2><p>Segment analysis, pricing landscape, opportunity whitespace and interactive quadrant</p></div>
+  <div class="market-grid">
+    <div class="mkt-card">
+      <h3>📐 Company Size Opportunities</h3>
+      <div class="segment-row"><div class="seg-info"><div class="seg-name">Micro (1–49)</div><div class="seg-comps">Health Assured · Everymind · Spectrum.Life</div></div><span class="seg-opp opp-strong">🟢 Strong</span></div>
+      <div class="segment-row"><div class="seg-info"><div class="seg-name">SME (50–249) ← Primary</div><div class="seg-comps">Champion · Everymind · Thrive · VYVE</div></div><span class="seg-opp opp-primary">🟢 Primary</span></div>
+      <div class="segment-row"><div class="seg-info"><div class="seg-name">Mid-market (250–999)</div><div class="seg-comps">Unmind · Champion · Spectrum · Koa</div></div><span class="seg-opp opp-growing">🟡 Growing</span></div>
+      <div class="segment-row"><div class="seg-info"><div class="seg-name">Large (1,000–4,999)</div><div class="seg-comps">Unmind · Bupa · AXA · Reward Gateway</div></div><span class="seg-opp opp-future">🔵 Phase 2</span></div>
+      <div class="segment-row"><div class="seg-info"><div class="seg-name">Enterprise (5,000+)</div><div class="seg-comps">Bupa · AXA · Vitality · Headspace</div></div><span class="seg-opp opp-future">🔵 Long-term</span></div>
+    </div>
+    <div class="mkt-card"><h3>💰 Pricing Landscape (£ pp/pm)</h3><div id="pricing-chart"></div></div>
+  </div>
+  <div class="mkt-card" style="margin-bottom:20px;">
+    <h3>📊 Competitive Quadrant — Click a dot to explore</h3>
+    <p style="font-size:11px;color:var(--muted);margin-bottom:12px;">Price vs Feature Breadth · Click any competitor to open intel drawer</p>
+    <canvas id="quadrant-canvas" width="800" height="400" style="width:100%;max-width:800px;display:block;margin:0 auto;cursor:crosshair;border-radius:8px;"></canvas>
+  </div>
+  <div class="whitespace-section">
+    <div class="mkt-card">
+      <h3>🗺️ VYVE Opportunity Whitespace Map</h3>
+      <p style="font-size:11px;color:var(--muted);margin-bottom:4px;">Where VYVE has unique or unchallenged positioning vs the market</p>
+      <div class="whitespace-grid" id="whitespace-grid"></div>
+      <div style="display:flex;gap:16px;margin-top:12px;flex-wrap:wrap;">
+        <span style="font-size:10px;color:var(--mint);">🟢 Unique/Unchallenged</span>
+        <span style="font-size:10px;color:var(--mint-light);">🔵 Strong position</span>
+        <span style="font-size:10px;color:var(--amber);">🟡 Contested</span>
+        <span style="font-size:10px;color:var(--danger);">🔴 Weak</span>
+      </div>
+    </div>
+  </div>
+  <div class="pricing-calc">
+    <h3>🧮 Pricing Sensitivity Calculator</h3>
+    <p style="font-size:11px;color:var(--muted);margin-bottom:14px;">Enter your prospect's employee count to see total annual cost vs competitors</p>
+    <div class="calc-row">
+      <span class="calc-label">Number of employees:</span>
+      <input class="calc-input" type="number" id="emp-count" value="100" min="1" max="100000" oninput="updateCalc()">
+    </div>
+    <div class="calc-results" id="calc-results"></div>
+  </div>
+</div>
+
+<!-- ADVANTAGE TAB -->
+<div class="tab-panel" id="tab-advantage">
+  <div class="section-header"><h2>The VYVE Advantage</h2><p>What nobody else does — and the objection library for every sales conversation</p></div>
+  <div class="diff-card"><div class="diff-icon">🎗️</div><div class="diff-content"><h3>1-in-5 Charity Pledge</h3><p>For every 5 paid employees, VYVE provides free wellbeing support to 1 community member. Powered by the Everyman Charity — no other UK platform does this at scale.</p><div class="diff-who">⚡ Zero direct competitors · Powerful CSR differentiator · Unique B2B conversation starter</div></div></div>
+  <div class="diff-card"><div class="diff-icon">🔮</div><div class="diff-content"><h3>Proactive, Not Reactive</h3><p>VYVE builds a 12-month wellbeing calendar. EAP players (Health Assured, Able Futures, WPO) are purely crisis-response tools.</p><div class="diff-who">⚡ Shifts framing from cost centre → culture investment · Resonates with progressive HR &amp; People leaders</div></div></div>
+  <div class="diff-card"><div class="diff-icon">🧩</div><div class="diff-content"><h3>Physical + Mental + Community in One Platform</h3><p>All three pillars at SME price point. Bupa/AXA offer breadth at £15–60pp/pm. Unmind is mental-only. Gympass is physical-only. VYVE delivers the full stack at £5–14pp/pm.</p><div class="diff-who">⚡ Breadth at SME price = unique market position · No direct competitor matches this combination</div></div></div>
+  <div class="diff-card"><div class="diff-icon">🎙️</div><div class="diff-content"><h3>Expert Podcast + Speaker Network</h3><p>The Everyman podcast and integrated speaker bureau give VYVE a content moat no EAP or app-only platform can replicate.</p><div class="diff-who">⚡ Unmind has content; no one has a podcast-native model · Builds trust at zero marginal cost</div></div></div>
+  <div class="diff-card"><div class="diff-icon">🤝</div><div class="diff-content"><h3>Ambassador / Champion Programme</h3><p>VYVE trains internal wellbeing champions inside client organisations — driving grassroots uptake without VYVE staff cost.</p><div class="diff-who">⚡ Drives retention and renewal from inside client orgs</div></div></div>
+  <div class="diff-card"><div class="diff-icon">🏟️</div><div class="diff-content"><h3>Community Events (In-Person)</h3><p>Quarterly community events, Forest Hall FC partnership, charity fundraising — a human layer pure-app platforms cannot match.</p><div class="diff-who">⚡ Nobody at VYVE's price combines digital + in-person community</div></div></div>
+  <div style="background:linear-gradient(135deg,var(--teal-deep),var(--teal));border-radius:14px;padding:24px;margin:24px 0;">
+    <h3 style="font-size:15px;font-weight:800;color:var(--mint);margin-bottom:8px;">🎯 VYVE's Positioning Wedge</h3>
+    <p style="font-size:14px;color:var(--text);line-height:1.7;max-width:800px;">"The only proactive, community-led workplace wellbeing platform in the UK that combines Physical, Mental and Social health — built for SMEs who want to invest in culture before crisis — with a 1-in-5 charity pledge that no competitor matches."</p>
+  </div>
+  <div class="objection-section">
+    <div class="section-header"><h2>💬 Objection Library</h2><p>Every objection you'll face — with the VYVE response</p></div>
+    <input class="obj-search" type="text" id="obj-search" placeholder="🔍  Search objections..." oninput="filterObjections(this.value)">
+    <div id="objections-list"></div>
+  </div>
+</div>
+
+<!-- DEAL INTEL TAB -->
+<div class="tab-panel" id="tab-deals">
+  <div class="section-header"><h2>🎯 Deal Intelligence</h2><p>Log every competitive deal — win or lose — and build VYVE's proprietary win/loss library</p></div>
+  <div class="deal-stats" id="deal-stats">
+    <div class="deal-stat-card"><div class="ds-label">Deals Logged</div><div class="ds-val" id="ds-total">0</div><div class="ds-sub">Total tracked</div></div>
+    <div class="deal-stat-card"><div class="ds-label">Win Rate</div><div class="ds-val" id="ds-winrate">—</div><div class="ds-sub">Overall</div></div>
+    <div class="deal-stat-card"><div class="ds-label">Most Faced</div><div class="ds-val" id="ds-topcomp" style="font-size:14px;">—</div><div class="ds-sub">Competitor in deals</div></div>
+    <div class="deal-stat-card"><div class="ds-label">Hardest to Beat</div><div class="ds-val" id="ds-hardest" style="font-size:14px;">—</div><div class="ds-sub">Lowest win rate vs</div></div>
+  </div>
+  <div class="deal-form-wrap">
+    <h3>+ Log a Deal</h3>
+    <div class="deal-form-grid">
+      <div class="form-group"><label>Company Name</label><input type="text" id="d-company" placeholder="e.g. Acme Ltd"></div>
+      <div class="form-group"><label>Employee Count</label><input type="number" id="d-size" placeholder="e.g. 150" min="1"></div>
+      <div class="form-group"><label>Competitor Faced</label><select id="d-comp"><option value="">Select...</option></select></div>
+      <div class="form-group"><label>Outcome</label><select id="d-outcome"><option value="won">Won ✅</option><option value="lost">Lost ❌</option><option value="nd">No Decision 🟡</option></select></div>
+      <div class="form-group"><label>Date</label><input type="date" id="d-date"></div>
+      <div class="form-group"><label>Deal Value (£/yr)</label><input type="number" id="d-value" placeholder="e.g. 9000" min="0"></div>
+    </div>
+    <div class="form-group" style="margin-bottom:12px;"><label>Reason / Notes</label><textarea id="d-notes" rows="2" placeholder="Why did we win or lose? What objections came up?"></textarea></div>
+    <button class="btn-log" onclick="logDeal()">Log Deal →</button>
+  </div>
+  <div class="deal-log-wrap">
+    <h3>📋 Deal History</h3>
+    <div id="deal-log-body"></div>
+  </div>
+</div>
+
+</div><!-- end .main -->
+
+<!-- BATTLE CARD MODAL -->
+<div class="battle-modal" id="battle-modal">
+  <div class="battle-inner" id="battle-inner"></div>
+</div>
+
+<!-- COMPETITOR DRAWER -->
+<div class="drawer-bg" id="drawer-bg" onclick="closeDrawer()"></div>
+<div class="drawer" id="comp-drawer">
+  <div id="drawer-content"></div>
+</div>
+
+<button class="scroll-top" id="scroll-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
 <script>
-const COMPS=[{id:'unmind',name:'Unmind',match:58,matchType:'closest',segment:'Enterprise',hq:'UK',revenue:'~£20m',users:'3m+',price:'£4–8',focus:'🇬🇧🌍',category:'Mental Health Platform',tagline:'AI-powered workplace mental health with analytics',strengths:['Strong analytics & manager insights','Nova AI mental health agent (2025)','NHS-endorsed, blue-chip client base','Science-backed programmes'],weaknesses:['No physical health pillar','No community or in-person layer','Enterprise pricing — not SME-friendly','No charity pledge'],threat:72,notes:'Raised €30m+ in 2025. Nova AI agent with 92% usage increase. Biggest direct threat in mental health pillar. VYVE wins on breadth, community, price and mission.'},{id:'headspace',name:'Headspace for Work',match:null,matchType:'other',segment:'Enterprise',hq:'USA',revenue:'>£100m',users:'70m+',price:'£5–12',focus:'🌍',category:'Meditation & Mental Health',tagline:'Consumer meditation giant, enterprise edition',strengths:['Massive brand recognition','Science-backed content library','Clinical care pathway'],weaknesses:['US-centric — limited UK localisation','Meditation-heavy, limited breadth','No physical, community or social pillars'],threat:45,notes:'Strong consumer brand but limited enterprise depth. VYVE wins on UK focus, community, physical pillar and proactive model.'},{id:'calm',name:'Calm for Business',match:null,matchType:'other',segment:'Enterprise',hq:'USA',revenue:'>£200m',users:'100m+',price:'£4–10',focus:'🌍',category:'Mindfulness / Sleep',tagline:'Sleep and mindfulness content for teams',strengths:['Iconic consumer brand','Deep sleep and meditation library','Low price entry point'],weaknesses:['Mindfulness/sleep only — no clinical care','No physical, community or social','No proactive programme design'],threat:35,notes:'Lowest functional threat. Content-only platform. VYVE wins on every dimension except brand recognition.'},{id:'bupa',name:'Bupa Wellbeing',match:51,matchType:'close',segment:'Enterprise',hq:'UK',revenue:'>£1bn',users:'10m+',price:'£15–40',focus:'🇬🇧🌍',category:'Insurance-led Wellbeing',tagline:'UK insurance giant with corporate wellbeing suite',strengths:['Trusted brand — highest credibility','Full clinical suite','Onsite delivery capability'],weaknesses:['Price excludes SMEs (£15–40pp/pm)','Reactive / clinical model','No community or ambassador programme'],threat:55,notes:'Credibility benchmark, not a direct SME threat. VYVE positions as proactive, community-led complement.'},{id:'axa',name:'AXA Health',match:45,matchType:'close',segment:'Enterprise',hq:'UK/FR',revenue:'>£500m',users:'5m+',price:'£20–50',focus:'🇬🇧🌍',category:'Insurance + Wellbeing',tagline:'Health insurance with embedded wellbeing layer',strengths:['Insurance-backed credibility','Broad clinical services'],weaknesses:['Insurance-first = complex procurement','Price too high for SMEs','No community or social'],threat:40,notes:'SMEs don’t want insurance procurement for wellbeing. VYVE is simpler, more human, purpose-driven.'},{id:'vitality',name:'Vitality Health',match:40,matchType:'close',segment:'Enterprise',hq:'UK',revenue:'>£500m',users:'2m+',price:'£25–60',focus:'🇬🇧',category:'Insurance + Rewards',tagline:'Health insurance with rewards-driven wellness',strengths:['Rewards/gamification model','Strong gym network','UK-focused'],weaknesses:['Insurance-led = high price','No mental health depth','No community layer'],threat:42,notes:'Rewards model engaging but insurance-led. Price delta (£25–60 vs £5–14) decisive at SME.'},{id:'wpo',name:'Workplace Options',match:44,matchType:'close',segment:'Enterprise',hq:'USA',revenue:'>£200m',users:'75m+',price:'£1–5',focus:'🌍',category:'Global EAP Provider',tagline:'Global EAP with 75m+ covered lives',strengths:['Enormous scale (75m lives)','24/7 crisis helpline','Low price point'],weaknesses:['Pure EAP = reactive only','US-centric delivery','No physical or community'],threat:38,notes:'The “big number on a slide” EAP. Reactive, impersonal, global-generic. VYVE wins on human connection and UK community.'},{id:'healthassured',name:'Health Assured',match:null,matchType:'other',segment:'SME–Enterprise',hq:'UK',revenue:'~£50m',users:'8m+',price:'£1–4',focus:'🇬🇧',category:'UK EAP Market Leader',tagline:'UK highest-volume EAP provider',strengths:['UK EAP market leader by volume','Strong HR brand awareness','Low price point'],weaknesses:['Reactive crisis support only','No physical, community or social','Low engagement'],threat:50,notes:'High volume, low depth. HR buyers frustrated with low engagement. VYVE: “EAP was the floor — VYVE is the ceiling.”'},{id:'rewardgateway',name:'Reward Gateway',match:42,matchType:'close',segment:'SME–Enterprise',hq:'UK',revenue:'~£120m',users:'4m+',price:'£2–8',focus:'🇬🇧🌍',category:'Employee Benefits + Wellbeing',tagline:'Benefits platform with wellbeing module bolted on',strengths:['Strong HR benefits relationships','Large UK installed base','Analytics tools'],weaknesses:['Wellbeing is secondary product','No physical health depth','No community or events'],threat:45,notes:'Sells benefits; wellbeing is a module. VYVE is pure-play wellbeing specialist. Win on depth and mission.'},{id:'wellhub',name:'Gympass / Wellhub',match:null,matchType:'other',segment:'Enterprise',hq:'Brazil/UK',revenue:'>£300m',users:'15m+',price:'£10–30',focus:'🇬🇧🌍',category:'Gym / Fitness Network',tagline:'Global gym access platform for employees',strengths:['Massive gym network','Strong app and UX','Physical health leader'],weaknesses:['No mental health depth','No community or events','Usage barriers'],threat:35,notes:'Physical-only. Many HR buyers run both VYVE and Wellhub. Complementary positioning.'},{id:'classpass',name:'ClassPass for Business',match:null,matchType:'other',segment:'Enterprise',hq:'USA',revenue:'>£200m',users:'35m+',price:'£20–50',focus:'🌍',category:'Boutique Fitness Credits',tagline:'Boutique fitness credit system for teams',strengths:['Premium boutique fitness','Strong consumer brand','Flexible credits'],weaknesses:['High price, narrow scope','No mental health or community','US-centric'],threat:25,notes:'Lowest direct threat. High price, narrow fitness scope. VYVE offers breadth at lower cost.'},{id:'ablefutures',name:'Able Futures',match:null,matchType:'other',segment:'Enterprise',hq:'UK',revenue:'~£10m',users:'1m+',price:'£2–5',focus:'🇬🇧',category:'Specialist EAP',tagline:'Mental health-focused EAP with 1:1 support',strengths:['Specialist mental health','UK government-backed','Good in regulated sectors'],weaknesses:['EAP-only = reactive','No physical or community','Limited digital product'],threat:30,notes:'Niche EAP. Limited digital. Low direct threat at SME level.'},{id:'koa',name:'Koa Health',match:45,matchType:'close',segment:'Enterprise',hq:'Spain/UK',revenue:'~£30m',users:'500k+',price:'£3–8',focus:'🇬🇧🌍',category:'Psychological Flexibility',tagline:'Evidence-based mental health via ACT therapy',strengths:['Strong clinical evidence base','ACT therapy','Psychiatric assessment'],weaknesses:['Mental health only','Clinical tone — lower engagement','No community or events'],threat:42,notes:'Strong on clinical depth but narrow. VYVE wins on breadth, community, engagement and mission.'},{id:'thrive',name:'Thrive Mental Wellbeing',match:45,matchType:'close',segment:'Enterprise',hq:'UK',revenue:'~£20m',users:'2m+',price:'£2–5',focus:'🇬🇧',category:'Digital Mental Health App',tagline:'NHS-approved digital mental health tool',strengths:['NHS-approved credibility','CBT and crisis tools','MHFA training built in'],weaknesses:['Mental health only','No community or physical','App-only delivery'],threat:40,notes:'NHS badge is strong but mental-only. VYVE wins on breadth, community and proactive model.'},{id:'peppy',name:'Peppy Health',match:49,matchType:'close',segment:'SME–Enterprise',hq:'UK',revenue:'~£15m',users:'500k+',price:'£4–10',focus:'🇬🇧',category:'Life Stage Wellbeing',tagline:'Personalised support for life-stage health events',strengths:['Menopause, fertility, MSK specialist','1:1 practitioner access','Strong female workforce appeal'],weaknesses:['Life-stage specific — not always-on','No community or gamification','Niche audience'],threat:48,notes:'Highly complementary — not a head-to-head competitor. Position as partners, not rivals.'},{id:'champion',name:'Champion Health',match:50,matchType:'close',segment:'SME–Enterprise',hq:'UK',revenue:'~£5m',users:'200k+',price:'£3–8',focus:'🇬🇧',category:'Holistic Wellbeing Platform',tagline:'Science-backed holistic wellbeing for UK SMEs',strengths:['Strong multi-pillar offering','Built by clinicians','10x engagement','Recently acquired (£10m)'],weaknesses:['No community events or charity pledge','No ambassador programme','No podcast model'],threat:62,notes:'VYVE’s closest peer competitor. VYVE differentiates: community events, charity pledge, ambassador programme, podcast. Watch for integration risk post-acquisition.'},{id:'nuffield',name:'Nuffield Health',match:null,matchType:'other',segment:'SME–Enterprise',hq:'UK',revenue:'>£500m',users:'3m+',price:'£20–60',focus:'🇬🇧',category:'Clinical Corporate Health',tagline:'UK largest healthcare charity — corporate arm',strengths:['Full clinical suite','Gym and hospital network','Strong charitable mission'],weaknesses:['Price excludes SMEs (£20–60pp/pm)','Offline-first — weak digital','Slow innovation'],threat:35,notes:'Credibility benchmark not a direct SME competitor. VYVE is the digital, community-led complement.'},{id:'everymind',name:'Everymind at Work',match:55,matchType:'closest',segment:'SME–Enterprise',hq:'UK/AUS',revenue:'~£5m',users:'100k+',price:'£3–6',focus:'🇬🇧🌍',category:'Mental Health Champion Platform',tagline:'Proactive mental health champion network builder',strengths:['12-month wellbeing roadmap','Safeguarding tools','Insights dashboard','Proactive stance similar to VYVE'],weaknesses:['Mental health only — no physical','No charity pledge','Limited community events'],threat:60,notes:'VYVE’s philosophical twin on proactive approach but mental-health-only. VYVE wins on all three pillars, community, charity and content.'},{id:'spectrum',name:'Spectrum.Life',match:null,matchType:'other',segment:'SME–Enterprise',hq:'UK/IRE',revenue:'~£10m',users:'1m+',price:'£3–7',focus:'🇬🇧🌍',category:'EAP + Multi-pillar Wellbeing',tagline:'Irish-UK wellbeing platform with multi-pillar coverage',strengths:['Good multi-pillar coverage','UK and Ireland footprint','Competitive pricing'],weaknesses:['EAP-led heritage = reactive framing','Irish brand — less UK recognition','No community or charity pledge'],threat:45,notes:'Growing fast. VYVE differentiates on community, charity mission, content and UK-first identity.'}];
 
-const FEATURES={platform:{label:'Platform & Access',items:[{name:'Mobile App',key:'mobile'},{name:'Web Platform',key:'web'},{name:'API / Integrations',key:'api'},{name:'SSO / HR Integration',key:'sso'},{name:'White-label Option',key:'whitelabel'},{name:'Multi-language Support',key:'multilang'}]},physical:{label:'Physical Health',items:[{name:'Tailored Workout Plans',key:'workouts'},{name:'On-demand Fitness Classes',key:'ondemand'},{name:'Live / Group Classes',key:'live'},{name:'Personal Trainer Access',key:'pt'},{name:'Nutrition / Diet Plans',key:'nutrition'},{name:'Step / Activity Tracking',key:'steps'},{name:'Wearable Integration',key:'wearable'},{name:'Physiotherapy / MSK',key:'physio'},{name:'Health MOT / Biometric Screening',key:'mot'},{name:'Gym Network / Discounts',key:'gym'}]},mental:{label:'Mental Health',items:[{name:'EAP',key:'eap'},{name:'1-to-1 Therapy / Counselling',key:'therapy'},{name:'CBT Programmes',key:'cbt'},{name:'Mindfulness / Meditation',key:'mindfulness'},{name:'Stress & Resilience Workshops',key:'stress'},{name:'Sleep Support',key:'sleep'},{name:'Group Therapy / Peer Support',key:'grouptherapy'},{name:'MHFA Training',key:'mhfa'},{name:'Crisis / 24-7 Helpline',key:'crisis'},{name:'Psychiatric Assessment',key:'psych'}]},community:{label:'Community & Social',items:[{name:'Social Feed / Community Forum',key:'social'},{name:'Peer Challenges & Gamification',key:'gamify'},{name:'Ambassador / Champion Programme',key:'ambassador'},{name:'Community Events (in-person)',key:'events'},{name:'Charity / Social Impact Pledge',key:'charity'},{name:'Podcast / Content Hub',key:'podcast'}]},education:{label:'Education & Inspiration',items:[{name:'Expert Speaker Programme',key:'speakers'},{name:'Health Education Library',key:'library'},{name:'Habit Tracker',key:'habits'},{name:'Daily Wellbeing Tips',key:'tips'},{name:'Management / Leadership Workshops',key:'mgmt'},{name:'Financial Wellbeing Content',key:'financial'},{name:'Lived-experience Content',key:'lived'}]},corporate:{label:'Corporate Features',items:[{name:'Dedicated Account Manager',key:'am'},{name:'Staff Wellbeing Surveys',key:'surveys'},{name:'Absence / Sickness Reporting',key:'absence'},{name:'Manager Dashboard / Analytics',key:'dashboard'},{name:'Custom Branded Experience',key:'custom'},{name:'Annual Wellbeing Calendar',key:'calendar'},{name:'Onsite Delivery Option',key:'onsite'},{name:'Tiered Pricing Packages',key:'tiered'},{name:'Free Trial Available',key:'trial'},{name:'Per-employee Pricing',key:'pep'}]}};
+const COMPS = [
+  { id:'unmind', name:'Unmind', match:58, matchType:'closest', segment:'Enterprise', hq:'UK', revenue:'~£20m', users:'3m+', price:'£4–8', focus:'🇬🇧🌍', category:'Mental Health Platform', tagline:'AI-powered workplace mental health with analytics', strengths:['Strong analytics & manager insights','Nova AI mental health agent (2025)','NHS-endorsed, blue-chip client base','Science-backed programmes','Strong brand credibility'], weaknesses:['No physical health pillar','No community or in-person layer','Enterprise pricing — not SME-friendly','No charity pledge or social mission'], threat:72, threatTrend:'up', notes:'Raised €30m+ in 2025. Released Nova AI agent. 92% increase in usage. Biggest direct threat in mental health pillar. VYVE wins on breadth, community, price and mission.' },
+  { id:'headspace', name:'Headspace for Work', match:null, matchType:'other', segment:'Enterprise', hq:'USA', revenue:'>£100m', users:'70m+', price:'£5–12', focus:'🌍', category:'Meditation & Mental Health', tagline:'Consumer meditation giant, enterprise edition', strengths:['Massive brand recognition','Science-backed content library','Clinical care pathway','Strong app UX'], weaknesses:['US-centric — limited UK localisation','Meditation-heavy, limited breadth','No physical, community or social pillars','No proactive calendar approach'], threat:45, threatTrend:'same', notes:'Strong consumer brand but limited enterprise depth. VYVE wins on UK focus, community, physical pillar and proactive model.' },
+  { id:'calm', name:'Calm for Business', match:null, matchType:'other', segment:'Enterprise', hq:'USA', revenue:'>£200m', users:'100m+', price:'£4–10', focus:'🌍', category:'Mindfulness / Sleep', tagline:'Sleep and mindfulness content for teams', strengths:['Iconic consumer brand','Deep sleep and meditation library','Low price entry'], weaknesses:['Mindfulness/sleep only','No physical, community or social','US-centric','No proactive programme'], threat:35, threatTrend:'down', notes:'Lowest functional threat. Content-only platform. VYVE wins on every dimension except brand recognition.' },
+  { id:'bupa', name:'Bupa Wellbeing', match:51, matchType:'close', segment:'Enterprise', hq:'UK', revenue:'>£1bn', users:'10m+', price:'£15–40', focus:'🇬🇧🌍', category:'Insurance-led Wellbeing', tagline:'UK insurance giant with corporate wellbeing suite', strengths:['Trusted brand — highest credibility','Full clinical suite','Onsite delivery capability','Deep enterprise relationships'], weaknesses:['Price excludes SMEs (£15–40pp/pm)','Reactive/clinical — not culture-first','No community or ambassador programme','Slow sales cycle'], threat:55, threatTrend:'same', notes:'A credibility benchmark, not a direct SME threat. VYVE positions as the proactive, community-led alternative for cost-conscious mid-market.' },
+  { id:'axa', name:'AXA Health', match:45, matchType:'close', segment:'Enterprise', hq:'UK/FR', revenue:'>£500m', users:'5m+', price:'£20–50', focus:'🇬🇧🌍', category:'Insurance + Wellbeing', tagline:'Health insurance with embedded wellbeing layer', strengths:['Insurance-backed credibility','Broad clinical services','Strong enterprise distribution'], weaknesses:['Insurance-first = complex procurement','Price too high for SMEs','No community/gamification','Limited proactive programming'], threat:40, threatTrend:'same', notes:'Insurance complexity is AXA\'s barrier. SMEs don\'t want insurance procurement for wellbeing. VYVE is simpler, human, purpose-driven.' },
+  { id:'vitality', name:'Vitality Health', match:40, matchType:'close', segment:'Enterprise', hq:'UK', revenue:'>£500m', users:'2m+', price:'£25–60', focus:'🇬🇧', category:'Insurance + Rewards', tagline:'Health insurance with rewards-driven wellness', strengths:['Rewards/gamification model','Strong gym and partner network','Activity-based incentives'], weaknesses:['Insurance-led = high price','No mental health depth','No community layer at VYVE price'], threat:42, threatTrend:'same', notes:'Vitality rewards model is engaging but insurance-led. VYVE\'s community and mental health depth is superior. Price delta decisive at SME.' },
+  { id:'wpo', name:'Workplace Options', match:44, matchType:'close', segment:'Enterprise', hq:'USA', revenue:'>£200m', users:'75m+', price:'£1–5', focus:'🌍', category:'Global EAP Provider', tagline:'Global EAP with 75m+ covered lives', strengths:['Enormous scale (75m lives)','24/7 crisis helpline','Global reach','Low price'], weaknesses:['Pure EAP = reactive only','US-centric delivery','No physical, community or inspiration pillars','Low engagement rates'], threat:38, threatTrend:'down', notes:'WPO is the "big number on a slide" EAP. Reactive, impersonal, global-generic. VYVE wins on human connection and UK community.' },
+  { id:'healthassured', name:'Health Assured', match:null, matchType:'other', segment:'SME–Enterprise', hq:'UK', revenue:'~£50m', users:'8m+', price:'£1–4', focus:'🇬🇧', category:'UK EAP Market Leader', tagline:'UK\'s highest-volume EAP provider', strengths:['UK EAP market leader by volume','Strong HR brand awareness','Low price','Large sales force'], weaknesses:['Reactive crisis support only','No physical, community or social','Low engagement','No proactive programming'], threat:50, threatTrend:'same', notes:'High volume, low depth. HR buyers familiar but frustrated with low engagement. VYVE: "EAP was the floor — VYVE is the ceiling."' },
+  { id:'rewardgateway', name:'Reward Gateway', match:42, matchType:'close', segment:'SME–Enterprise', hq:'UK', revenue:'~£120m', users:'4m+', price:'£2–8', focus:'🇬🇧🌍', category:'Employee Benefits + Wellbeing', tagline:'Benefits platform with wellbeing module bolted on', strengths:['Strong HR benefits relationships','Large UK installed base','Survey and analytics tools'], weaknesses:['Wellbeing is secondary product — not core','No physical health depth','No community events or speakers'], threat:45, threatTrend:'same', notes:'Reward Gateway sells benefits; wellbeing is a module add-on. VYVE is a pure-play wellbeing specialist — deeper and more engaging.' },
+  { id:'wellhub', name:'Wellhub (Gympass)', match:null, matchType:'other', segment:'Enterprise', hq:'Brazil/UK', revenue:'>£300m', users:'15m+', price:'£10–30', focus:'🇬🇧🌍', category:'Gym/Fitness Network', tagline:'Global gym access platform for employees', strengths:['Massive gym network','Strong app and UX','Physical health leader'], weaknesses:['No mental health depth','No community, events or speakers','Higher price for full access'], threat:35, threatTrend:'down', notes:'Physical-only play. VYVE complements rather than competes — or wins by showing breadth at comparable price.' },
+  { id:'classpass', name:'ClassPass for Business', match:null, matchType:'other', segment:'Enterprise', hq:'USA', revenue:'>£200m', users:'35m+', price:'£20–50', focus:'🌍', category:'Boutique Fitness Credits', tagline:'Boutique fitness credit system for teams', strengths:['Premium boutique fitness access','Strong consumer brand','Flexible credit model'], weaknesses:['Cost can spike','No mental health, community or social','US-centric','No proactive programme'], threat:25, threatTrend:'down', notes:'High price, narrow scope. VYVE offers broader wellbeing at lower cost with community layer. Lowest direct threat.' },
+  { id:'ablefutures', name:'Able Futures', match:null, matchType:'other', segment:'Enterprise', hq:'UK', revenue:'~£10m', users:'1m+', price:'£2–5', focus:'🇬🇧', category:'Specialist EAP', tagline:'Mental health-focused EAP with 1:1 support', strengths:['Specialist mental health focus','1:1 mental health support','UK government-backed','Good in regulated sectors'], weaknesses:['EAP-only = reactive','No physical or community','Limited digital product','Small scale'], threat:30, threatTrend:'same', notes:'Niche EAP. Limited digital. VYVE wins on breadth and digital engagement. Low direct threat at SME level.' },
+  { id:'koa', name:'Koa Health', match:45, matchType:'close', segment:'Enterprise', hq:'Spain/UK', revenue:'~£30m', users:'500k+', price:'£3–8', focus:'🇬🇧🌍', category:'Psychological Flexibility', tagline:'Evidence-based mental health via ACT therapy', strengths:['Strong clinical evidence base','ACT therapy','Psychiatric assessment capability','Good enterprise sales'], weaknesses:['Mental health only','Clinical/academic tone — lower engagement','No community or events','Limited UK brand awareness'], threat:42, threatTrend:'up', notes:'Koa is strong on clinical depth but narrow. VYVE wins on breadth, community, engagement and mission.' },
+  { id:'thrive', name:'Thrive Mental Wellbeing', match:45, matchType:'close', segment:'Enterprise', hq:'UK', revenue:'~£20m', users:'2m+', price:'£2–5', focus:'🇬🇧', category:'Digital Mental Health App', tagline:'NHS-approved digital mental health tool', strengths:['NHS-approved credibility','CBT and crisis tools','Low price','MHFA training built in'], weaknesses:['Mental health only','Limited community or physical','Lower engagement than Unmind'], threat:40, threatTrend:'same', notes:'NHS badge is strong but mental-only and app-only. VYVE wins on breadth, community and proactive model.' },
+  { id:'peppy', name:'Peppy Health', match:49, matchType:'close', segment:'SME–Enterprise', hq:'UK', revenue:'~£15m', users:'500k+', price:'£4–10', focus:'🇬🇧', category:'Life Stage Wellbeing', tagline:'Personalised support for life-stage health events', strengths:['Menopause, fertility, MSK specialist','Highly personalised 1:1 practitioner access','Strong female workforce appeal'], weaknesses:['Life-stage specific — not always-on','No community or gamification','Niche audience vs whole workforce'], threat:48, threatTrend:'up', notes:'Peppy is highly complementary — not head-to-head. They serve life-stage needs; VYVE serves always-on wellbeing culture.' },
+  { id:'champion', name:'Champion Health', match:50, matchType:'close', segment:'SME–Enterprise', hq:'UK', revenue:'~£5m', users:'200k+', price:'£3–8', focus:'🇬🇧', category:'Holistic Wellbeing Platform', tagline:'Science-backed holistic wellbeing for UK SMEs', strengths:['Strong multi-pillar (physical, mental, financial)','Built by clinicians','10x engagement vs standard','Growing fast','Recently acquired'], weaknesses:['Smaller scale — 200k users','No community events or charity pledge','No ambassador programme','No podcast/content model'], threat:62, threatTrend:'up', notes:'Champion is VYVE\'s closest peer competitor — similar segment, breadth, price. DIFFERENTIATOR: community events, charity pledge, ambassador programme, podcast. Acquired Feb 2025 — watch for integration risk.' },
+  { id:'nuffield', name:'Nuffield Health', match:null, matchType:'other', segment:'SME–Enterprise', hq:'UK', revenue:'>£500m', users:'3m+', price:'£20–60', focus:'🇬🇧', category:'Clinical Corporate Health', tagline:'UK\'s largest healthcare charity — corporate arm', strengths:['Full clinical suite (GP, physio, MH)','Gym and hospital network','Strong brand and charitable mission','Onsite delivery'], weaknesses:['Price excludes most SMEs','Offline-first — weak digital','No community or gamification','Slow innovation cycle'], threat:35, threatTrend:'same', notes:'Credibility benchmark, not a direct SME competitor. VYVE positions as digital, community-led complement.' },
+  { id:'everymind', name:'Everymind at Work', match:55, matchType:'closest', segment:'SME–Enterprise', hq:'UK/AUS', revenue:'~£5m', users:'100k+', price:'£3–6', focus:'🇬🇧🌍', category:'MH Champion Platform', tagline:'Proactive mental health champion network builder', strengths:['12-month wellbeing roadmap approach','Conversation logging and safeguarding','Insights dashboard for HR','Strong champion/supporter network','Proactive stance similar to VYVE'], weaknesses:['Mental health only — no physical pillar','Smaller brand vs Unmind','No charity pledge','Limited community events/gamification'], threat:60, threatTrend:'up', notes:'Everymind is VYVE\'s philosophical twin on proactive approach but mental-health-only. VYVE wins on all three pillars, community events, charity mission and content.' },
+  { id:'spectrum', name:'Spectrum.Life', match:null, matchType:'other', segment:'SME–Enterprise', hq:'UK/IRE', revenue:'~£10m', users:'1m+', price:'£3–7', focus:'🇬🇧🌍', category:'EAP + Multi-pillar', tagline:'Irish-UK wellbeing platform with EAP and multi-pillar coverage', strengths:['Good multi-pillar coverage (EAP + digital)','UK and Ireland footprint','Competitive pricing','Growing SME client base'], weaknesses:['EAP-led heritage = reactive framing','Less UK recognition','No community events or charity pledge','No podcast or content model'], threat:45, threatTrend:'up', notes:'Spectrum is a credible multi-pillar option at SME prices. VYVE differentiates on community, charity, content and UK-first identity. Watch — growing fast.' }
+];
 
-const FDATA={mobile:['Y','Y','Y','Y','Y','Y','Y','Y','N','Y','Y','Y','N','Y','Y','Y','Y','N','Y','Y'],web:['N','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y'],api:['N','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','N','N','Y','Y','Y','P','N','P','Y'],sso:['P','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','N','N','Y','Y','Y','Y','N','Y','Y'],whitelabel:['N','N','N','N','N','N','N','Y','N','P','N','N','N','N','N','N','N','N','N','N'],multilang:['N','Y','Y','Y','N','N','N','Y','N','N','Y','N','N','Y','N','N','N','N','N','N'],workouts:['Y','N','N','N','Y','Y','Y','N','N','N','Y','N','N','N','N','N','Y','Y','N','N'],ondemand:['Y','Y','Y','Y','Y','Y','Y','Y','N','Y','Y','Y','N','N','Y','N','Y','Y','Y','Y'],live:['Y','N','N','N','Y','Y','Y','N','N','N','Y','Y','N','N','N','N','N','Y','N','N'],pt:['N','N','N','N','Y','Y','N','Y','N','N','Y','Y','N','N','N','N','N','Y','N','N'],nutrition:['Y','Y','N','N','Y','Y','N','N','N','N','Y','N','N','N','N','N','Y','Y','N','N'],steps:['Y','Y','Y','N','Y','Y','Y','N','N','Y','Y','Y','N','N','Y','N','Y','Y','N','N'],wearable:['N','Y','Y','N','Y','Y','Y','N','N','Y','Y','Y','N','N','N','N','N','Y','N','N'],physio:['N','N','N','N','Y','Y','N','N','N','N','N','N','N','N','N','N','N','Y','N','N'],mot:['N','N','N','N','Y','Y','Y','N','N','N','N','N','N','N','N','N','Y','Y','N','N'],gym:['N','N','N','N','Y','Y','Y','N','N','Y','Y','Y','N','N','N','N','N','Y','N','N'],eap:['P','Y','Y','Y','Y','Y','Y','Y','Y','Y','P','N','Y','Y','Y','Y','Y','Y','Y','Y'],therapy:['N','Y','N','N','Y','Y','N','Y','Y','N','N','N','Y','Y','Y','Y','N','Y','Y','Y'],cbt:['Y','Y','N','N','Y','Y','N','Y','P','N','N','N','Y','Y','Y','Y','N','Y','Y','Y'],mindfulness:['Y','Y','Y','Y','Y','Y','Y','Y','N','Y','Y','N','N','Y','Y','N','Y','Y','Y','Y'],stress:['Y','Y','N','N','Y','Y','N','Y','Y','N','N','N','Y','Y','Y','N','Y','Y','Y','Y'],sleep:['Y','Y','Y','Y','Y','Y','Y','N','N','N','Y','N','N','Y','Y','N','Y','Y','Y','Y'],grouptherapy:['Y','P','N','N','Y','P','N','Y','P','N','N','N','N','P','N','N','N','Y','N','Y'],mhfa:['N','Y','N','N','Y','Y','N','Y','Y','N','N','N','Y','Y','Y','Y','Y','Y','Y','Y'],crisis:['P','Y','N','N','Y','Y','Y','Y','Y','N','N','N','Y','Y','Y','Y','N','Y','Y','Y'],psych:['N','N','N','N','Y','Y','N','Y','P','N','N','N','P','Y','N','Y','N','Y','N','Y'],social:['Y','P','P','N','N','N','N','N','N','N','N','N','N','N','N','N','N','N','P','N'],gamify:['Y','Y','Y','N','N','N','Y','N','N','Y','Y','Y','N','N','Y','N','Y','N','Y','Y'],ambassador:['Y','N','N','N','N','N','N','N','N','N','N','N','N','N','N','N','N','N','P','N'],events:['Y','N','N','N','Y','Y','N','N','N','N','Y','Y','N','N','N','N','N','Y','N','N'],charity:['Y','N','N','N','N','N','N','N','N','N','N','N','N','N','N','N','N','N','N','N'],podcast:['Y','Y','Y','Y','N','N','N','Y','N','Y','N','N','N','N','Y','N','Y','N','Y','Y'],speakers:['Y','Y','N','N','P','N','N','Y','N','N','N','N','N','Y','N','N','N','N','Y','Y'],library:['Y','Y','Y','Y','Y','Y','Y','Y','N','Y','N','N','N','Y','Y','N','Y','Y','Y','Y'],habits:['Y','Y','Y','Y','Y','N','N','N','N','Y','N','N','N','N','Y','N','Y','N','Y','N'],tips:['Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','N','N','N','Y','Y','N','Y','Y','Y','Y'],mgmt:['Y','Y','N','N','Y','Y','N','Y','N','N','N','N','N','N','N','N','Y','Y','Y','N'],financial:['Y','N','N','N','N','N','Y','N','N','Y','N','N','N','N','N','N','N','Y','N','N'],lived:['Y','Y','N','N','N','N','N','Y','N','N','N','N','N','N','N','N','N','Y','Y','N'],am:['Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','N','Y','Y','Y','Y','Y','Y','Y','Y'],surveys:['Y','Y','N','N','Y','Y','Y','Y','Y','Y','N','N','N','Y','Y','Y','Y','Y','Y','Y'],absence:['N','Y','N','N','Y','Y','Y','Y','Y','Y','P','N','Y','Y','Y','N','Y','Y','Y','Y'],dashboard:['P','Y','Y','Y','Y','Y','Y','Y','P','Y','Y','N','P','Y','Y','Y','Y','Y','Y','Y'],custom:['P','Y','N','N','Y','Y','P','Y','N','Y','N','N','N','Y','Y','N','N','Y','Y','Y'],calendar:['Y','Y','N','N','Y','Y','N','Y','N','Y','N','N','N','N','N','N','Y','Y','Y','Y'],onsite:['N','N','N','N','Y','Y','N','Y','N','N','Y','Y','N','N','N','N','N','Y','N','N'],tiered:['Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y'],trial:['Y','Y','Y','Y','P','N','N','P','P','Y','Y','Y','N','Y','Y','Y','Y','N','Y','P'],pep:['Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','N','Y','Y','Y','Y','Y','Y','Y','Y']};
+const COMP_ORDER = ['unmind','headspace','calm','bupa','axa','vitality','wpo','healthassured','rewardgateway','wellhub','classpass','ablefutures','koa','thrive','peppy','champion','nuffield','everymind','spectrum'];
 
-const COMP_ORDER=['unmind','headspace','calm','bupa','axa','vitality','wpo','healthassured','rewardgateway','wellhub','classpass','ablefutures','koa','thrive','peppy','champion','nuffield','everymind','spectrum'];
+const FEATURES = {
+  platform:{ label:'Platform & Access', items:[{name:'Mobile App',key:'mobile'},{name:'Web Platform',key:'web'},{name:'API / Integrations',key:'api'},{name:'SSO / HR Integration',key:'sso'},{name:'White-label Option',key:'whitelabel'},{name:'Multi-language',key:'multilang'}]},
+  physical:{ label:'Physical Health', items:[{name:'Tailored Workout Plans',key:'workouts'},{name:'On-demand Fitness Classes',key:'ondemand'},{name:'Live / Group Classes',key:'live'},{name:'Personal Trainer Access',key:'pt'},{name:'Nutrition / Diet Plans',key:'nutrition'},{name:'Step / Activity Tracking',key:'steps'},{name:'Wearable Integration',key:'wearable'},{name:'Physiotherapy / MSK',key:'physio'},{name:'Health MOT / Biometric',key:'mot'},{name:'Gym Network / Discounts',key:'gym'}]},
+  mental:{ label:'Mental Health', items:[{name:'EAP Programme',key:'eap'},{name:'1-to-1 Therapy',key:'therapy'},{name:'CBT Programmes',key:'cbt'},{name:'Mindfulness / Meditation',key:'mindfulness'},{name:'Stress & Resilience Workshops',key:'stress'},{name:'Sleep Support',key:'sleep'},{name:'Group Therapy / Peer Support',key:'grouptherapy'},{name:'Mental Health First Aid',key:'mhfa'},{name:'Crisis / 24-7 Helpline',key:'crisis'},{name:'Psychiatric Assessment',key:'psych'}]},
+  community:{ label:'Community & Social', items:[{name:'Social Feed / Forum',key:'social'},{name:'Peer Challenges & Gamification',key:'gamify'},{name:'Ambassador / Champion Programme',key:'ambassador'},{name:'Community Events (in-person)',key:'events'},{name:'Charity / Social Impact Pledge',key:'charity'},{name:'Podcast / Content Hub',key:'podcast'}]},
+  education:{ label:'Education & Inspiration', items:[{name:'Expert Speaker Programme',key:'speakers'},{name:'Health Education Library',key:'library'},{name:'Habit Tracker',key:'habits'},{name:'Daily Wellbeing Tips',key:'tips'},{name:'Management Workshops',key:'mgmt'},{name:'Financial Wellbeing',key:'financial'},{name:'Lived-experience Content',key:'lived'}]},
+  corporate:{ label:'Corporate Features', items:[{name:'Dedicated Account Manager',key:'am'},{name:'Staff Wellbeing Surveys',key:'surveys'},{name:'Absence / Sickness Reporting',key:'absence'},{name:'Manager Dashboard / Analytics',key:'dashboard'},{name:'Custom Branded Experience',key:'custom'},{name:'Annual Wellbeing Calendar',key:'calendar'},{name:'Onsite Delivery',key:'onsite'},{name:'Tiered Pricing',key:'tiered'},{name:'Free Trial',key:'trial'},{name:'Per-employee Pricing',key:'pep'}]}
+};
 
-function renderOverview(){const grid=document.getElementById('comp-grid');COMPS.forEach(c=>{const mb=c.match?`<span class="comp-match ${c.matchType==='closest'?'match-closest':'match-close'}">⚡ ${c.match}% Match</span>`:'';grid.innerHTML+=`<div class="comp-card ${c.matchType}" onclick="openProfile('${c.id}')"><div class="comp-header"><div class="comp-name">${c.name}</div>${mb}</div><div class="comp-meta"><span class="tag">${c.segment}</span><span class="tag">${c.hq}</span><span class="tag">${c.category}</span></div><div class="comp-stats"><div class="comp-stat"><div class="cs-label">Revenue</div><div class="cs-val">${c.revenue}</div></div><div class="comp-stat"><div class="cs-label">Users</div><div class="cs-val">${c.users}</div></div><div class="comp-stat"><div class="cs-label">Price pp/pm</div><div class="cs-val">${c.price}</div></div><div class="comp-stat"><div class="cs-label">UK Focus</div><div class="cs-val">${c.focus}</div></div></div><div class="comp-desc">${c.tagline}</div></div>`;});}
+// Order: vyve, unmind, headspace, calm, bupa, axa, vitality, wpo, healthassured, rewardgateway, wellhub, classpass, ablefutures, koa, thrive, peppy, champion, nuffield, everymind, spectrum
+const FDATA = {
+  mobile:     ['Y','Y','Y','Y','Y','Y','Y','Y','N','Y','Y','Y','N','Y','Y','Y','Y','N','Y','Y'],
+  web:        ['N','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y'],
+  api:        ['N','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','N','N','Y','Y','Y','P','N','P','Y'],
+  sso:        ['P','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','N','N','Y','Y','Y','Y','N','Y','Y'],
+  whitelabel: ['N','N','N','N','N','N','N','Y','N','P','N','N','N','N','N','N','N','N','N','N'],
+  multilang:  ['N','Y','Y','Y','N','N','N','Y','N','N','Y','N','N','Y','N','N','N','N','N','N'],
+  workouts:   ['Y','N','N','N','Y','Y','Y','N','N','N','Y','N','N','N','N','N','Y','Y','N','N'],
+  ondemand:   ['Y','Y','Y','Y','Y','Y','Y','Y','N','Y','Y','Y','N','N','Y','N','Y','Y','Y','Y'],
+  live:       ['Y','N','N','N','Y','Y','Y','N','N','N','Y','Y','N','N','N','N','N','Y','N','N'],
+  pt:         ['N','N','N','N','Y','Y','N','Y','N','N','Y','Y','N','N','N','N','N','Y','N','N'],
+  nutrition:  ['Y','Y','N','N','Y','Y','N','N','N','N','Y','N','N','N','N','N','Y','Y','N','N'],
+  steps:      ['Y','Y','Y','N','Y','Y','Y','N','N','Y','Y','Y','N','N','Y','N','Y','Y','N','N'],
+  wearable:   ['N','Y','Y','N','Y','Y','Y','N','N','Y','Y','Y','N','N','N','N','N','Y','N','N'],
+  physio:     ['N','N','N','N','Y','Y','N','N','N','N','N','N','N','N','N','N','N','Y','N','N'],
+  mot:        ['N','N','N','N','Y','Y','Y','N','N','N','N','N','N','N','N','N','Y','Y','N','N'],
+  gym:        ['N','N','N','N','Y','Y','Y','N','N','Y','Y','Y','N','N','N','N','N','Y','N','N'],
+  eap:        ['P','Y','Y','Y','Y','Y','Y','Y','Y','Y','P','N','Y','Y','Y','Y','Y','Y','Y','Y'],
+  therapy:    ['N','Y','N','N','Y','Y','N','Y','Y','N','N','N','Y','Y','Y','Y','N','Y','Y','Y'],
+  cbt:        ['Y','Y','N','N','Y','Y','N','Y','P','N','N','N','Y','Y','Y','Y','N','Y','Y','Y'],
+  mindfulness:['Y','Y','Y','Y','Y','Y','Y','Y','N','Y','Y','N','N','Y','Y','N','Y','Y','Y','Y'],
+  stress:     ['Y','Y','N','N','Y','Y','N','Y','Y','N','N','N','Y','Y','Y','N','Y','Y','Y','Y'],
+  sleep:      ['Y','Y','Y','Y','Y','Y','Y','N','N','N','Y','N','N','Y','Y','N','Y','Y','Y','Y'],
+  grouptherapy:['Y','P','N','N','Y','P','N','Y','P','N','N','N','N','P','N','N','N','Y','N','Y'],
+  mhfa:       ['N','Y','N','N','Y','Y','N','Y','Y','N','N','N','Y','Y','Y','Y','Y','Y','Y','Y'],
+  crisis:     ['P','Y','N','N','Y','Y','Y','Y','Y','N','N','N','Y','Y','Y','Y','N','Y','Y','Y'],
+  psych:      ['N','N','N','N','Y','Y','N','Y','P','N','N','N','P','Y','N','Y','N','Y','N','Y'],
+  social:     ['Y','P','P','N','N','N','N','N','N','N','N','N','N','N','N','N','N','N','P','N'],
+  gamify:     ['Y','Y','Y','N','N','N','Y','N','N','Y','Y','Y','N','N','Y','N','Y','N','Y','Y'],
+  ambassador: ['Y','N','N','N','N','N','N','N','N','N','N','N','N','N','N','N','N','N','P','N'],
+  events:     ['Y','N','N','N','Y','Y','N','N','N','N','Y','Y','N','N','N','N','N','Y','N','N'],
+  charity:    ['Y','N','N','N','N','N','N','N','N','N','N','N','N','N','N','N','N','N','N','N'],
+  podcast:    ['Y','Y','Y','Y','N','N','N','Y','N','Y','N','N','N','N','Y','N','Y','N','Y','Y'],
+  speakers:   ['Y','Y','N','N','P','N','N','Y','N','N','N','N','N','Y','N','N','N','N','Y','Y'],
+  library:    ['Y','Y','Y','Y','Y','Y','Y','Y','N','Y','N','N','N','Y','Y','N','Y','Y','Y','Y'],
+  habits:     ['Y','Y','Y','Y','Y','N','N','N','N','Y','N','N','N','N','Y','N','Y','N','Y','N'],
+  tips:       ['Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','N','N','N','Y','Y','N','Y','Y','Y','Y'],
+  mgmt:       ['Y','Y','N','N','Y','Y','N','Y','N','N','N','N','N','N','N','N','Y','Y','Y','N'],
+  financial:  ['Y','N','N','N','N','N','Y','N','N','Y','N','N','N','N','N','N','N','Y','N','N'],
+  lived:      ['Y','Y','N','N','N','N','N','Y','N','N','N','N','N','N','N','N','N','Y','Y','N'],
+  am:         ['Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','N','Y','Y','Y','Y','Y','Y','Y','Y'],
+  surveys:    ['Y','Y','N','N','Y','Y','Y','Y','Y','Y','N','N','N','Y','Y','Y','Y','Y','Y','Y'],
+  absence:    ['N','Y','N','N','Y','Y','Y','Y','Y','Y','P','N','Y','Y','Y','N','Y','Y','Y','Y'],
+  dashboard:  ['P','Y','Y','Y','Y','Y','Y','Y','P','Y','Y','N','P','Y','Y','Y','Y','Y','Y','Y'],
+  custom:     ['P','Y','N','N','Y','Y','P','Y','N','Y','N','N','N','Y','Y','N','N','Y','Y','Y'],
+  calendar:   ['Y','Y','N','N','Y','Y','N','Y','N','Y','N','N','N','N','N','N','Y','Y','Y','Y'],
+  onsite:     ['N','N','N','N','Y','Y','N','Y','N','N','Y','Y','N','N','N','N','N','Y','N','N'],
+  tiered:     ['Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y'],
+  trial:      ['Y','Y','Y','Y','P','N','N','P','P','Y','Y','Y','N','Y','Y','Y','Y','N','Y','P'],
+  pep:        ['Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','N','Y','Y','Y','Y','Y','Y','Y','Y']
+};
 
-function renderMatrix(){const head=document.getElementById('matrix-head');const body=document.getElementById('matrix-body');let th='<tr><th class="feature-label">Feature</th><th class="comp-col" style="background:rgba(94,196,176,0.15);color:var(--mint)">VYVE</th>';COMP_ORDER.forEach(id=>{const c=COMPS.find(x=>x.id===id);th+=`<th class="comp-col">${c.name}</th>`;});th+='</tr>';head.innerHTML=th;let rows='';Object.entries(FEATURES).forEach(([catKey,cat])=>{rows+=`<tr class="category-row" data-category="${catKey}"><td colspan="${COMP_ORDER.length+2}">${cat.label}</td></tr>`;cat.items.forEach(feat=>{const av=FDATA[feat.key];rows+=`<tr data-category="${catKey}" data-feature="${feat.name.toLowerCase()}"><td class="feature-label">${feat.name}</td><td class="cell-center vyve-col">${icon(av[0])}</td>`;COMP_ORDER.forEach((_,i)=>{rows+=`<td class="cell-center">${icon(av[i+1])}</td>`;});rows+='</tr>';});});body.innerHTML=rows;}
+const OBJECTIONS = [
+  {q:'We already have an EAP in place', a:'Great — EAPs are reactive crisis tools. VYVE is proactive wellbeing culture. They answer the crisis call on Friday night; VYVE stops people needing to make that call. Most of our clients run both. Your EAP handles emergencies — VYVE builds the culture that reduces them. Average EAP usage is 3–5% of employees. VYVE targets 60%+ active engagement.', comp:'Health Assured / WPO / Able Futures'},
+  {q:'We can\'t afford wellbeing right now', a:'The cost of doing nothing is £51bn annually to UK employers. Deloitte proves a £5:1 ROI on wellbeing investment. At £5–14pp/pm, VYVE costs less than a round of coffees per employee each month. One prevented resignation or sickness absence pays for 6–12 months. Frame it as: "Can you afford not to?"', comp:'All'},
+  {q:'We use Unmind / we\'re looking at Unmind', a:'Unmind is excellent for mental health analytics in enterprise. VYVE covers Physical, Mental and Social — all three pillars at a lower price point. Unmind starts at £4–8pp/pm for mental health only. VYVE delivers the full picture at £5–14. Plus community events, ambassador programme and our charity pledge — things Unmind simply doesn\'t offer.', comp:'Unmind'},
+  {q:'Headspace / Calm does the job', a:'Headspace and Calm are consumer mindfulness apps with a business bolt-on. They\'re US-built, meditation-focused, and they don\'t offer physical health, community events, ambassador programmes, or a proactive wellbeing calendar. VYVE is purpose-built for UK workplace culture — not an app repackaged for business.', comp:'Headspace / Calm'},
+  {q:'We use Bupa / AXA / Vitality', a:'Brilliant — your insurance covers clinical needs. VYVE is the culture layer that sits alongside it: the proactive wellbeing programme, community events, and daily engagement that insurance doesn\'t touch. Think of it as your health insurance covers the crisis; VYVE builds a workforce where crises happen less often.', comp:'Bupa / AXA / Vitality'},
+  {q:'Reward Gateway already does wellbeing for us', a:'Reward Gateway is a benefits platform — wellbeing is a module add-on, not their core. VYVE is a pure-play wellbeing specialist: deeper content, stronger engagement, community events, an ambassador programme and a charity pledge. Reward Gateway will show you a benefits dashboard. VYVE changes your workplace culture.', comp:'Reward Gateway'},
+  {q:'Champion Health looks similar and is cheaper', a:'Champion is the closest peer — great team. But VYVE has: community in-person events, the 1-in-5 charity pledge (unique in the market), a live ambassador programme driving grassroots uptake, and the Everyman podcast content moat. Champion was also acquired in Feb 2025 — integration risk is real. VYVE is founder-led and focused.', comp:'Champion'},
+  {q:'Everymind is more focused on mental health champions', a:'Everymind\'s proactive champion model is excellent and similar to ours — but they\'re mental health only. VYVE covers Physical, Mental and Social. We also add community events, the charity pledge, and a podcast network Everymind can\'t match. If proactive mental health is the priority, we\'d be natural partners — but VYVE is the broader platform.', comp:'Everymind'},
+  {q:'Our employees don\'t use these platforms — low engagement is always the issue', a:'That\'s exactly why VYVE exists. Traditional platforms have 3–8% engagement. VYVE\'s ambassador programme trains internal champions who drive usage peer-to-peer. The 12-month wellbeing calendar creates consistent touchpoints. Our community events create real human connection. We target 60%+ active engagement — ask us for client case studies.', comp:'All'},
+  {q:'We\'re too small for this', a:'VYVE starts at 10 employees. We\'re purpose-built for SMEs who want enterprise-quality wellbeing without enterprise complexity or cost. Many of our best case studies are sub-50 person teams where culture is everything. The founder still knows every employee\'s name — VYVE helps keep them.', comp:'All'},
+  {q:'We don\'t have a People/HR team to manage this', a:'That\'s why we built the ambassador programme. VYVE trains 1–2 internal wellbeing champions from your team — they handle the culture ownership. We handle the platform, content and events. Your "HR team" for wellbeing is your employees themselves, supported by VYVE.', comp:'All'},
+  {q:'How is this different from Gympass/Wellhub?', a:'Wellhub gives access to gyms. That\'s it. Physical health only, no mental health, no community, no proactive programme. Great for fitness-obsessed teams in cities with gym density. VYVE covers the whole person — Physical, Mental, Social — at comparable price. Many HR leaders run Wellhub for fitness and VYVE for culture.', comp:'Wellhub'},
+  {q:'We already have Nuffield Health corporate', a:'Nuffield is world-class for clinical corporate health — GP access, physio, medical screening. VYVE is the daily engagement layer: the app, events, podcast, community and proactive programme that keeps people well day-to-day. Nuffield is your clinical infrastructure; VYVE is your culture infrastructure. They\'re complementary, not competing.', comp:'Nuffield'},
+  {q:'What\'s the ROI? We need to justify this internally', a:'Deloitte\'s data: £5 return per £1 invested in wellbeing. One prevented sickness absence at UK average salary (£33k) = £2,200 cost to employer. At 100 employees and £8pp/pm, VYVE costs £9,600/year. You need to prevent 4.4 sick days or one long-term absence case to break even. Most clients see 20–30% reduction in sickness rates within 12 months.', comp:'All'},
+  {q:'What makes VYVE better than building our own programme internally?', a:'Most internal programmes live and die on one person\'s energy. When that person leaves, the culture collapses. VYVE systematises it: the platform, content, events calendar, ambassador training, and ongoing support are baked in. You get the benefit of a full wellbeing team at the cost of one part-time hire.', comp:'All'},
+  {q:'We\'re worried about data privacy / GDPR', a:'VYVE is fully GDPR-compliant. Individual data is never shared with employers — your HR team sees aggregated team-level insights only. No individual can be identified. We follow ICO guidance throughout. Happy to share our data processing agreement and security certification at any point.', comp:'All'},
+  {q:'Can we trial it before committing?', a:'Yes — we offer a structured 30-day pilot for teams of 10+. You get full platform access, one community event, the ambassador programme kickoff, and a mid-point engagement review. Most pilots convert to annual contracts. We\'re confident in the product — we\'d rather you experience it than decide without trying it.', comp:'All'},
+  {q:'The CEO doesn\'t see wellbeing as a priority', a:'Share this: 20.5 million working days lost to poor mental health in the UK in 2024. One employee burning out costs 6–9 months salary to replace (recruitment, training, lost productivity). Wellbeing isn\'t HR\'s problem — it\'s a business risk and a retention strategy. The best talent in 2026 will choose their employer partly on wellbeing culture.', comp:'All'},
+  {q:'We\'re going through a restructure — not the right time', a:'Actually, restructures are when wellbeing investment matters most. Survivor syndrome (the anxiety of those who weren\'t let go) drives disengagement and flight risk. VYVE gives you a visible, tangible signal to your retained people: "We\'re investing in you." It\'s one of the most cost-effective retention levers during change.', comp:'All'},
+  {q:'What\'s the implementation burden on our side?', a:'Minimal. Onboarding takes 2 hours for your lead contact. We handle everything: platform setup, employee comms templates, ambassador training, events coordination. Your commitment is a lead champion and 30 minutes a month to review the dashboard. We build it — you take the credit for the culture.', comp:'All'}
+];
 
-function icon(v){if(v==='Y')return '<span class="icon-yes">✓</span>';if(v==='P')return '<span class="icon-partial">◐</span>';return '<span class="icon-no">✗</span>';}
+const NEWS = [
+  {comp:'unmind', name:'Unmind', text:'Raised €30m+ Series C. Released Nova AI mental health agent. 92% YoY usage increase.', date:'Q1 2025', type:'funding'},
+  {comp:'champion', name:'Champion Health', text:'Acquired for up to £10m. Integration risk — watch for talent attrition and roadmap freeze.', date:'Feb 2025', type:'threat'},
+  {comp:'spectrum', name:'Spectrum.Life', text:'Expanded UK sales team. Targeting mid-market aggressively with bundled EAP+digital.', date:'Mar 2025', type:'threat'},
+  {comp:'everymind', name:'Everymind', text:'New NHS partnership announced. Growing mental health champion network in public sector.', date:'Feb 2025', type:'product'},
+  {comp:'koa', name:'Koa Health', text:'New enterprise contracts with major UK retailers. Clinical evidence paper published.', date:'Jan 2025', type:'product'},
+  {comp:'peppy', name:'Peppy Health', text:'Added male health and diabetes pathways. Broadening beyond female-focused offer.', date:'Apr 2025', type:'product'},
+  {comp:'wellhub', name:'Wellhub', text:'UK gym network now exceeds 3,500 locations. Launching digital content layer Q2 2025.', date:'Mar 2025', type:'product'},
+  {comp:'rewardgateway', name:'Reward Gateway', text:'Merged with Edenred UK. Now controls largest employee benefits footprint in UK.', date:'Q4 2024', type:'partnership'}
+];
 
-function filterMatrix(q){document.querySelectorAll('#matrix-body tr:not(.category-row)').forEach(r=>{r.style.display=(r.getAttribute('data-feature')||'').includes(q.toLowerCase())?'':'none';});}
+const TALK_TRACKS = {
+  unmind: 'When they mention Unmind: "Unmind is a great mental health analytics tool for enterprise. But here\'s what VYVE adds that Unmind can\'t: physical health, community events, an in-person ambassador programme, and a charity pledge. Ask your contact at Unmind if they do community events. Then ask if they offer a 1-in-5 charity impact pledge. VYVE does. At comparable or lower per-employee cost."',
+  champion: 'When Champion is in the mix: "Champion is a great platform and the team are strong — I respect what they\'ve built. But since the acquisition in Feb 2025, there\'s genuine uncertainty about roadmap and team continuity. VYVE is founder-led, focused, and building fast. We also have what Champion doesn\'t: community events, the charity pledge, and a podcast content engine. Ask them what happens if the founder leaves post-acquisition."',
+  healthassured: 'When replacing Health Assured: "Health Assured is the UK\'s biggest EAP by volume — not by usage. Their average employee engagement is 3–5%. Ask your HR contact what the usage rate actually is. VYVE\'s target is 60%+ active engagement through the ambassador programme and community events. EAP was the floor. VYVE is the ceiling."',
+  everymind: 'When Everymind is the alternative: "Everymind\'s proactive champion model is genuinely excellent — philosophically similar to VYVE. The difference: they\'re mental health only. VYVE covers Physical, Mental and Social. We also have in-person community events, a podcast network, and the 1-in-5 charity pledge. If they want mental health champions plus everything else, VYVE is the complete answer."',
+  default: 'Open with the VYVE wedge: "Most wellbeing platforms are reactive — they help after the crisis. VYVE is proactive: we build the culture that prevents crisis. Physical, Mental and Social health in one platform, at SME price, with community events and a charity pledge no competitor matches. Let me show you what 60% employee engagement looks like vs the 4% industry average."'
+};
 
-function filterCategory(cat,btn){document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');document.querySelectorAll('#matrix-body tr').forEach(r=>{r.style.display=cat==='all'?'':r.getAttribute('data-category')===cat?'':'none';});}
+const WIN_STATEMENTS = {
+  unmind:'Physical + community pillars · charity mission · SME pricing · in-person events',
+  headspace:'UK-first · all 3 pillars · proactive calendar · community · charity pledge',
+  calm:'Clinical depth · physical health · community · ambassador programme · charity',
+  bupa:'Price (£5–14 vs £15–40) · community-led · proactive model · SME accessible',
+  axa:'Simpler procurement · SME-accessible · community · proactive culture programme',
+  vitality:'Mental health depth · community · proactive calendar · full price coverage',
+  wpo:'Proactive model · community events · UK identity · engagement and content',
+  healthassured:'Proactive vs reactive · community · physical + mental + social · engagement',
+  rewardgateway:'Pure-play wellbeing depth · community events · charity mission · ambassador',
+  wellhub:'Mental + social pillars · community · charity · proactive programme',
+  classpass:'Price · mental health · community · proactive calendar · UK-first',
+  ablefutures:'Digital depth · physical + social pillars · community engagement',
+  koa:'Engagement · community · breadth · events · mission · UK brand',
+  thrive:'Physical + community pillars · in-person events · podcast · ambassador',
+  peppy:'Always-on breadth · physical + social · community · charity pledge',
+  champion:'Community events · charity pledge · ambassador programme · podcast',
+  nuffield:'Price (£5–14 vs £20–60) · digital-first · community · proactive vs clinical',
+  everymind:'Physical + social pillars · community events · charity · content creator model',
+  spectrum:'Community events · charity pledge · podcast · UK-first · ambassador programme'
+};
 
-function renderProfiles(){const grid=document.getElementById('profiles-grid');COMPS.forEach(c=>{const mb=c.match?`<span class="comp-match ${c.matchType==='closest'?'match-closest':'match-close'}">⚡ ${c.match}% Feature Overlap</span>`:'';const wins={unmind:'Physical + community pillars · charity mission · SME pricing · in-person events',headspace:'UK-first · all 3 pillars · proactive calendar · community · charity pledge',calm:'Clinical depth · physical health · community · ambassador programme',bupa:'Price (£5–14 vs £15–40) · community-led · proactive model · SME-accessible',axa:'Simpler procurement · SME-accessible · community · proactive culture programme',vitality:'Mental health depth · community · proactive calendar · price advantage',wpo:'Proactive model · community events · UK identity · engagement and content',healthassured:'Proactive vs reactive · community · physical + mental + social · engagement',rewardgateway:'Pure-play wellbeing depth · community events · charity mission',wellhub:'Mental + social pillars · community · charity · proactive programme',classpass:'Price · mental health · community · proactive calendar · UK-first',ablefutures:'Digital depth · physical + social pillars · community engagement',koa:'Engagement · community · breadth · events · mission',thrive:'Physical + community pillars · events · podcast · ambassador programme',peppy:'Always-on breadth · physical + social · community · charity pledge',champion:'Community events · charity pledge · ambassador programme · podcast',nuffield:'Price (£5–14 vs £20–60) · digital-first · community · proactive model',everymind:'Physical + social pillars · community events · charity · content creator model',spectrum:'Community events · charity pledge · podcast · UK-first identity'};grid.innerHTML+=`<div class="profile-card" id="profile-${c.id}"><div class="profile-header"><div><div class="profile-name">${c.name}</div><div class="profile-tagline">${c.tagline}</div></div><div>${mb}</div></div><div class="profile-body"><div class="profile-section"><h4>Intelligence</h4><div class="info-row"><span class="info-label">Segment</span><span class="info-val">${c.segment}</span></div><div class="info-row"><span class="info-label">HQ</span><span class="info-val">${c.hq}</span></div><div class="info-row"><span class="info-label">Revenue</span><span class="info-val">${c.revenue}</span></div><div class="info-row"><span class="info-label">Users</span><span class="info-val">${c.users}</span></div><div class="info-row"><span class="info-label">Price pp/pm</span><span class="info-val">${c.price}</span></div><div class="info-row"><span class="info-label">Category</span><span class="info-val">${c.category}</span></div><div class="threat-bar" style="margin-top:12px;"><div class="threat-label"><span>Threat to VYVE</span><span>${c.threat}%</span></div><div class="threat-track"><div class="threat-fill" style="width:${c.threat}%"></div></div></div></div><div class="profile-section"><h4>Their Strengths</h4><ul>${c.strengths.map(s=>`<li>${s}</li>`).join('')}</ul><h4 style="margin-top:16px;">Their Weaknesses</h4><ul>${c.weaknesses.map(w=>`<li>${w}</li>`).join('')}</ul></div><div class="profile-section"><h4>VYVE Sales Intel</h4><p>${c.notes}</p><div class="vyve-win"><strong>VYVE Wins Because:</strong>${wins[c.id]||'Proactive model · all 3 pillars · community · charity'}</div></div></div></div>`;});}
+const COUNTER_PITCHES = {
+  unmind:[
+    {weakness:'No physical health pillar', pitch:'VYVE covers Physical, Mental and Social — Unmind is mental-only. Ask your workforce if they want a gym plan included. VYVE delivers it.'},
+    {weakness:'Enterprise pricing not SME-friendly', pitch:'Unmind targets enterprise at £4–8pp/pm for mental health alone. VYVE covers all three pillars at £5–14pp/pm total. Better value at SME scale.'},
+    {weakness:'No community or in-person layer', pitch:'VYVE runs quarterly community events, Forest Hall FC partnership, charity fundraising. Unmind\'s community is a digital forum. Ours is real-world human connection.'},
+    {weakness:'No charity pledge', pitch:'VYVE\'s 1-in-5 pledge gives free wellbeing to community members for every 5 paid employees. Unmind has no social mission. That CSR angle resonates with purpose-driven buyers.'}
+  ],
+  champion:[
+    {weakness:'No community events or charity pledge', pitch:'Champion doesn\'t run in-person events or have a charity mission. These are VYVE\'s most differentiating features — and what buyers remember in competitive reviews.'},
+    {weakness:'Recently acquired — integration risk', pitch:'Champion was acquired Feb 2025. Acquisitions create roadmap uncertainty, team attrition, and culture shifts. VYVE is founder-led, independent, and moving fast.'},
+    {weakness:'No ambassador programme', pitch:'VYVE\'s ambassador programme trains internal champions who drive grassroots engagement. Champion has no equivalent. This is what converts VYVE from a product to a culture movement.'},
+    {weakness:'No podcast / content creator model', pitch:'The Everyman podcast and speaker bureau give VYVE a content moat Champion can\'t replicate. Real experts, lived experience — not branded library content.'}
+  ],
+  healthassured:[
+    {weakness:'Reactive crisis support only', pitch:'Health Assured answers the crisis call. VYVE stops people needing to make it. Proactive vs reactive — the difference between a smoke alarm and a sprinkler system.'},
+    {weakness:'Low engagement — 3–5% average', pitch:'VYVE targets 60%+ active engagement through the ambassador programme and community events. Ask your HR team what the Health Assured usage rate actually is.'},
+    {weakness:'No physical, community or social pillars', pitch:'Health Assured is a helpline and counselling service. VYVE covers Physical, Mental, Social and Community. The breadth difference is total.'}
+  ],
+  default:[
+    {weakness:'Reactive model', pitch:'VYVE is proactive — a 12-month wellbeing calendar, ambassador programme, and community events that build culture before crisis hits.'},
+    {weakness:'Narrow pillar coverage', pitch:'VYVE covers Physical, Mental and Social health in one platform. Most competitors serve one or two pillars at most.'},
+    {weakness:'No community layer', pitch:'VYVE\'s in-person events, charity pledge and ambassador programme create real human connection that pure-digital platforms cannot replicate.'}
+  ]
+};
 
-function filterProfiles(q){document.querySelectorAll('.profile-card').forEach(c=>{c.style.display=c.innerText.toLowerCase().includes(q.toLowerCase())?'':'none';});}
+const PRICING_DATA = [
+  {name:'VYVE', min:5, max:14, highlight:true},
+  {name:'Unmind', min:4, max:8},{name:'Headspace', min:5, max:12},{name:'Calm', min:4, max:10},
+  {name:'Champion', min:3, max:8},{name:'Everymind', min:3, max:6},{name:'Spectrum', min:3, max:7},
+  {name:'Thrive', min:2, max:5},{name:'H.Assured', min:1, max:4},{name:'Reward GW', min:2, max:8},
+  {name:'Koa', min:3, max:8},{name:'Peppy', min:4, max:10},{name:'Wellhub', min:10, max:30},
+  {name:'Bupa', min:15, max:40},{name:'AXA', min:20, max:50},{name:'Vitality', min:25, max:60},
+  {name:'Nuffield', min:20, max:60},{name:'ClassPass', min:20, max:50}
+];
 
-function openProfile(id){switchTab('profiles');setTimeout(()=>{const el=document.getElementById('profile-'+id);if(el)el.scrollIntoView({behavior:'smooth',block:'start'});},100);}
+const QUAD_DOTS = [];
 
-function renderPricingChart(){const container=document.getElementById('pricing-chart');const data=[{name:'VYVE',min:5,max:14,h:true},{name:'Unmind',min:4,max:8},{name:'Headspace',min:5,max:12},{name:'Calm',min:4,max:10},{name:'Champion',min:3,max:8},{name:'Everymind',min:3,max:6},{name:'Spectrum',min:3,max:7},{name:'Thrive',min:2,max:5},{name:'H.Assured',min:1,max:4},{name:'Reward GW',min:2,max:8},{name:'Koa',min:3,max:8},{name:'Peppy',min:4,max:10},{name:'Wellhub',min:10,max:30},{name:'Bupa',min:15,max:40},{name:'AXA',min:20,max:50},{name:'Vitality',min:25,max:60},{name:'Nuffield',min:20,max:60}];const max=65;let html='<div style="margin-top:8px;">';data.forEach(d=>{const l=(d.min/max)*100,w=((d.max-d.min)/max)*100,col=d.h?'var(--mint)':'var(--teal)';html+=`<div style="display:flex;align-items:center;margin-bottom:6px;"><div style="width:80px;font-size:10px;color:${d.h?'var(--mint)':'var(--muted)'};font-weight:${d.h?700:400};flex-shrink:0;">${d.name}</div><div style="flex:1;position:relative;height:10px;background:var(--surface);border-radius:4px;"><div style="position:absolute;left:${l}%;width:${w}%;height:100%;background:${col};border-radius:4px;opacity:${d.h?1:0.7};"></div></div><div style="width:60px;text-align:right;font-size:10px;color:var(--muted);padding-left:8px;">£${d.min}–${d.max}</div></div>`;});html+='<div style="display:flex;margin-top:4px;"><div style="width:80px;"></div><div style="flex:1;display:flex;justify-content:space-between;font-size:9px;color:var(--muted)"><span>£0</span><span>£20</span><span>£40</span><span>£60</span></div></div></div>';container.innerHTML=html;}
 
-function renderQuadrant(){const canvas=document.getElementById('quadrant-canvas');if(!canvas)return;const ctx=canvas.getContext('2d');const W=canvas.width,H=canvas.height,pad={l:60,r:20,t:30,b:50},pw=W-pad.l-pad.r,ph=H-pad.t-pad.b;ctx.fillStyle='#131f2b';ctx.fillRect(0,0,W,H);ctx.strokeStyle='rgba(94,196,176,0.15)';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(pad.l+pw/2,pad.t);ctx.lineTo(pad.l+pw/2,pad.t+ph);ctx.stroke();ctx.beginPath();ctx.moveTo(pad.l,pad.t+ph/2);ctx.lineTo(pad.l+pw,pad.t+ph/2);ctx.stroke();ctx.fillStyle='rgba(94,196,176,0.4)';ctx.font='10px sans-serif';ctx.textAlign='center';ctx.fillText('NICHE / CHEAP',pad.l+pw*0.25,pad.t+ph*0.85);ctx.fillText('BROAD / CHEAP ← VYVE ZONE',pad.l+pw*0.75,pad.t+ph*0.85);ctx.fillText('NICHE / EXPENSIVE',pad.l+pw*0.25,pad.t+18);ctx.fillText('BROAD / EXPENSIVE',pad.l+pw*0.75,pad.t+18);ctx.fillStyle='rgba(138,172,172,0.7)';ctx.font='11px sans-serif';ctx.textAlign='center';ctx.fillText('← Narrow    Feature Breadth    Broad →',pad.l+pw/2,H-10);ctx.save();ctx.translate(14,pad.t+ph/2);ctx.rotate(-Math.PI/2);ctx.fillText('↑ Expensive   Price   Cheap ↓',0,0);ctx.restore();const pts=[['VYVE',72,65,true],['Unmind',50,70,false],['H.Space',35,65,false],['Calm',20,72,false],['Champion',65,72,false],['Everymind',45,74,false],['Spectrum',52,73,false],['Thrive',40,78,false],['H.Assured',20,80,false],['Reward GW',38,77,false],['Koa',35,72,false],['Peppy',30,70,false],['Bupa',80,30,false],['AXA',68,22,false],['Vitality',60,18,false],['Nuffield',72,15,false],['Wellhub',40,45,false],['ClassPass',22,20,false],['WPO',30,88,false],['Able F.',22,80,false]];pts.forEach(([name,breadth,cheap,isVyve])=>{const x=pad.l+(breadth/100)*pw,y=pad.t+((100-cheap)/100)*ph,r=isVyve?10:6;ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);ctx.fillStyle=isVyve?'#5ec4b0':'rgba(26,107,107,0.8)';ctx.fill();if(isVyve){ctx.strokeStyle='#7dd4c4';ctx.lineWidth=2;ctx.stroke();}ctx.fillStyle=isVyve?'#5ec4b0':'rgba(138,172,172,0.8)';ctx.font=isVyve?'bold 11px sans-serif':'9px sans-serif';ctx.textAlign='center';ctx.fillText(name,x,y-r-3);});}
+// ============ RENDER OVERVIEW ============
+function renderOverview() {
+  const grid = document.getElementById('comp-grid');
+  COMPS.forEach(c => {
+    const mb = c.match ? `<span class="comp-match ${c.matchType==='closest'?'match-closest':'match-close'}">⚡ ${c.match}%</span>` : '';
+    grid.innerHTML += `<div class="comp-card ${c.matchType}" onclick="openProfile('${c.id}')">
+      <div class="comp-header"><div class="comp-name">${c.name}</div>${mb}</div>
+      <div class="comp-meta"><span class="tag">${c.segment}</span><span class="tag">${c.hq}</span><span class="tag">${c.category}</span></div>
+      <div class="comp-stats">
+        <div class="comp-stat"><div class="cs-label">Revenue</div><div class="cs-val">${c.revenue}</div></div>
+        <div class="comp-stat"><div class="cs-label">Price pp/pm</div><div class="cs-val">${c.price}</div></div>
+      </div>
+      <div class="comp-desc">${c.tagline}</div>
+    </div>`;
+  });
+}
 
-function switchTab(id){document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));document.getElementById('tab-'+id).classList.add('active');const map={overview:0,matrix:1,profiles:2,market:3,advantage:4};document.querySelectorAll('.nav-btn')[map[id]].classList.add('active');window.scrollTo({top:0,behavior:'smooth'});}
+function renderWatchlist() {
+  const sorted = [...COMPS].sort((a,b) => b.threat - a.threat).slice(0,5);
+  const el = document.getElementById('watchlist');
+  el.innerHTML = sorted.map((c,i) => {
+    const trendIcon = c.threatTrend==='up' ? '<span class="trend-up">↑ Rising</span>' : c.threatTrend==='down' ? '<span class="trend-down">↓ Easing</span>' : '<span class="trend-same">→ Stable</span>';
+    const col = c.threat >= 65 ? 'var(--danger)' : c.threat >= 50 ? 'var(--amber)' : 'var(--mint)';
+    return `<div class="threat-item">
+      <div class="threat-rank">${i+1}</div>
+      <div class="threat-info"><div class="threat-name">${c.name}</div><div class="threat-cat">${c.category}</div></div>
+      <div class="threat-score-wrap"><div class="threat-pct" style="color:${col}">${c.threat}%</div><div style="font-size:10px;">${trendIcon}</div></div>
+    </div>`;
+  }).join('');
+}
 
-window.addEventListener('scroll',()=>{document.getElementById('scroll-top').classList.toggle('visible',window.scrollY>400);});
+function renderNewsFeed() {
+  const el = document.getElementById('news-feed');
+  el.innerHTML = NEWS.map(n => `<div class="news-item">
+    <div class="news-dot dot-${n.type}"></div>
+    <div class="news-content">
+      <div class="news-comp">${n.name}</div>
+      <div class="news-text">${n.text}</div>
+      <div class="news-date">${n.date} · ${n.type.charAt(0).toUpperCase()+n.type.slice(1)}</div>
+    </div>
+  </div>`).join('');
+}
 
-renderOverview();renderMatrix();renderProfiles();renderPricingChart();renderQuadrant();
+// ============ RENDER MATRIX ============
+function renderMatrix() {
+  const head = document.getElementById('matrix-head');
+  const body = document.getElementById('matrix-body');
+  let th = '<tr><th class="feature-label">Feature</th><th class="comp-col" style="background:rgba(94,196,176,0.2);color:var(--mint)">VYVE</th>';
+  COMP_ORDER.forEach(id => { const c = COMPS.find(x=>x.id===id); th += `<th class="comp-col">${c.name.replace(' for Work','').replace(' Health','').replace(' at Work','')}</th>`; });
+  head.innerHTML = th + '</tr>';
+  let rows = '';
+  Object.entries(FEATURES).forEach(([catKey, cat]) => {
+    rows += `<tr class="category-row" data-category="${catKey}"><td colspan="${COMP_ORDER.length+2}">${cat.label}</td></tr>`;
+    cat.items.forEach(feat => {
+      const vals = FDATA[feat.key];
+      rows += `<tr data-category="${catKey}" data-feature="${feat.name.toLowerCase()}">
+        <td class="feature-label">${feat.name}</td>
+        <td class="cell-center vyve-col">${icon(vals[0])}</td>
+        ${COMP_ORDER.map((_,i)=>`<td class="cell-center">${icon(vals[i+1])}</td>`).join('')}
+      </tr>`;
+    });
+  });
+  body.innerHTML = rows;
+}
+
+function icon(v) {
+  if(v==='Y') return '<span class="icon-yes">✓</span>';
+  if(v==='P') return '<span class="icon-partial">◐</span>';
+  return '<span class="icon-no">✗</span>';
+}
+
+function filterMatrix(q) {
+  document.querySelectorAll('#matrix-body tr:not(.category-row)').forEach(r => {
+    r.style.display = (r.getAttribute('data-feature')||'').includes(q.toLowerCase()) ? '' : 'none';
+  });
+}
+
+function filterCategory(cat, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('#matrix-body tr').forEach(r => {
+    r.style.display = cat==='all' || r.getAttribute('data-category')===cat ? '' : 'none';
+  });
+}
+
+// ============ RENDER PROFILES ============
+function renderProfiles() {
+  const grid = document.getElementById('profiles-grid');
+  COMPS.forEach(c => {
+    const mb = c.match ? `<span class="comp-match ${c.matchType==='closest'?'match-closest':'match-close'}">⚡ ${c.match}% Overlap</span>` : '';
+    grid.innerHTML += `<div class="profile-card" id="profile-${c.id}">
+      <div class="profile-header">
+        <div><div class="profile-name">${c.name}</div><div class="profile-tagline">${c.tagline}</div></div>
+        <div class="profile-header-right">${mb}<button class="btn-battle" onclick="openBattleCard('${c.id}')">🃏 Battle Card</button></div>
+      </div>
+      <div class="profile-body">
+        <div class="profile-section">
+          <h4>📊 Intelligence</h4>
+          <div class="info-row"><span class="info-label">Segment</span><span class="info-val">${c.segment}</span></div>
+          <div class="info-row"><span class="info-label">HQ</span><span class="info-val">${c.hq}</span></div>
+          <div class="info-row"><span class="info-label">Revenue</span><span class="info-val">${c.revenue}</span></div>
+          <div class="info-row"><span class="info-label">Est. Users</span><span class="info-val">${c.users}</span></div>
+          <div class="info-row"><span class="info-label">Price pp/pm</span><span class="info-val">${c.price}</span></div>
+          <div class="info-row"><span class="info-label">Category</span><span class="info-val">${c.category}</span></div>
+          <div class="threat-bar" style="margin-top:10px;">
+            <div class="threat-label"><span>Threat to VYVE</span><span>${c.threat}%</span></div>
+            <div class="threat-track"><div class="threat-fill" style="width:${c.threat}%"></div></div>
+          </div>
+        </div>
+        <div class="profile-section">
+          <h4>💪 Strengths</h4>
+          <ul>${c.strengths.map(s=>`<li>${s}</li>`).join('')}</ul>
+          <h4 style="margin-top:14px;">⚠️ Weaknesses</h4>
+          <ul>${c.weaknesses.map(w=>`<li>${w}</li>`).join('')}</ul>
+        </div>
+        <div class="profile-section">
+          <h4>🎯 VYVE Sales Intel</h4>
+          <p>${c.notes}</p>
+          <div class="vyve-win"><strong>🏆 VYVE Wins Because:</strong>${WIN_STATEMENTS[c.id]||'Proactive model · all 3 pillars · community · charity pledge'}</div>
+        </div>
+      </div>
+    </div>`;
+  });
+}
+
+function filterProfiles(q) {
+  document.querySelectorAll('.profile-card').forEach(c => {
+    c.style.display = c.innerText.toLowerCase().includes(q.toLowerCase()) ? '' : 'none';
+  });
+}
+
+function openProfile(id) {
+  switchTab('profiles');
+  setTimeout(() => { const el = document.getElementById('profile-'+id); if(el) el.scrollIntoView({behavior:'smooth',block:'start'}); }, 100);
+}
+
+// ============ BATTLE CARD ============
+function openBattleCard(id) {
+  const c = COMPS.find(x=>x.id===id);
+  if(!c) return;
+  const pitches = COUNTER_PITCHES[id] || COUNTER_PITCHES.default;
+  const track = TALK_TRACKS[id] || TALK_TRACKS.default;
+  const modal = document.getElementById('battle-modal');
+  document.getElementById('battle-inner').innerHTML = `
+    <div class="battle-header">
+      <div><h2>🃏 Battle Card: ${c.name}</h2><div class="bh-sub">${c.category} · ${c.segment} · ${c.price}pp/pm · Threat: ${c.threat}%</div></div>
+      <div class="battle-actions">
+        <button class="btn-print" onclick="window.print()">🖨️ Print</button>
+        <button class="btn-close-modal" onclick="closeBattleCard()">✕</button>
+      </div>
+    </div>
+    <div class="battle-body">
+      <div class="battle-grid">
+        <div class="battle-section">
+          <h4>💪 Their Strengths (Know These)</h4>
+          <ul>${c.strengths.map(s=>`<li>${s}</li>`).join('')}</ul>
+        </div>
+        <div class="battle-section">
+          <h4>⚠️ Their Weaknesses (Attack Here)</h4>
+          <ul>${c.weaknesses.map(w=>`<li>${w}</li>`).join('')}</ul>
+        </div>
+      </div>
+      <div class="battle-section" style="margin-bottom:16px;">
+        <h4>🎯 Counter-Pitches — Weakness by Weakness</h4>
+        ${pitches.map(p=>`<div class="counter-item"><div class="counter-weakness">❌ Their weakness: ${p.weakness}</div><div class="counter-pitch">✅ VYVE response: ${p.pitch}</div></div>`).join('')}
+      </div>
+      <div class="battle-section" style="margin-bottom:16px;">
+        <h4>📊 Quick Stats Comparison</h4>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+          <div style="background:var(--card);border-radius:8px;padding:12px;border-left:3px solid var(--mint);">
+            <div style="font-size:10px;color:var(--mint);font-weight:700;text-transform:uppercase;margin-bottom:6px;">VYVE</div>
+            <div style="font-size:12px;color:var(--muted-light);">£5–14pp/pm · Physical + Mental + Social · UK-first · Charity pledge · Community events · Ambassador programme</div>
+          </div>
+          <div style="background:var(--card);border-radius:8px;padding:12px;border-left:3px solid var(--amber);">
+            <div style="font-size:10px;color:var(--amber);font-weight:700;text-transform:uppercase;margin-bottom:6px;">${c.name}</div>
+            <div style="font-size:12px;color:var(--muted-light);">${c.price}pp/pm · ${c.category} · ${c.hq} · ${c.users} users · ${c.revenue} revenue</div>
+          </div>
+        </div>
+      </div>
+      <div class="talk-track"><h4>🗣️ Opening Talk Track</h4><p>${track}</p></div>
+      <div style="margin-top:16px;padding:14px;background:rgba(94,196,176,0.08);border-radius:10px;border:1px solid rgba(94,196,176,0.2);">
+        <div style="font-size:10px;color:var(--mint);font-weight:700;text-transform:uppercase;margin-bottom:6px;">🏆 VYVE Wins Because:</div>
+        <div style="font-size:13px;color:var(--text);">${WIN_STATEMENTS[id]||'Proactive model · all 3 pillars · community · charity pledge'}</div>
+      </div>
+    </div>`;
+  modal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeBattleCard() {
+  document.getElementById('battle-modal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// ============ PRICING CHART ============
+function renderPricingChart() {
+  const max = 65;
+  let html = '<div style="margin-top:8px;">';
+  PRICING_DATA.forEach(d => {
+    const lp = (d.min/max)*100, wp = ((d.max-d.min)/max)*100;
+    const col = d.highlight ? 'var(--mint)' : 'var(--teal)';
+    html += `<div style="display:flex;align-items:center;margin-bottom:5px;">
+      <div style="width:76px;font-size:10px;color:${d.highlight?'var(--mint)':'var(--muted)'};font-weight:${d.highlight?'700':'400'};flex-shrink:0;">${d.name}</div>
+      <div style="flex:1;position:relative;height:9px;background:var(--surface);border-radius:3px;">
+        <div style="position:absolute;left:${lp}%;width:${wp}%;height:100%;background:${col};border-radius:3px;opacity:${d.highlight?1:0.7};"></div>
+      </div>
+      <div style="width:56px;text-align:right;font-size:10px;color:var(--muted);padding-left:6px;">£${d.min}–${d.max}</div>
+    </div>`;
+  });
+  html += '<div style="display:flex;align-items:center;margin-top:4px;"><div style="width:76px;"></div><div style="flex:1;display:flex;justify-content:space-between;font-size:9px;color:var(--muted)"><span>£0</span><span>£20</span><span>£40</span><span>£60</span></div></div></div>';
+  document.getElementById('pricing-chart').innerHTML = html;
+}
+
+// ============ INTERACTIVE QUADRANT ============
+function renderQuadrant() {
+  const canvas = document.getElementById('quadrant-canvas');
+  if(!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  const pad = {l:60,r:20,t:30,b:50};
+  const pw = W-pad.l-pad.r, ph = H-pad.t-pad.b;
+  QUAD_DOTS.length = 0;
+
+  ctx.fillStyle = '#131f2b'; ctx.fillRect(0,0,W,H);
+  ctx.strokeStyle = 'rgba(94,196,176,0.15)'; ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.moveTo(pad.l+pw/2,pad.t); ctx.lineTo(pad.l+pw/2,pad.t+ph); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(pad.l,pad.t+ph/2); ctx.lineTo(pad.l+pw,pad.t+ph/2); ctx.stroke();
+  ctx.fillStyle='rgba(94,196,176,0.3)'; ctx.font='10px sans-serif'; ctx.textAlign='center';
+  ctx.fillText('NICHE / CHEAP',pad.l+pw*0.25,pad.t+ph*0.9);
+  ctx.fillText('BROAD / CHEAP ← VYVE ZONE',pad.l+pw*0.75,pad.t+ph*0.9);
+  ctx.fillText('NICHE / EXPENSIVE',pad.l+pw*0.25,pad.t+15);
+  ctx.fillText('BROAD / EXPENSIVE',pad.l+pw*0.75,pad.t+15);
+  ctx.fillStyle='rgba(138,172,172,0.7)'; ctx.font='11px sans-serif';
+  ctx.textAlign='center'; ctx.fillText('← Narrow   Feature Breadth   Broad →',pad.l+pw/2,H-8);
+  ctx.save(); ctx.translate(14,pad.t+ph/2); ctx.rotate(-Math.PI/2);
+  ctx.fillText('↑ Expensive   Price   Cheap ↓',0,0); ctx.restore();
+
+  const pts = [
+    {id:'vyve',name:'VYVE',bx:72,by:65,isVyve:true},
+    {id:'unmind',name:'Unmind',bx:50,by:70},{id:'headspace',name:'H.Space',bx:35,by:65},
+    {id:'calm',name:'Calm',bx:20,by:72},{id:'champion',name:'Champion',bx:65,by:72},
+    {id:'everymind',name:'Everymind',bx:45,by:74},{id:'spectrum',name:'Spectrum',bx:52,by:73},
+    {id:'thrive',name:'Thrive',bx:40,by:78},{id:'healthassured',name:'H.Assured',bx:20,by:80},
+    {id:'rewardgateway',name:'Reward GW',bx:38,by:77},{id:'koa',name:'Koa',bx:35,by:72},
+    {id:'peppy',name:'Peppy',bx:30,by:70},{id:'bupa',name:'Bupa',bx:80,by:30},
+    {id:'axa',name:'AXA',bx:68,by:22},{id:'vitality',name:'Vitality',bx:60,by:18},
+    {id:'nuffield',name:'Nuffield',bx:72,by:15},{id:'wellhub',name:'Wellhub',bx:40,by:45},
+    {id:'classpass',name:'ClassPass',bx:22,by:20},{id:'wpo',name:'WPO',bx:30,by:88},
+    {id:'ablefutures',name:'Able F.',bx:22,by:80}
+  ];
+
+  pts.forEach(p => {
+    const x = pad.l+(p.bx/100)*pw;
+    const y = pad.t+((100-p.by)/100)*ph;
+    const r = p.isVyve?10:6;
+    ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2);
+    ctx.fillStyle = p.isVyve ? '#5ec4b0' : 'rgba(26,107,107,0.85)'; ctx.fill();
+    if(p.isVyve){ctx.strokeStyle='#7dd4c4';ctx.lineWidth=2;ctx.stroke();}
+    ctx.fillStyle = p.isVyve?'#5ec4b0':'rgba(168,200,200,0.9)';
+    ctx.font = p.isVyve?'bold 11px sans-serif':'9px sans-serif';
+    ctx.textAlign='center';
+    ctx.fillText(p.name,x,y-r-3);
+    QUAD_DOTS.push({id:p.id,x,y,r});
+  });
+
+  canvas.onclick = function(e) {
+    const rect = canvas.getBoundingClientRect();
+    const scaleX = canvas.width/rect.width;
+    const mx = (e.clientX-rect.left)*scaleX;
+    const my = (e.clientY-rect.top)*(canvas.height/rect.height);
+    for(const dot of QUAD_DOTS) {
+      if(Math.hypot(mx-dot.x,my-dot.y) <= dot.r+6) {
+        if(dot.id==='vyve') return;
+        openDrawer(dot.id); return;
+      }
+    }
+  };
+}
+
+function openDrawer(id) {
+  const c = COMPS.find(x=>x.id===id);
+  if(!c) return;
+  const dc = document.getElementById('drawer-content');
+  dc.innerHTML = `
+    <div class="drawer-header">
+      <div><div class="drawer-name">${c.name}</div><div class="drawer-tagline">${c.tagline}</div></div>
+      <button class="btn-close-drawer" onclick="closeDrawer()">✕</button>
+    </div>
+    <div class="drawer-body">
+      <div class="drawer-section">
+        <h4>📊 Quick Stats</h4>
+        <div class="info-row"><span class="info-label">Segment</span><span class="info-val">${c.segment}</span></div>
+        <div class="info-row"><span class="info-label">Revenue</span><span class="info-val">${c.revenue}</span></div>
+        <div class="info-row"><span class="info-label">Users</span><span class="info-val">${c.users}</span></div>
+        <div class="info-row"><span class="info-label">Price pp/pm</span><span class="info-val">${c.price}</span></div>
+        <div class="threat-bar" style="margin-top:8px;">
+          <div class="threat-label"><span>Threat Score</span><span>${c.threat}%</span></div>
+          <div class="threat-track"><div class="threat-fill" style="width:${c.threat}%"></div></div>
+        </div>
+      </div>
+      <div class="drawer-section">
+        <h4>⚠️ Key Weaknesses</h4>
+        <ul>${c.weaknesses.map(w=>`<li>${w}</li>`).join('')}</ul>
+      </div>
+      <div class="drawer-section">
+        <h4>🎯 VYVE Intel</h4>
+        <p>${c.notes}</p>
+      </div>
+      <div class="vyve-win"><strong>🏆 VYVE Wins:</strong>${WIN_STATEMENTS[c.id]||'Proactive model · all 3 pillars · community · charity pledge'}</div>
+      <button class="drawer-btn-battle" onclick="closeDrawer();openBattleCard('${c.id}')">🃏 Open Full Battle Card</button>
+    </div>`;
+  document.getElementById('drawer-bg').classList.add('open');
+  document.getElementById('comp-drawer').classList.add('open');
+}
+
+function closeDrawer() {
+  document.getElementById('drawer-bg').classList.remove('open');
+  document.getElementById('comp-drawer').classList.remove('open');
+}
+
+// ============ WHITESPACE MAP ============
+function renderWhitespaceMap() {
+  const segments = ['Micro (1–49)','SME (50–249)','Mid (250–999)','Enterprise (1k+)'];
+  const pillars = [
+    {label:'Physical', data:['ws-strong','ws-unique','ws-contested','ws-weak'], icons:['🟢','🟢','🟡','🔴'], notes:['Workouts+nutrition','Core VYVE strength','Wellhub competes','Big players dominate']},
+    {label:'Mental', data:['ws-strong','ws-unique','ws-contested','ws-weak'], icons:['🟢','🟢','🟡','🔴'], notes:['Thrive/H.Assured low','VYVE proactive edge','Unmind+Champion','Unmind/Headspace']},
+    {label:'Social & Community', data:['ws-unique','ws-unique','ws-unique','ws-contested'], icons:['🟢','🟢','🟢','🟡'], notes:['VYVE only at price','Unique market pos.','No real competitor','Reward GW partial']},
+    {label:'Charity Mission', data:['ws-unique','ws-unique','ws-unique','ws-unique'], icons:['🟢','🟢','🟢','🟢'], notes:['Zero competitors','Zero competitors','Zero competitors','Zero competitors']},
+    {label:'In-person Events', data:['ws-unique','ws-unique','ws-strong','ws-contested'], icons:['🟢','🟢','🟢','🟡'], notes:['Zero competitors','Zero competitors','Nuffield/Bupa basic','Enterprise budget']}
+  ];
+  let html = '<div class="ws-header"></div>';
+  segments.forEach(s => { html += `<div class="ws-header">${s}</div>`; });
+  pillars.forEach(p => {
+    html += `<div class="ws-label">${p.label}</div>`;
+    p.data.forEach((cls,i) => {
+      html += `<div class="ws-cell ${cls}"><span class="ws-icon">${p.icons[i]}</span><span>${p.notes[i]}</span></div>`;
+    });
+  });
+  document.getElementById('whitespace-grid').innerHTML = html;
+}
+
+// ============ PRICING CALCULATOR ============
+function updateCalc() {
+  const emp = parseInt(document.getElementById('emp-count').value)||100;
+  const comps = [
+    {name:'VYVE', min:5, max:14, highlight:true},
+    {name:'Unmind', min:4, max:8},{name:'Champion', min:3, max:8},
+    {name:'Everymind', min:3, max:6},{name:'Thrive', min:2, max:5},
+    {name:'Bupa', min:15, max:40},{name:'AXA', min:20, max:50},
+    {name:'Wellhub', min:10, max:30},{name:'H.Assured', min:1, max:4}
+  ];
+  document.getElementById('calc-results').innerHTML = comps.map(c => {
+    const lo = (c.min*emp*12).toLocaleString('en-GB',{style:'currency',currency:'GBP',maximumFractionDigits:0});
+    const hi = (c.max*emp*12).toLocaleString('en-GB',{style:'currency',currency:'GBP',maximumFractionDigits:0});
+    return `<div class="calc-item ${c.highlight?'vyve-highlight':''}">
+      <div class="ci-name">${c.highlight?'⚡ '+c.name:c.name}</div>
+      <div class="ci-cost">${lo}–${hi}</div>
+      <div class="ci-range">/yr · ${emp} employees</div>
+    </div>`;
+  }).join('');
+}
+
+// ============ OBJECTION LIBRARY ============
+function renderObjections() {
+  renderObjList(OBJECTIONS);
+}
+
+function renderObjList(list) {
+  document.getElementById('objections-list').innerHTML = list.map((o,i) => `
+    <div class="obj-item" id="obj-${i}">
+      <div class="obj-question" onclick="toggleObj(${i})">
+        <span>${o.q}</span>
+        <span class="obj-arrow">▼</span>
+      </div>
+      <div class="obj-answer">
+        <div class="obj-comp">Common when vs: ${o.comp}</div>
+        ${o.a}
+      </div>
+    </div>`).join('');
+}
+
+function toggleObj(i) {
+  const el = document.getElementById('obj-'+i);
+  el.classList.toggle('open');
+}
+
+function filterObjections(q) {
+  const filtered = q ? OBJECTIONS.filter(o => o.q.toLowerCase().includes(q.toLowerCase()) || o.a.toLowerCase().includes(q.toLowerCase()) || o.comp.toLowerCase().includes(q.toLowerCase())) : OBJECTIONS;
+  renderObjList(filtered);
+}
+
+// ============ DEAL INTEL ============
+function initDealForm() {
+  const sel = document.getElementById('d-comp');
+  sel.innerHTML = '<option value="">No specific competitor</option>' + COMPS.map(c=>`<option value="${c.id}">${c.name}</option>`).join('');
+  document.getElementById('d-date').value = new Date().toISOString().split('T')[0];
+  renderDeals();
+}
+
+function logDeal() {
+  const deal = {
+    id: Date.now(),
+    company: document.getElementById('d-company').value || 'Unknown',
+    size: parseInt(document.getElementById('d-size').value)||0,
+    compId: document.getElementById('d-comp').value,
+    compName: document.getElementById('d-comp').selectedOptions[0]?.text || '—',
+    outcome: document.getElementById('d-outcome').value,
+    date: document.getElementById('d-date').value,
+    value: parseInt(document.getElementById('d-value').value)||0,
+    notes: document.getElementById('d-notes').value
+  };
+  const deals = getDeals();
+  deals.unshift(deal);
+  localStorage.setItem('vyve_deals_v2', JSON.stringify(deals));
+  document.getElementById('d-company').value = '';
+  document.getElementById('d-size').value = '';
+  document.getElementById('d-notes').value = '';
+  document.getElementById('d-value').value = '';
+  renderDeals();
+}
+
+function getDeals() {
+  try { return JSON.parse(localStorage.getItem('vyve_deals_v2')) || []; } catch(e) { return []; }
+}
+
+function renderDeals() {
+  const deals = getDeals();
+  const won = deals.filter(d=>d.outcome==='won').length;
+  const total = deals.length;
+  document.getElementById('ds-total').textContent = total;
+  document.getElementById('ds-winrate').textContent = total ? Math.round((won/total)*100)+'%' : '—';
+
+  if(deals.length) {
+    const compCount = {};
+    const compWins = {};
+    deals.forEach(d => {
+      if(!d.compId) return;
+      compCount[d.compId] = (compCount[d.compId]||0) + 1;
+      if(d.outcome==='won') compWins[d.compId] = (compWins[d.compId]||0) + 1;
+    });
+    const topComp = Object.entries(compCount).sort((a,b)=>b[1]-a[1])[0];
+    if(topComp) {
+      const tc = COMPS.find(c=>c.id===topComp[0]);
+      document.getElementById('ds-topcomp').textContent = tc ? tc.name : topComp[0];
+    }
+    const compIds = Object.keys(compCount);
+    let hardest = null, lowestWR = 1;
+    compIds.forEach(id => {
+      const wins = compWins[id]||0;
+      const total = compCount[id];
+      const wr = wins/total;
+      if(wr < lowestWR) { lowestWR = wr; hardest = id; }
+    });
+    if(hardest) {
+      const hc = COMPS.find(c=>c.id===hardest);
+      document.getElementById('ds-hardest').textContent = hc ? hc.name : hardest;
+    }
+  }
+
+  const outcomeClass = {won:'outcome-won',lost:'outcome-lost',nd:'outcome-nd'};
+  const outcomeLabel = {won:'Won ✅',lost:'Lost ❌',nd:'No Decision 🟡'};
+  const body = document.getElementById('deal-log-body');
+  if(!deals.length) { body.innerHTML='<div class="empty-deals">No deals logged yet. Add your first deal above to start building VYVE\'s competitive intelligence library.</div>'; return; }
+  body.innerHTML = `<table class="deal-table">
+    <thead><tr><th>Company</th><th>Size</th><th>vs Competitor</th><th>Outcome</th><th>Value</th><th>Date</th><th>Notes</th></tr></thead>
+    <tbody>${deals.map(d=>`<tr>
+      <td style="color:var(--text);font-weight:600;">${d.company}</td>
+      <td>${d.size||'—'}</td>
+      <td>${d.compName}</td>
+      <td class="${outcomeClass[d.outcome]}">${outcomeLabel[d.outcome]}</td>
+      <td>${d.value?'£'+d.value.toLocaleString():'-'}</td>
+      <td>${d.date||'—'}</td>
+      <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;">${d.notes||'—'}</td>
+    </tr>`).join('')}</tbody>
+  </table>`;
+}
+
+// ============ GLOBAL SEARCH ============
+function globalSearch(q) {
+  const dd = document.getElementById('search-dropdown');
+  if(!q || q.length < 2) { dd.innerHTML=''; dd.classList.remove('visible'); return; }
+  const ql = q.toLowerCase();
+  const results = [];
+  COMPS.forEach(c => {
+    const allText = [c.name,c.tagline,c.category,c.segment,c.hq,...c.strengths,...c.weaknesses,c.notes,WIN_STATEMENTS[c.id]||''].join(' ').toLowerCase();
+    if(allText.includes(ql)) {
+      const idx = allText.indexOf(ql);
+      const excerpt = allText.substring(Math.max(0,idx-20),idx+60).replace(ql,`<mark>${ql}</mark>`);
+      results.push({id:c.id,name:c.name,excerpt});
+    }
+  });
+  OBJECTIONS.forEach((o,i) => {
+    if(o.q.toLowerCase().includes(ql) || o.a.toLowerCase().includes(ql)) {
+      results.push({type:'obj',idx:i,name:'Objection: '+o.q.substring(0,40)+'...', excerpt:o.comp});
+    }
+  });
+  if(!results.length) { dd.innerHTML='<div style="padding:12px 16px;color:var(--muted);font-size:12px;">No results found</div>'; dd.classList.add('visible'); return; }
+  dd.innerHTML = results.slice(0,8).map(r => r.type==='obj'
+    ? `<div class="search-result-item" onclick="switchTab('advantage');document.getElementById('obj-search').value='${r.name.replace('Objection: ','').substring(0,20)}';filterObjections('${r.name.replace('Objection: ','').substring(0,20)}');hideDropdown()"><div class="sri-name">${r.name}</div><div class="sri-excerpt">vs ${r.excerpt}</div></div>`
+    : `<div class="search-result-item" onclick="openProfile('${r.id}');hideDropdown()"><div class="sri-name">${r.name}</div><div class="sri-excerpt">${r.excerpt.replace(/<mark>|<\/mark>/g,'')}</div></div>`
+  ).join('');
+  dd.classList.add('visible');
+}
+
+function showDropdown() { if(document.querySelector('.global-search-wrap input').value.length>=2) document.getElementById('search-dropdown').classList.add('visible'); }
+function hideDropdown() { document.getElementById('search-dropdown').classList.remove('visible'); }
+
+// ============ TAB SWITCHING ============
+function switchTab(id) {
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+id).classList.add('active');
+  const btns = document.querySelectorAll('.nav-btn');
+  btns.forEach(b=>{ if(b.onclick && b.onclick.toString().includes("'"+id+"'")) b.classList.add('active'); });
+  if(id==='market') { renderQuadrant(); }
+}
+
+// ============ SCROLL TOP ============
+window.addEventListener('scroll', () => {
+  const btn = document.getElementById('scroll-top');
+  btn.classList.toggle('visible', window.scrollY > 300);
+});
+
+// ============ INIT ============
+renderOverview();
+renderMatrix();
+renderProfiles();
+renderPricingChart();
+renderWatchlist();
+renderNewsFeed();
+renderWhitespaceMap();
+renderObjections();
+updateCalc();
+initDealForm();
 </script>
 </body>
 </html>
