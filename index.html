@@ -256,6 +256,31 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 .pillar-social{background:rgba(232,168,85,0.15);color:var(--amber);}
 @media(max-width:900px){.main{padding:16px;}.profile-body{grid-template-columns:1fr;}.profile-section{border-right:none;border-bottom:1px solid var(--border);}.market-grid{grid-template-columns:1fr;}.battle-grid{grid-template-columns:1fr;}.two-col{grid-template-columns:1fr;}.whitespace-grid{grid-template-columns:100px repeat(4,1fr);}}
 @media print{.nav,.scroll-top,.battle-actions,.header{display:none!important;}.battle-inner{max-height:none;border:none;}}
+
+/* === FUNDING TAB === */
+.funding-grid-inner{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:14px;}
+.funding-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:18px 20px;display:flex;flex-direction:column;gap:10px;transition:border-color .2s;}
+.funding-card:hover{border-color:var(--mint);}
+.fund-header{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;}
+.fund-name{font-size:14px;font-weight:700;color:var(--text);}
+.score-circle{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;flex-shrink:0;}
+.score-high{background:rgba(94,196,176,0.18);color:var(--mint);border:2px solid var(--mint);}
+.score-mid{background:rgba(248,183,60,0.15);color:var(--amber);border:2px solid var(--amber);}
+.score-low{background:rgba(255,90,90,0.12);color:var(--danger);border:2px solid var(--danger);}
+.fund-tags{display:flex;gap:6px;flex-wrap:wrap;}
+.fund-tag{font-size:10px;padding:2px 8px;border-radius:4px;font-weight:600;text-transform:uppercase;letter-spacing:.3px;}
+.tag-cic{background:rgba(94,196,176,0.15);color:var(--mint);}
+.tag-cat{background:rgba(138,172,172,0.12);color:var(--muted-light);}
+.fund-range{font-size:13px;color:var(--text);font-weight:600;}
+.fund-range span{color:var(--muted);font-weight:400;font-size:12px;}
+.fund-desc{font-size:12px;color:var(--muted-light);line-height:1.5;}
+.fund-score-bar{margin-top:4px;}
+.fund-score-label{display:flex;justify-content:space-between;font-size:10px;color:var(--muted);margin-bottom:4px;}
+.fund-score-track{height:5px;background:var(--surface);border-radius:3px;overflow:hidden;}
+.fund-score-fill{height:100%;border-radius:3px;}
+.fund-apply{margin-top:4px;font-size:11px;color:var(--mint);text-decoration:none;opacity:.8;display:inline-block;}
+.fund-apply:hover{opacity:1;text-decoration:underline;}
+.fund-reason{font-size:11px;color:var(--muted);font-style:italic;border-top:1px solid var(--border);padding-top:8px;margin-top:2px;}
 </style>
 </head>
 <body>
@@ -289,6 +314,7 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
     <button class="nav-btn" onclick="switchTab('market')"> Market</button>
     <button class="nav-btn" onclick="switchTab('advantage')"> VYVE Advantage</button>
     <button class="nav-btn new-tab" onclick="switchTab('deals')"> Deal Intel</button>
+    <button class="nav-btn new-tab" onclick="switchTab('funding')"> Grants &amp; Funding</button>
   </div>
 </div>
 
@@ -1168,6 +1194,101 @@ window.addEventListener('scroll', () => {
   btn.classList.toggle('visible', window.scrollY > 300);
 });
 
+
+// ============ FUNDING DATA ============
+const FUNDING=[
+{id:'nlafa',name:'National Lottery Awards for All England',cat:'lottery',range:'£300 - £20,000',min:300,max:20000,cic:true,score:9,deadline:'Rolling — apply anytime',url:'https://www.tnlcommunityfund.org.uk/funding/funding-programmes/national-lottery-awards-for-all-england',desc:"Flagship small grants for community projects. Strong fit for VYVE's community wellbeing, social events and physical health pillars. Highly accessible — one of the most CIC-friendly funds in the UK.",reason:'CIC confirmed eligible · Health & community focus · Rolling deadline · Low bureaucracy'},
+{id:'nlrc',name:'National Lottery Reaching Communities England',cat:'lottery',range:'£10,000 - £500,000',min:10000,max:500000,cic:true,score:8,deadline:'Rolling',url:'https://www.tnlcommunityfund.org.uk/funding/funding-programmes/reaching-communities-england',desc:"Larger multi-year grants for organisations improving health, wellbeing and community life. Ideal for VYVE's ambassador programme and long-term engagement model.",reason:'CIC eligible · Multi-year funding · Health & social wellbeing priority'},
+{id:'nlflc',name:'National Lottery Fairer Life Chances',cat:'lottery',range:'£20,000 - £500,000',min:20000,max:500000,cic:true,score:7,deadline:'Periodic rounds',url:'https://www.tnlcommunityfund.org.uk/funding/programmes',desc:"Tackles health inequalities and social exclusion. VYVE's 1-in-5 charity pledge and focus on underserved workers aligns well.",reason:'Health inequalities angle · CIC eligible · Strong evidence base needed'},
+{id:'ukspf',name:'UK Shared Prosperity Fund (UKSPF)',cat:'government',range:'£5,000 - £250,000',min:5000,max:250000,cic:true,score:8,deadline:'Via local authority — check regionally',url:'https://www.gov.uk/government/publications/uk-shared-prosperity-fund-prospectus',desc:"Government successor to EU structural funds. Local authorities administer for health, employment and community. VYVE's SME-focused wellbeing platform fits the People & Skills strand perfectly.",reason:'CIC eligible · SME workforce angle · Health & community priorities'},
+{id:'vcse',name:'DCMS VCSE Health & Wellbeing Fund',cat:'government',range:'£50,000 - £300,000',min:50000,max:300000,cic:true,score:8,deadline:'Periodic — check DHSC',url:'https://www.gov.uk/guidance/vcse-health-and-wellbeing-fund',desc:'Department of Health fund specifically for VCSE organisations delivering health and wellbeing, including workplace mental health and SME support. Direct fit for VYVE.',reason:'VCSE/CIC confirmed · Workplace health explicitly in scope · High alignment'},
+{id:'phgla',name:'Public Health Grants via Local Authorities',cat:'government',range:'£1,000 - £50,000',min:1000,max:50000,cic:true,score:7,deadline:'Varies by council',url:'https://www.local.gov.uk/parliament/briefings-and-responses/public-health-grant-allocations-local-authorities-202526',desc:'£3.86bn distributed annually to councils who re-grant for local health priorities. Approach your local authority public health team directly. Good for initial pilots.',reason:'CIC eligible · Locally targeted · Good for pilot evidence'},
+{id:'innovateuk',name:'Innovate UK Smart Grants',cat:'government',range:'£25,000 - £500,000',min:25000,max:500000,cic:false,score:6,deadline:'Quarterly rounds — check IFS',url:'https://apply-for-innovation-funding.service.gov.uk/',desc:"Open innovation grants for disruptive R&D. VYVE's AI-backed proactive wellbeing platform could qualify under digital health innovation. CIC structure may require additional justification.",reason:'Innovation/tech angle suits VYVE · CIC structure needs clarity · Competitive'},
+{id:'nesta',name:'Nesta — Health & Wellbeing Innovation',cat:'government',range:'£30,000 - £300,000',min:30000,max:300000,cic:true,score:7,deadline:'Thematic calls',url:'https://www.nesta.org.uk/feature/funding-and-grants/',desc:"Nesta backs innovation in health, education and society. VYVE's tech-backed proactive wellbeing platform and measurable outcomes data would appeal strongly.",reason:'CIC eligible · Innovation + health = strong fit · Evidence-based model valued'},
+{id:'pht',name:"People's Health Trust",cat:'health',range:'£5,000 - £100,000',min:5000,max:100000,cic:true,score:9,deadline:'Periodic rounds',url:'https://www.peopleshealthtrust.org.uk/',desc:"Funded by health lottery proceeds. Focuses on community-led health in deprived areas. VYVE's community events, charity pledge and social health pillar are ideal matches. Very CIC-friendly.",reason:'CIC confirmed eligible · Community health equity focus · Strong match'},
+{id:'mhf',name:'Mental Health Foundation Grants',cat:'health',range:'£10,000 - £75,000',min:10000,max:75000,cic:true,score:8,deadline:'Annual rounds',url:'https://www.mentalhealth.org.uk/',desc:"Supports innovative approaches to prevention and early intervention in mental health. VYVE's proactive mental health pillar and ambassador programme are prime candidates.",reason:'Prevention focus matches VYVE · CIC eligible · Proactive model highly valued'},
+{id:'mindwork',name:'Mind — Workplace Wellbeing Grants',cat:'health',range:'£5,000 - £50,000',min:5000,max:50000,cic:true,score:8,deadline:'Annual — check Mind',url:'https://www.mind.org.uk/workplace/',desc:"Mind offers partnership grants and support for organisations improving mental health at work. VYVE's employer-facing model and Mental Health pillar align directly.",reason:'Employer wellbeing explicitly in scope · CIC eligible · Strong brand alignment'},
+{id:'openmh',name:'Open Mental Health Grants',cat:'health',range:'£2,000 - £25,000',min:2000,max:25000,cic:true,score:7,deadline:'Annual rounds',url:'https://openmentalhealth.org.uk/',desc:"Community-based mental health innovation grants. VYVE's proactive wellbeing model and community events fit squarely within scope.",reason:'CIC eligible · Community mental health · Accessible grant size'},
+{id:'nhsct',name:'NHS Charities Together — Workforce Wellbeing',cat:'health',range:'£10,000 - £250,000',min:10000,max:250000,cic:false,score:5,deadline:'Periodic rounds',url:'https://nhscharitiestogether.co.uk/',desc:'Large workforce wellbeing fund primarily for NHS-adjacent organisations. VYVE could partner with NHS trusts to access this route.',reason:'NHS partnership route only · Indirect access for VYVE · Worth exploring'},
+{id:'hia',name:'NHS Innovation Accelerator (NIA)',cat:'health',range:'£50,000 - £200,000',min:50000,max:200000,cic:false,score:5,deadline:'Annual cohort',url:'https://innovation.nhs.uk/',desc:"NHS Innovation Accelerator supports health tech scale-up. VYVE's digital platform could qualify if targeting NHS employer market.",reason:'Health tech scale angle · NHS employer route · CIC needs consideration'},
+{id:'esmeef',name:'Esmee Fairbairn Foundation',cat:'foundation',range:'£50,000 - £500,000',min:50000,max:500000,cic:true,score:7,deadline:'Rolling EOI',url:'https://esmeefairbairn.org.uk/apply-for-a-grant/',desc:'Major UK foundation funding communities, wellbeing and fairer futures. CICs accepted. Strong emphasis on unrestricted core cost funding — ideal for VYVE operational growth.',reason:'CIC eligible · Unrestricted funding angle · Community wellbeing focus'},
+{id:'lloyds',name:'Lloyds Bank Foundation',cat:'foundation',range:'£10,000 - £100,000',min:10000,max:100000,cic:true,score:8,deadline:'Annual rounds',url:'https://www.lloydsbankfoundation.org.uk/',desc:'Specifically supports small and medium-sized social enterprises and CICs doing complex social work. Offers both funding and development support. CIC status is a strength here.',reason:'CIC explicitly targeted · Social enterprise expertise · Development support included'},
+{id:'tudor',name:'Tudor Trust',cat:'foundation',range:'£5,000 - £60,000',min:5000,max:60000,cic:true,score:7,deadline:'Rolling',url:'https://www.tudortrust.org.uk/',desc:'Funds community health, social welfare and marginalised groups. Rolling applications. Good for VYVE community events and social health strand targeting underserved workers.',reason:'CIC eligible · Health & community · Rolling — no rigid deadlines'},
+{id:'henry',name:'Henry Smith Charity',cat:'foundation',range:'£10,000 - £100,000',min:10000,max:100000,cic:true,score:6,deadline:'Annual rounds (Jan/Jul)',url:'https://www.henrysmithcharity.org.uk/',desc:"Funds health, disability and community resilience. VYVE's physical and social health pillars could qualify, though competition is high.",reason:'CIC eligible · Health & disability angle · Highly competitive'},
+{id:'comicrelief',name:'Comic Relief Community Fund',cat:'foundation',range:'Up to £10,000',min:1000,max:10000,cic:true,score:7,deadline:'Annual — typically Q1',url:'https://www.comicrelief.com/funding/',desc:'Open to grassroots organisations under £250k income. Mental health in community explicitly in scope. Good entry-level grant for VYVE at current stage.',reason:'CIC eligible · Mental health focus · Income threshold check needed'},
+{id:'paul',name:'Paul Hamlyn Foundation',cat:'foundation',range:'£10,000 - £150,000',min:10000,max:150000,cic:true,score:5,deadline:'Open Fund — rolling',url:'https://www.phf.org.uk/',desc:"Open Fund supports organisations working with disadvantaged communities. VYVE's social health strand could qualify but arts/education is the stronger primary fit.",reason:'CIC eligible · Social wellbeing angle · Arts focus preferred · Competitive'},
+{id:'jrf',name:'Joseph Rowntree Foundation',cat:'foundation',range:'£20,000 - £200,000',min:20000,max:200000,cic:true,score:5,deadline:'Thematic calls',url:'https://www.jrf.org.uk/work/grants-and-funding',desc:"Research and action grants on poverty, health inequality and work. VYVE's data on SME employee wellbeing could open a research partnership route.",reason:'CIC eligible · Work & poverty angle · Research partnership route'},
+{id:'garfield',name:'Garfield Weston Foundation',cat:'foundation',range:'£10,000 - £100,000',min:10000,max:100000,cic:false,score:4,deadline:'Rolling',url:'https://garfieldweston.org/',desc:'Registered charities only — CICs not eligible. Worth noting for future if VYVE structure evolves. Community health and welfare is in scope.',reason:'Charity-only · CIC not eligible currently · Note for future'},
+{id:'wellcome',name:'Wellcome Trust — Engagement Grants',cat:'foundation',range:'£50,000 - £2,000,000',min:50000,max:2000000,cic:false,score:4,deadline:'Rolling — scheme dependent',url:'https://wellcome.org/grant-funding',desc:"Science and health innovation focus. Primarily academic institutions. VYVE could explore Public Engagement grants if building an evidence base for workplace wellbeing outcomes.",reason:'Primarily academic · Public engagement route possible · CIC not primary fit'},
+{id:'unltd',name:'UnLtd — Social Entrepreneur Awards',cat:'social',range:'£500 - £30,000',min:500,max:30000,cic:true,score:9,deadline:'Rolling',url:'https://unltd.org.uk/',desc:"UK's leading funder of social entrepreneurs. Fast, accessible and very CIC-friendly. The Big Award (up to £30k) targets social ventures ready to scale. VYVE's mission and Lewis's story are strong.",reason:'CIC perfect fit · Social entrepreneur focus · Founder story resonates · Fast process'},
+{id:'p2c',name:'Power to Change — Community Enterprise',cat:'social',range:'£50,000 - £1,000,000',min:50000,max:1000000,cic:true,score:7,deadline:'Thematic rounds',url:'https://www.powertochange.org.uk/',desc:"Backs community enterprises building resilient local economies. VYVE's community events and in-person wellbeing model fit well, especially as it grows local roots.",reason:'CIC eligible · Community enterprise model · Scaling support included'},
+{id:'seuk',name:'Social Enterprise UK — Growth Programmes',cat:'social',range:'£5,000 - £50,000',min:5000,max:50000,cic:true,score:7,deadline:'Annual cohorts',url:'https://www.socialenterprise.org.uk/',desc:"Accelerator and grant programmes for social enterprises. VYVE's CIC structure and workplace wellbeing mission are strong qualifiers. Also offers procurement support.",reason:'CIC eligible · Accelerator + grant combo · Good for BD support'},
+{id:'bsc',name:'Better Society Capital — Social Investment',cat:'social',range:'£50,000 - £500,000',min:50000,max:500000,cic:true,score:6,deadline:'Rolling — via intermediaries',url:'https://bettersocietycapital.com/',desc:'Social investment (blended loan/equity) not pure grant. Access via intermediaries like Resonance or Key Fund. Useful for growth phase once revenue is established.',reason:'Social investment not grant · Health & wellbeing priority · CIC eligible'},
+{id:'keyf',name:'Key Fund — Social Enterprise Finance',cat:'social',range:'£10,000 - £250,000',min:10000,max:250000,cic:true,score:6,deadline:'Rolling',url:'https://www.thekeyfund.co.uk/',desc:'Specialist social enterprise finance (loans + grants) for CICs in Northern England and Midlands. Good if VYVE is targeting those regions.',reason:'CIC specialist · Northern/Midlands focus · Blended finance'},
+{id:'cdf',name:'CDFIs — Community Development Finance',cat:'social',range:'£10,000 - £250,000',min:10000,max:250000,cic:true,score:6,deadline:'Rolling',url:'https://www.findingfinance.org.uk/',desc:'Responsible finance providers for social enterprises. Blend of loans and grants. Good for VYVE once revenue base is established.',reason:'CIC eligible · Responsible finance route · Revenue track record helps'},
+{id:'sporteng',name:'Sport England — Active Wellbeing',cat:'sport',range:'£5,000 - £250,000',min:5000,max:250000,cic:true,score:8,deadline:'Rolling — competitive',url:'https://www.sportengland.org/funding-and-campaigns/our-funding',desc:"National funder for physical activity and community sport. VYVE's Physical health pillar, community events and workplace fitness programmes align directly.",reason:'CIC eligible · Physical health pillar strong fit · Community activity focus'},
+{id:'sportsmall',name:'Sport England Small Grants',cat:'sport',range:'£300 - £10,000',min:300,max:10000,cic:true,score:7,deadline:'Rolling',url:'https://www.sportengland.org/funding-and-campaigns/our-funding',desc:"Entry-level Sport England grants. Good for VYVE's in-person community fitness events and physical wellbeing pilots.",reason:'CIC eligible · Physical activity entry point · Lower competition bar'},
+{id:'activep',name:'Active Partnerships — Regional Grants',cat:'sport',range:'£10,000 - £150,000',min:10000,max:150000,cic:true,score:7,deadline:'Regional deadlines',url:'https://www.sportengland.org/',desc:"Regional active partnerships backed by Sport England. VYVE could partner with local Active Partnerships to access funding for workplace physical activity.",reason:'Partnership route · Physical health · Regional access'},
+{id:'aviva',name:'Aviva Community Fund',cat:'corporate',range:'£1,000 - £25,000',min:1000,max:25000,cic:true,score:6,deadline:'Annual — typically Oct',url:'https://www.aviva.com/social-purpose/aviva-community-fund/',desc:"Community health and social projects. Includes public voting element. VYVE's strong community story and charity mission would resonate. Good for brand visibility too.",reason:'CIC eligible · Community health · Public vote = brand opportunity'},
+{id:'barclays',name:'Barclays Eagle Labs / Community',cat:'corporate',range:'£5,000 - £50,000',min:5000,max:50000,cic:true,score:6,deadline:'Rolling',url:'https://labs.barclays/',desc:'Barclays supports social enterprises and scale-ups with a mix of funding, workspace and acceleration. Good for VYVE growth stage.',reason:'CIC eligible · Scale-up angle · Workspace + funding combo'},
+{id:'zurich',name:'Zurich Community Trust',cat:'corporate',range:'£2,000 - £30,000',min:2000,max:30000,cic:true,score:5,deadline:'Annual rounds',url:'https://www.zurich.co.uk/',desc:"Insurance-backed community fund. Health, social welfare and community resilience in scope. VYVE's employee protection angle could resonate with Zurich's insurance market.",reason:'CIC eligible · Health/welfare focus · Insurance sector link possible'},
+{id:'imperial',name:'Imperial Community Impact Fund',cat:'corporate',range:'£1,000 - £10,000',min:1000,max:10000,cic:true,score:5,deadline:'Jan & Jul annually',url:'https://www.imperialpolythene.com/community-impact-fund',desc:'Small grants twice yearly for community and health projects. Quick turnaround. Good for initial VYVE community events funding.',reason:'CIC eligible · Small entry-level grant · Fast process'},
+{id:'commfound',name:'UK Community Foundations Network',cat:'corporate',range:'£1,000 - £75,000',min:1000,max:75000,cic:true,score:8,deadline:'Varies by foundation',url:'https://www.ukcommunityfoundations.org/our-foundations',desc:'46 community foundations across the UK each holding local funds for health and community projects. Highly CIC-friendly and geographically targeted. Identify your local CF.',reason:'CIC confirmed · Local health grants · 46 foundations = multiple shots'},
+{id:'clachar',name:'CLA Charitable Trust',cat:'corporate',range:'Up to £5,000',min:500,max:5000,cic:true,score:6,deadline:'Rolling',url:'https://www.cla.org.uk/',desc:'Grants for CICs and charities supporting disadvantaged people. Small but accessible. Good for community wellbeing targeting underserved communities.',reason:'CIC explicitly eligible · Small but fast · Community disadvantage angle'},
+{id:'innovloan',name:'Innovate UK Innovation Loans',cat:'government',range:'£100,000 - £1,000,000',min:100000,max:1000000,cic:false,score:5,deadline:'Rolling',url:'https://www.ukri.org/what-we-offer/for-businesses/innovate-uk-business-finance/innovate-uk-innovation-loans/',desc:"Repayable loans at below-market rates for innovative SMEs. Useful for VYVE's tech development phase but requires revenue and repayment capacity.",reason:'Repayable not grant · Good for scale · Tech innovation angle'},
+{id:'biocat',name:'UKRI Biomedical Catalyst',cat:'government',range:'£50,000 - £2,000,000',min:50000,max:2000000,cic:false,score:4,deadline:'Periodic calls',url:'https://www.ukri.org/',desc:"Health SME innovation fund. VYVE's digital mental/physical health platform could qualify but biomedical evidence base is required. Partnership with academic institution advised.",reason:'Biomedical evidence needed · Academic partner required · CIC eligibility unclear'},
+];
+
+// ============ RENDER FUNDING ============
+function renderFunding(){
+  const inner=document.getElementById('funding-inner');
+  if(!inner)return;
+  FUNDING.forEach(f=>{
+    const sc=f.score>=8?'score-high':f.score>=6?'score-mid':'score-low';
+    const fc=f.score>=8?'var(--mint)':f.score>=6?'var(--amber)':'var(--danger)';
+    const card=document.createElement('div');
+    card.className='funding-card';
+    card.setAttribute('data-cat',f.cat);
+    card.setAttribute('data-search',(f.name+' '+f.desc+' '+f.reason).toLowerCase());
+    card.innerHTML=`
+      <div class="fund-header"><div class="fund-name">${f.name}</div><div class="score-circle ${sc}">${f.score}</div></div>
+      <div class="fund-tags">
+        ${f.cic?'<span class="fund-tag tag-cic">CIC Eligible</span>':'<span class="fund-tag" style="background:rgba(255,90,90,0.12);color:var(--danger);">Charity/Ltd Only</span>'}
+        <span class="fund-tag tag-cat">${catLabel(f.cat)}</span>
+      </div>
+      <div class="fund-range">${f.range} <span>· ${f.deadline}</span></div>
+      <div class="fund-desc">${f.desc}</div>
+      <div class="fund-score-bar">
+        <div class="fund-score-label"><span>VYVE Success Likelihood</span><span>${f.score}/10</span></div>
+        <div class="fund-score-track"><div class="fund-score-fill" style="width:${f.score*10}%;background:${fc};"></div></div>
+      </div>
+      <div class="fund-reason">${f.reason}</div>
+      <a class="fund-apply" href="${f.url}" target="_blank">Apply / Learn more</a>
+    `;
+    inner.appendChild(card);
+  });
+  const hfc=document.getElementById('high-fit-count');
+  const cc=document.getElementById('cic-count');
+  if(hfc)hfc.textContent=FUNDING.filter(f=>f.score>=8).length;
+  if(cc)cc.textContent=FUNDING.filter(f=>f.cic).length;
+}
+function catLabel(cat){
+  const m={lottery:'National Lottery',government:'Government/UKRI',foundation:'Foundation/Trust',health:'Health Fund',social:'Social Enterprise',sport:'Sport & Physical',corporate:'Corporate/Other'};
+  return m[cat]||cat;
+}
+function filterFunding(q){
+  document.querySelectorAll('.funding-card').forEach(c=>{
+    c.style.display=(c.getAttribute('data-search')||'').includes(q.toLowerCase())?'':'none';
+  });
+}
+function filterFundingCat(cat,btn){
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.funding-card').forEach(c=>{
+    c.style.display=cat==='all'||c.getAttribute('data-cat')===cat?'':'none';
+  });
+}
+
 // ============ INIT ============
 renderOverview();
 renderMatrix();
@@ -1179,6 +1300,36 @@ renderWhitespaceMap();
 renderObjections();
 updateCalc();
 initDealForm();
+renderFunding();
 </script>
+
+<!-- FUNDING TAB -->
+<div class="tab-panel" id="tab-funding">
+  <div class="section-header">
+    <h2>Grants &amp; Funding — Top 40 Sources for VYVE</h2>
+    <p>CIC-eligible funding across health, mental, physical &amp; social pillars. Scored 1-10 for VYVE's likelihood of success.</p>
+  </div>
+  <div class="stat-grid" style="margin-bottom:24px;">
+    <div class="stat-card"><div class="label">Funders Tracked</div><div class="value">40</div><div class="sub">National · Foundation · Government</div></div>
+    <div class="stat-card"><div class="label">Total Pool (est.)</div><div class="value">£2.4bn+</div><div class="sub">Annual UK health &amp; community funding</div></div>
+    <div class="stat-card"><div class="label">High Fit (8-10)</div><div class="value" id="high-fit-count">-</div><div class="sub">Strong VYVE match</div></div>
+    <div class="stat-card"><div class="label">CIC Eligible</div><div class="value" id="cic-count">-</div><div class="sub">Confirmed open to CICs</div></div>
+  </div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px;align-items:center;">
+    <input id="funding-search" type="text" placeholder="Search funders..." oninput="filterFunding(this.value)"
+      style="background:var(--surface);border:1px solid var(--border);color:var(--text);padding:8px 14px;border-radius:8px;font-size:13px;min-width:220px;">
+    <button class="filter-btn active" onclick="filterFundingCat('all',this)">All</button>
+    <button class="filter-btn" onclick="filterFundingCat('lottery',this)">National Lottery</button>
+    <button class="filter-btn" onclick="filterFundingCat('government',this)">Government</button>
+    <button class="filter-btn" onclick="filterFundingCat('foundation',this)">Foundations</button>
+    <button class="filter-btn" onclick="filterFundingCat('health',this)">Health Funds</button>
+    <button class="filter-btn" onclick="filterFundingCat('social',this)">Social Enterprise</button>
+    <button class="filter-btn" onclick="filterFundingCat('sport',this)">Sport &amp; Physical</button>
+    <button class="filter-btn" onclick="filterFundingCat('corporate',this)">Corporate</button>
+  </div>
+  <div id="funding-grid"><div class="funding-grid-inner" id="funding-inner"></div></div>
+</div>
+
+
 </body>
 </html>
