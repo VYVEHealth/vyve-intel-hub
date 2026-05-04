@@ -304,6 +304,29 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 .prospect-link:hover{background:rgba(94,196,176,0.12);}
 .prospect-size{font-size:10px;color:var(--muted);display:flex;align-items:center;gap:4px;}
 
+
+/* ===== PARTNERSHIPS TAB ===== */
+.partnership-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:28px;}
+.p-stat{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:18px;text-align:center;}
+.p-stat .p-num{font-size:28px;font-weight:800;color:var(--mint);}
+.p-stat .p-label{font-size:11px;color:var(--muted);margin-top:4px;text-transform:uppercase;letter-spacing:.5px;}
+.vertical-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;}
+.vertical-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px;transition:border-color .2s;}
+.vertical-card:hover{border-color:var(--mint);}
+.vertical-header{display:flex;align-items:center;gap:12px;margin-bottom:8px;}
+.vertical-icon{font-size:24px;}
+.vertical-label{font-size:15px;font-weight:700;color:var(--text);}
+.vertical-score{margin-left:auto;font-size:13px;font-weight:800;padding:4px 10px;border-radius:20px;background:rgba(0,229,160,0.1);color:var(--mint);}
+.vertical-why{font-size:12px;color:var(--muted);margin-bottom:6px;line-height:1.5;}
+.vertical-model{font-size:11px;color:var(--accent);font-style:italic;margin-bottom:14px;}
+.partner-list{display:flex;flex-direction:column;gap:8px;}
+.partner-item{display:flex;align-items:center;gap:10px;padding:10px 12px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:8px;}
+.partner-fit{font-size:11px;font-weight:700;min-width:32px;text-align:right;}
+.partner-fit.high{color:var(--mint);}
+.partner-fit.mid{color:var(--amber);}
+.partner-name{font-size:13px;font-weight:600;color:var(--text);}
+.partner-role{font-size:11px;color:var(--muted);margin-top:1px;}
+
 </style>
 </head>
 <body>
@@ -339,6 +362,7 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
     <button class="nav-btn new-tab" onclick="switchTab('deals')"> Deal Intel</button>
     <button class="nav-btn new-tab" onclick="switchTab('funding')"> Grants &amp; Funding</button>
 <button class="nav-btn new-tab" onclick="switchTab('prospects')"> Sales Prospects</button>
+<button class="nav-btn new-tab" onclick="switchTab('partnerships')"> Partnerships</button>
   </div>
 </div>
 
@@ -543,6 +567,15 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
     <button class="filter-btn" onclick="filterProspectSig('culture',this)">Culture Signal</button>
   </div>
   <div id="prospect-grid" class="prospect-grid"></div>
+</div>
+
+
+<div class="tab-panel" id="tab-partnerships">
+  <div class="section-header">
+    <h2>Partnership Intelligence</h2>
+    <p class="section-sub">Adjacent businesses VYVE can partner with to accelerate reach and enhance service delivery. Scored by strategic fit for VYVE's three-pillar model.</p>
+  </div>
+  <div id="partnerships-container"></div>
 </div>
 
 </div><!-- end .main -->
@@ -1475,6 +1508,162 @@ function filterProspectSig(sig,btn){
   });
 }
 
+
+// ============ PARTNERSHIPS DATA ============
+const PARTNERSHIPS = [
+  { id:'insurance', label:'Insurance & Group Risk', icon:'🛡', score:88,
+    why:'Group insurers need wellbeing evidence to reduce claims. VYVE data = lower premiums = mutual ROI.',
+    model:'White-label VYVE inside group health policies; revenue share on reduced claims',
+    partners:[
+      {name:'Aviva UK', fit:90, role:'Embed VYVE in SME group health policies as standard wellbeing layer'},
+      {name:'Legal & General', fit:85, role:'Workplace wellbeing add-on for group life and income protection products'},
+      {name:'Zurich UK', fit:80, role:'Mental health data integration with group risk underwriting models'}
+    ]
+  },
+  { id:'benefits', label:'Employee Benefits Platforms', icon:'🎁', score:85,
+    why:'Benefits portals need differentiated wellbeing content. VYVE adds community and physical activation missing from most platforms.',
+    model:'API integration into benefits marketplace; per-seat referral fee',
+    partners:[
+      {name:'Perkbox', fit:88, role:'Add VYVE physical and social wellbeing as premium tier in benefits catalogue'},
+      {name:'Benefex', fit:83, role:'VYVE community events feed embedded into OneHub employee experience platform'},
+      {name:'Caboodle', fit:78, role:'Wellbeing challenge module co-branded for mid-market benefits clients'}
+    ]
+  },
+  { id:'payroll', label:'Payroll & HR Software', icon:'💰', score:82,
+    why:'Payroll platforms touch every employee monthly. VYVE as a bolt-on turns transactional software into a wellbeing channel.',
+    model:'App marketplace listing + co-sell with HR implementation partners',
+    partners:[
+      {name:'Sage HR', fit:85, role:'VYVE listed in Sage People marketplace; co-market to 13,000 UK SME clients'},
+      {name:'BrightPay', fit:80, role:'Wellbeing module surfaced at payslip delivery moment for maximum engagement'},
+      {name:'Moorepay', fit:78, role:'Joint proposition for mid-market clients: payroll + wellbeing in one platform'}
+    ]
+  },
+  { id:'recruitment', label:'Recruitment & Staffing', icon:'🤝', score:79,
+    why:'Recruiters sell culture and wellbeing as retention tools. VYVE helps employers win talent and keeps placed candidates healthy, reducing replacement costs.',
+    model:'Referral partnership — recruiters recommend VYVE to clients; affiliate commission',
+    partners:[
+      {name:'Hays UK', fit:82, role:'Offer VYVE as employer brand differentiator to enterprise clients during hiring campaigns'},
+      {name:'Reed', fit:78, role:'Wellbeing at Work content partnership + job-board feature placement for VYVE clients'},
+      {name:'Manpower UK', fit:75, role:'VYVE wellbeing programme for temporary workforce — reduces absenteeism in placed staff'}
+    ]
+  },
+  { id:'occupational', label:'Occupational Health', icon:'🏥', score:84,
+    why:'OH providers need digital preventative tools. VYVE is the proactive layer before OH intervention — reduces referral load and costs.',
+    model:'Clinical referral pathway; OH firms resell VYVE as digital prevention tier',
+    partners:[
+      {name:'BHSF', fit:87, role:'VYVE as digital wellbeing front-end feeding into BHSF clinical services'},
+      {name:'Medigold Health', fit:83, role:'Joint proposition: VYVE prevention + Medigold intervention — full wellbeing spectrum'},
+      {name:'PAM Group', fit:79, role:'Data sharing on early risk indicators; VYVE flags, PAM triages and treats'}
+    ]
+  },
+  { id:'financial', label:'Financial Wellbeing', icon:'📊', score:76,
+    why:'Financial stress is the top driver of mental ill health at work. VYVE + finwellbeing = holistic proposition that addresses root causes.',
+    model:'In-app financial wellbeing module co-developed; shared subscription revenue',
+    partners:[
+      {name:'Nudge Global', fit:80, role:'Financial education content integrated into VYVE mental pillar'},
+      {name:'Salary Finance', fit:76, role:'Earned wage access linked to VYVE financial stress tracking signals'},
+      {name:'Wagestream', fit:73, role:'Payroll-linked wellbeing: VYVE engagement data + Wagestream financial tools in one app'}
+    ]
+  },
+  { id:'fitness', label:'Fitness & Gym Networks', icon:'💪', score:80,
+    why:'VYVE tracks physical wellbeing — gym partners provide the physical activation infrastructure to back it up.',
+    model:'Gym discount scheme inside VYVE app; gyms pay for qualified leads',
+    partners:[
+      {name:'Everyone Active', fit:83, role:'Discounted membership for VYVE users; co-branded physical challenge campaigns'},
+      {name:'PureGym', fit:80, role:'VYVE x PureGym challenge series; gym check-in data surfaces in VYVE physical pillar'},
+      {name:'Bannatyne Health Clubs', fit:76, role:'Corporate wellbeing days hosted at Bannatyne sites for VYVE enterprise clients'}
+    ]
+  },
+  { id:'workspace', label:'Workspace & Facilities', icon:'🏢', score:72,
+    why:'Flexible workspace providers need wellbeing as a tenant retention tool. VYVE adds community layer to physical space.',
+    model:'VYVE deployed as standard wellbeing layer for all tenants in cowork buildings',
+    partners:[
+      {name:'IWG / Regus', fit:75, role:'VYVE standard in all IWG UK sites — wellbeing benefit for flexible workspace members'},
+      {name:'Landmark Office Space', fit:73, role:'Community events calendar powered by VYVE for tenant engagement'},
+      {name:'Bruntwood Works', fit:70, role:'VYVE wellbeing month activations across Bruntwood regional campuses'}
+    ]
+  },
+  { id:'pension', label:'Pension & Retirement', icon:'🏦', score:74,
+    why:'Pension providers increasingly required to consider financial and mental wellbeing of savers. VYVE adds engagement layer.',
+    model:'VYVE bundled with workplace pension onboarding; provider pays per member activated',
+    partners:[
+      {name:'Nest Pensions', fit:78, role:'Wellbeing content integrated into Nest employer portal for SME members'},
+      {name:'The Peoples Pension', fit:74, role:'Member wellbeing programme co-branded; data on financial stress signals to pension comms'},
+      {name:'NOW: Pensions', fit:70, role:'VYVE social and community pillars delivered to NOW client workforce base'}
+    ]
+  },
+  { id:'diversity', label:'D&I & Culture Consultancies', icon:'🌈', score:77,
+    why:'D&I consultancies need measurable wellbeing outcomes. VYVE data proves culture change beyond training days.',
+    model:'VYVE as measurement tool for D&I programmes; consultancy refers clients',
+    partners:[
+      {name:'EW Group', fit:80, role:'VYVE wellbeing data as evidence layer for inclusion programme ROI reporting'},
+      {name:'Pearn Kandola', fit:77, role:'Joint proposition: inclusion psychology + VYVE community wellbeing measurement'},
+      {name:'enei (Employers Network for Equality & Inclusion)', fit:73, role:'Member benefit: VYVE offered to enei network of 220+ employers at preferential rate'}
+    ]
+  },
+  { id:'charity', label:'Mental Health Charities', icon:'💚', score:86,
+    why:'VYVE is a CIC with a 1-in-5 pledge. Charity partnerships amplify mission credibility and unlock B2B trust.',
+    model:'1% of revenue donated; joint campaigns; charity endorsement of VYVE platform',
+    partners:[
+      {name:'Mind', fit:88, role:'VYVE mental health content co-created with Mind clinical team; Mind endorsement badge on app'},
+      {name:'Time to Change', fit:85, role:'VYVE as digital partner for Employer Pledge — wellbeing evidence for Time to Change accreditation'},
+      {name:'Samaritans Workplace Wellbeing', fit:82, role:'VYVE in-app Samaritans resource integration; joint employer training on early intervention'}
+    ]
+  },
+  { id:'food', label:'Food & Nutrition', icon:'🥗', score:70,
+    why:'Nutrition is part of physical wellbeing. Food delivery and meal plan partners add tangible benefit to VYVE physical pillar.',
+    model:'VYVE physical pillar content + branded nutrition challenges; food partner pays for placement',
+    partners:[
+      {name:'Mindful Chef', fit:73, role:'Corporate meal subscription discount inside VYVE physical challenge calendar'},
+      {name:'Graze', fit:70, role:'Healthy snack boxes for VYVE challenge completions — reward mechanic for engagement'},
+      {name:'Nutrifix', fit:67, role:'Healthy eating data integration with VYVE physical tracking for nutrition insights'}
+    ]
+  }
+];
+
+function renderPartnerships() {
+  const container = document.getElementById('partnerships-container');
+  if(!container) return;
+
+  const totalPartners = PARTNERSHIPS.reduce((s,v)=>s+v.partners.length,0);
+  const topScore = Math.max(...PARTNERSHIPS.map(v=>v.score));
+  const avgScore = Math.round(PARTNERSHIPS.reduce((s,v)=>s+v.score,0)/PARTNERSHIPS.length);
+
+  container.innerHTML = `
+    <div class="partnership-stats">
+      <div class="p-stat"><div class="p-num">${PARTNERSHIPS.length}</div><div class="p-label">Verticals Identified</div></div>
+      <div class="p-stat"><div class="p-num">${totalPartners}</div><div class="p-label">Potential Partners</div></div>
+      <div class="p-stat"><div class="p-num">${topScore}%</div><div class="p-label">Highest Fit Score</div></div>
+      <div class="p-stat"><div class="p-num">${avgScore}%</div><div class="p-label">Average Fit Score</div></div>
+    </div>
+    <div class="vertical-grid">
+      ${PARTNERSHIPS.sort((a,b)=>b.score-a.score).map(v=>`
+        <div class="vertical-card">
+          <div class="vertical-header">
+            <span class="vertical-icon">${v.icon}</span>
+            <span class="vertical-label">${v.label}</span>
+            <span class="vertical-score">${v.score}% fit</span>
+          </div>
+          <div class="vertical-why">${v.why}</div>
+          <div class="vertical-model"><strong>Model:</strong> ${v.model}</div>
+          <div class="partner-list">
+            ${v.partners.map(p=>{
+              const cls = p.fit>=85?'high':'mid';
+              return `<div class="partner-item">
+                <div style="flex:1">
+                  <div class="partner-name">${p.name}</div>
+                  <div class="partner-role">${p.role}</div>
+                </div>
+                <div class="partner-fit ${cls}">${p.fit}%</div>
+              </div>`;
+            }).join('')}
+          </div>
+        </div>
+      `).join('')}
+    </div>
+  `;
+}
+
 // ============ INIT ============
 renderOverview();
 renderMatrix();
@@ -1488,6 +1677,7 @@ updateCalc();
 initDealForm();
 renderFunding();
 renderProspects();
+renderPartnerships();
 </script>
 </body>
 </html>
