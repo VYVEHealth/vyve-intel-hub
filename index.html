@@ -281,6 +281,29 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 .fund-apply{margin-top:4px;font-size:11px;color:var(--mint);text-decoration:none;opacity:.8;display:inline-block;}
 .fund-apply:hover{opacity:1;text-decoration:underline;}
 .fund-reason{font-size:11px;color:var(--muted);font-style:italic;border-top:1px solid var(--border);padding-top:8px;margin-top:2px;}
+
+/* ─── PROSPECTS TAB ─── */
+.prospect-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:14px;margin-top:4px;}
+.prospect-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;transition:border-color .2s;}
+.prospect-card:hover{border-color:var(--mint);}
+.prospect-header{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:10px;}
+.prospect-name{font-size:15px;font-weight:700;color:var(--text);}
+.prospect-sector{font-size:10px;font-weight:600;padding:3px 8px;border-radius:20px;background:rgba(94,196,176,0.12);color:var(--mint);text-transform:uppercase;letter-spacing:.5px;}
+.prospect-role{font-size:11px;color:var(--muted);margin-bottom:8px;line-height:1.4;}
+.prospect-why{font-size:12px;color:var(--text-dim,#8a9ab5);line-height:1.6;margin-bottom:10px;}
+.prospect-angle{font-size:11px;color:var(--mint);background:rgba(94,196,176,0.07);border-left:3px solid var(--mint);padding:8px 10px;border-radius:0 6px 6px 0;line-height:1.5;margin-bottom:10px;}
+.prospect-footer{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;}
+.signal-badge{font-size:9px;font-weight:700;padding:3px 8px;border-radius:20px;text-transform:uppercase;letter-spacing:.5px;}
+.signal-hiring{background:rgba(248,183,60,0.15);color:var(--amber);}
+.signal-award{background:rgba(94,196,176,0.12);color:var(--mint);}
+.signal-growth{background:rgba(100,130,255,0.12);color:#8099ff;}
+.signal-culture{background:rgba(180,120,255,0.12);color:#c490ff;}
+.signal-trend{background:rgba(255,90,90,0.1);color:var(--danger);}
+.prospect-score{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;flex-shrink:0;}
+.prospect-link{font-size:10px;color:var(--mint);text-decoration:none;padding:4px 10px;border:1px solid var(--mint);border-radius:20px;transition:background .2s;}
+.prospect-link:hover{background:rgba(94,196,176,0.12);}
+.prospect-size{font-size:10px;color:var(--muted);display:flex;align-items:center;gap:4px;}
+
 </style>
 </head>
 <body>
@@ -315,6 +338,7 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
     <button class="nav-btn" onclick="switchTab('advantage')"> VYVE Advantage</button>
     <button class="nav-btn new-tab" onclick="switchTab('deals')"> Deal Intel</button>
     <button class="nav-btn new-tab" onclick="switchTab('funding')"> Grants &amp; Funding</button>
+<button class="nav-btn new-tab" onclick="switchTab('prospects')"> Sales Prospects</button>
   </div>
 </div>
 
@@ -493,6 +517,32 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
     <button class="filter-btn" onclick="filterFundingCat('corporate',this)">Corporate</button>
   </div>
   <div id="funding-grid"><div class="funding-grid-inner" id="funding-inner"></div></div>
+</div>
+
+
+
+<!-- PROSPECTS TAB -->
+<div class="tab-panel" id="tab-prospects">
+  <div class="section-header">
+    <h2>Sales Prospects — Companies Hiring Wellbeing Roles</h2>
+    <p>30 warm prospects identified from live job postings, award wins &amp; growth signals. Sorted by VYVE fit score.</p>
+  </div>
+  <div class="stat-grid" style="margin-bottom:24px;">
+    <div class="stat-card"><div class="label">Prospects Tracked</div><div class="value">30</div><div class="sub">Live intelligence</div></div>
+    <div class="stat-card"><div class="label">Hot (Hiring Now)</div><div class="value" id="signal-hiring-count">-</div><div class="sub">Active job posting</div></div>
+    <div class="stat-card"><div class="label">Warm (Award Signal)</div><div class="value" id="signal-award-count">-</div><div class="sub">Wellbeing award winners</div></div>
+    <div class="stat-card"><div class="label">Score 8+</div><div class="value" id="prospect-high-count">-</div><div class="sub">High VYVE fit</div></div>
+  </div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px;align-items:center;">
+    <input id="prospect-search" type="text" placeholder="Search companies, sectors, signals..." oninput="filterProspects(this.value)"
+      style="flex:1;min-width:200px;padding:9px 14px;background:var(--card);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:13px;">
+    <button class="filter-btn active" onclick="filterProspectSig('all',this)">All</button>
+    <button class="filter-btn" onclick="filterProspectSig('hiring',this)">Hiring Now</button>
+    <button class="filter-btn" onclick="filterProspectSig('award',this)">Award Winners</button>
+    <button class="filter-btn" onclick="filterProspectSig('growth',this)">High Growth</button>
+    <button class="filter-btn" onclick="filterProspectSig('culture',this)">Culture Signal</button>
+  </div>
+  <div id="prospect-grid" class="prospect-grid"></div>
 </div>
 
 </div><!-- end .main -->
@@ -1315,6 +1365,86 @@ function filterFundingCat(cat,btn){
   });
 }
 
+
+
+const PROSPECTS = [
+  {id:'giffgaff',name:'giffgaff',sector:'tech',size:'300-500',signal:'award',role:'Diversity & Wellbeing Lead (award winner 2026)',score:9,why:"Award winner for Diversity & Belonging at 2026 GBWWA. Actively investing in wellbeing culture. SME sweet spot, progressive culture.",angle:"Congratulate on 2026 award — introduce VYVE as the platform to operationalise their wellbeing ambition across all 3 pillars.",url:'https://www.linkedin.com/company/giffgaff/jobs/'},
+  {id:'dreams',name:'Dreams',sector:'retail',size:'1000-2000',signal:'award',role:'Employee Network Lead (award winner 2026)',score:8,why:"Won Employee Network of Year at 2026 GBWWA. Retail sector, 1000+ employees, strong wellbeing culture signal.",angle:"Leverage their award win as proof of culture readiness — position VYVE as the infrastructure to scale what they have started.",url:'https://www.linkedin.com/company/dreams-beds/jobs/'},
+  {id:'hubgem',name:'HubGem',sector:'tech',size:'50-100',signal:'award',role:'People & Wellbeing (Most Flexible Workplace 2026)',score:9,why:"SME winner at 2026 GBWWA. Fully remote team, strong wellbeing culture, already uses Headspace. VYVE adds in-person community and physical health pillar.",angle:"Remote-first teams need structured community touchpoints — VYVE fills the social and physical gaps Headspace cannot.",url:'https://www.linkedin.com/company/hubgem/jobs/'},
+  {id:'octopus-energy',name:'Octopus Energy',sector:'energy',size:'2000-5000',signal:'award',role:'Wellbeing Advocate (award winner 2026)',score:7,why:"Named Neurodiversity Advocate of Year at 2026 GBWWA. Fast-growth, progressive employer. May need dedicated wellbeing platform as they scale.",angle:"Fast-scaling teams lose wellbeing culture quickly — VYVE helps them maintain the culture that made them an award winner.",url:'https://www.linkedin.com/company/octopusenergy/jobs/'},
+  {id:'just-mortgages',name:'Just Mortgages',sector:'finance',size:'200-500',signal:'award',role:'Mental Health Advocate (award winner 2026)',score:9,why:"Won Mental Health Advocate award at 2026 GBWWA. Financial services SME — high stress sector, receptive to proactive wellbeing. In VYVE sweet spot.",angle:"Mental health advocacy is internal — VYVE provides the platform, events and community to make it employer-branded and measurable.",url:'https://www.linkedin.com/company/just-mortgages/jobs/'},
+  {id:'bclp',name:'Bryan Cave Leighton Paisner',sector:'professional',size:'1000-2000',signal:'award',role:'LGBTQIA+ Wellbeing Lead (award 2026)',score:7,why:"Law firm with active wellbeing programme. Named at GBWWA 2026. Professional services sector — ideal VYVE vertical.",angle:"Legal sector faces high burnout — VYVE offers proactive prevention across mental, physical and social health in one platform.",url:'https://www.linkedin.com/company/bryan-cave-leighton-paisner/jobs/'},
+  {id:'access-group',name:'The Access Group',sector:'tech',size:'5000-10000',signal:'award',role:'Head of Wellbeing Strategy (Best Large Company 2026)',score:6,why:"Winner of Best Wellbeing Strategy Large Company at 2026 GBWWA. Tech company. Likely already has incumbent vendor — potential renewal opportunity.",angle:"Compliment their award — VYVE can layer in community events and in-person activation that digital-only platforms miss.",url:'https://www.linkedin.com/company/the-access-group/jobs/'},
+  {id:'eon-uk',name:'E.ON UK',sector:'energy',size:'5000+',signal:'award',role:'Wellbeing Team of Year (2026 GBWWA)',score:6,why:"Large employer with dedicated wellbeing team. Energy sector. Award recognises existing programme — could be looking to evolve or expand platform.",angle:"Wellbeing team wants to scale impact — VYVE adds community events and 1-in-5 charity pledge that resonates with energy sector ESG goals.",url:'https://www.linkedin.com/company/eon-uk/jobs/'},
+  {id:'tier1-civeng',name:'Tier 1 Civil Contractor (South East)',sector:'construction',size:'500-2000',signal:'hiring',role:'Senior SHEW Manager — Live job posting Reed.co.uk',score:9,why:"Actively hiring Senior Safety, Health, Environment & Wellbeing Manager on £100M project in South East. Construction sector high stress, high injury risk. Budget confirmed.",angle:"New SHEW hire needs tools and programmes fast — VYVE can be their first action. Time the pitch to the hire.",url:'https://www.reed.co.uk/jobs/head-of-wellbeing-jobs'},
+  {id:'hotel-xenia',name:'Hotel Xenia / Hospitality Group',sector:'hospitality',size:'100-500',signal:'hiring',role:'HR & Wellbeing Manager — Live job posting',score:8,why:"Actively hiring HR + Wellbeing Manager. Hospitality sector, high turnover, shift workers — VYVE physical and social health pillars ideal fit.",angle:"Hospitality teams need flexible, mobile-first wellbeing — VYVE events and app suit shift workers who can't attend 9-5 programmes.",url:'https://www.reed.co.uk/jobs/employee-wellbeing-jobs'},
+  {id:'barnardos',name:"Barnardo's",sector:'charity',size:'5000+',signal:'hiring',role:'Community Wellbeing Mentor — Live posting (May 2026)',score:7,why:"Hiring community wellbeing roles across Surrey. Charity sector, mission-aligned with VYVE 1-in-5 pledge. Potential referral/partnership angle too.",angle:"VYVE mission aligns directly — 1-in-5 pledge resonates with Barnardo's values. Position as culture platform, not just perks.",url:'https://www.linkedin.com/company/barnardos/jobs/'},
+  {id:'radius-payments',name:'Radius',sector:'tech',size:'1500-3000',signal:'growth',role:'Scaling headcount rapidly (fintech surge 2026)',score:8,why:"Named as one of high-growth fintech firms scaling teams rapidly in 2026. Growing fast = culture + wellbeing risk. SME-to-mid size transition.",angle:"Fast growth companies lose the culture that made them great — VYVE locks in wellbeing infrastructure before headcount overtakes culture.",url:'https://www.linkedin.com/company/radius-payment-solutions/jobs/'},
+  {id:'sumup',name:'SumUp',sector:'fintech',size:'3000-5000',signal:'growth',role:'Scaling UK team rapidly (fintech surge 2026)',score:7,why:"High growth fintech expanding UK presence significantly. Tech sector, 25-45 age profile — VYVE physical + mental pillars ideal fit.",angle:"Tech team scaling fast needs modern wellbeing infrastructure. VYVE replaces one-size-fits-all EAP with proactive, community-led model.",url:'https://www.linkedin.com/company/sumup/jobs/'},
+  {id:'mentalhealth-foundation',name:'Mental Health Foundation',sector:'charity',size:'200-500',signal:'award',role:'Best Wellbeing Strategy SME (2026 GBWWA winner)',score:8,why:"Won Best SME Wellbeing Strategy 2026. Charity sector, mission-aligned. Internal wellbeing investment = potential VYVE client for staff wellbeing.",angle:"An organisation focused on mental health should walk the talk for their own staff — VYVE extends coverage to physical and social health.",url:'https://www.linkedin.com/company/mental-health-foundation/jobs/'},
+  {id:'lq-group',name:'L&Q Group',sector:'housing',size:'1000-3000',signal:'award',role:'Female Health Initiatives lead (award 2026)',score:7,why:"Housing association with strong wellbeing programme (female health advocacy award). Social housing sector — community-focused, VYVE values alignment.",angle:"L&Q operates in communities — VYVE community events and social health pillar align perfectly with their housing and community mission.",url:'https://www.linkedin.com/company/lq-group/jobs/'},
+  {id:'gtr',name:'Govia Thameslink Railway (GTR)',sector:'transport',size:'5000+',signal:'award',role:'Wellbeing Leader of Year (award 2026)',score:6,why:"Large transport operator with named wellbeing leader. High-stress frontline workforce. Wellbeing investment confirmed at senior level.",angle:"Frontline transport workers need accessible, mobile wellbeing — VYVE app + community events work across shift patterns.",url:'https://www.linkedin.com/company/govia-thameslink-railway/jobs/'},
+  {id:'softcat',name:'Softcat',sector:'tech',size:'2000-3000',signal:'culture',role:'Known for strong employee culture / Great Place to Work listed',score:8,why:"IT reseller, consistently listed as great employer. Culture-first company in VYVE sweet spot size. Technology sector — digital-first workforce.",angle:"Culture-first companies need to evolve their wellbeing offer as they scale — VYVE adds the community and social layer that keeps culture alive.",url:'https://www.linkedin.com/company/softcat/jobs/'},
+  {id:'brewdog',name:'BrewDog',sector:'retail-hospitality',size:'1000-2000',signal:'culture',role:'Actively rebuilding people/culture following PR issues',score:8,why:"Pub/hospitality chain actively investing in culture reset and employee experience post-2021 issues. High visibility, SME-to-mid size.",angle:"BrewDog needs a visible, meaningful wellbeing programme that signals cultural change — VYVE charity pledge and community events tick both boxes.",url:'https://www.linkedin.com/company/brewdog/jobs/'},
+  {id:'matalan',name:'Matalan',sector:'retail',size:'5000-10000',signal:'culture',role:'HR transformation underway, wellbeing investment signal',score:7,why:"Retail chain, large frontline workforce. Seasonal, shift-based work patterns. VYVE physical and social health pillars suit retail workers.",angle:"Retail frontline workers are underserved by desk-focused wellbeing products — VYVE events and app are built for everyone, not just office staff.",url:'https://www.linkedin.com/company/matalan/jobs/'},
+  {id:'greencore',name:'Greencore',sector:'food-manufacturing',size:'2000-4000',signal:'culture',role:'Food manufacturer — high manual labour wellbeing need',score:8,why:"UK food manufacturer with large blue-collar workforce. Physical health and injury prevention are direct VYVE value propositions for this sector.",angle:"Manufacturing teams have highest physical health risk but lowest access to wellbeing support — VYVE democratises access across the whole workforce.",url:'https://www.linkedin.com/company/greencore-group/jobs/'},
+  {id:'gymshark',name:'Gymshark',sector:'retail-ecomm',size:'600-1200',signal:'culture',role:'High-growth DTC brand, wellness-aligned workforce',score:9,why:"Fitness brand, wellness-aligned workforce, fast growth. Already live the VYVE values. Perfect cultural fit for all 3 pillars.",angle:"A fitness brand whose team has the weakest access to structured workplace wellbeing is a powerful story — VYVE closes that gap.",url:'https://www.linkedin.com/company/gymshark/jobs/'},
+  {id:'occ-health-trust',name:'Occupational Health Provider (NHS-adjacent)',sector:'health',size:'50-500',signal:'hiring',role:'Wellbeing Delivery Manager — newly created role (Indeed)',score:7,why:"Newly created strategic wellbeing delivery role advertised. Health sector organisation expanding wellbeing portfolio.",angle:"Wellbeing delivery managers want infrastructure to scale — VYVE is the platform they can deploy without building from scratch.",url:'https://uk.indeed.com/q-head-of-wellbeing-jobs.html'},
+  {id:'deloitte-sme-client',name:'Professional Services SME (50-249)',sector:'professional',size:'50-249',signal:'trend',role:'SME professional services — fastest adopting wellbeing in 2026',score:9,why:"SME professional services are VYVE primary target. Sickness absence at 15-year high (9.4 days/worker). £56bn mental health cost driving procurement.",angle:"Lead with the numbers: 9.4 sick days/worker average. VYVE pays for itself if it reduces that by just 1 day/year.",url:'https://uk.linkedin.com/jobs/wellbeing-manager-jobs'},
+  {id:'co-op-group',name:'Co-op Group',sector:'retail',size:'55000+',signal:'culture',role:'Community-first retail brand, active wellbeing programme',score:6,why:"Community-focused retailer aligned with VYVE values (1-in-5 pledge). Large but strong SME supply chain that VYVE could target via Co-op partner channel.",angle:"Co-op values mirror VYVE values — partnership or supply chain entry point rather than direct sale.",url:'https://www.linkedin.com/company/co-op/jobs/'},
+  {id:'wh-smith',name:'WH Smith',sector:'retail',size:'10000+',signal:'hiring',role:'People & Wellbeing roles live on job boards',score:6,why:"Retail chain, hiring wellbeing-linked People roles. Large but divisional buying means SME-level contracts possible per trading region.",angle:"Target regional HR leads not central procurement — wellbeing budget often sits at divisional level in large retailers.",url:'https://www.linkedin.com/company/wh-smith/jobs/'},
+  {id:'log9-logistics',name:'Logistics & Distribution Company (UK)',sector:'logistics',size:'200-1000',signal:'trend',role:'Logistics sector — highest mental health burden per sector data',score:8,why:"Logistics/distribution sector has highest rates of mental health absence in UK. Shift work, isolation, physical strain — all 3 VYVE pillars needed.",angle:"Logistics employers face 2x the mental health absence rate of office sectors — VYVE ROI case writes itself.",url:'https://uk.indeed.com/q-workplace-wellbeing-jobs.html'},
+  {id:'kainos',name:'Kainos',sector:'tech',size:'2500-3500',signal:'culture',role:'Tech consultancy, Great Place to Work certified',score:8,why:"IT/digital consultancy, consistently Great Place to Work listed. Growing UK headcount. Tech sector, progressive HR culture.",angle:"Great Place to Work companies want to maintain culture at scale — VYVE is the community infrastructure that keeps them on the list.",url:'https://www.linkedin.com/company/kainos/jobs/'},
+  {id:'city-fibre',name:'CityFibre',sector:'telecoms',size:'1000-2000',signal:'growth',role:'Rapid infrastructure build-out across UK — mass hiring',score:7,why:"UK broadband infrastructure company on major national rollout. Hiring engineers and support staff at scale across UK regions.",angle:"Rapid workforce scaling creates wellbeing risk — VYVE ensures new hires feel part of a community from day one.",url:'https://www.linkedin.com/company/cityfibre/jobs/'},
+  {id:'waxmann-logistics',name:'Eddie Stobart / Logistics Operator',sector:'logistics',size:'5000+',signal:'trend',role:'Major logistics operator — physical health + driver wellbeing need',score:7,why:"Large logistics operator with high physical health risk, driver isolation, and shift work — precisely the workforce VYVE physical and social pillars address.",angle:"Driver wellbeing is an operational issue, not just HR — position VYVE as reducing accidents and sick days, not just improving morale.",url:'https://www.linkedin.com/company/eddie-stobart-logistics/jobs/'},
+  {id:'national-express',name:'National Express',sector:'transport',size:'5000+',signal:'trend',role:'Transport operator — frontline workforce wellbeing',score:7,why:"Large transport operator with frontline shift workforce. Mental health and physical strain from driving roles = direct VYVE value proposition.",angle:"Wellbeing investment in transport reduces accidents and absenteeism — frame VYVE as risk management, not HR spend.",url:'https://www.linkedin.com/company/national-express/jobs/'}
+];
+
+
+function renderProspects(){
+  const grid=document.getElementById('prospect-grid');
+  if(!grid)return;
+  const sorted=[...PROSPECTS].sort((a,b)=>b.score-a.score);
+  grid.innerHTML=sorted.map(p=>{
+    const sc=p.score>=8?'score-high':p.score>=6?'score-mid':'score-low';
+    const sigClass='signal-'+p.signal;
+    const sigLabel={hiring:'Hiring Now',award:'Award Winner',growth:'High Growth',culture:'Culture Signal',trend:'Sector Trend'}[p.signal]||p.signal;
+    return `<div class="prospect-card" data-sig="${p.signal}" data-search="${(p.name+' '+p.sector+' '+p.signal+' '+p.why).toLowerCase()}">
+      <div class="prospect-header">
+        <div>
+          <div class="prospect-name">${p.name}</div>
+          <div class="prospect-size">${p.size} employees &middot; ${p.sector.replace(/-/g,' ')}</div>
+        </div>
+        <div class="prospect-score ${sc}">${p.score}</div>
+      </div>
+      <div class="prospect-role">${p.role}</div>
+      <div class="prospect-why">${p.why}</div>
+      <div class="prospect-angle">${p.angle}</div>
+      <div class="prospect-footer">
+        <span class="signal-badge ${sigClass}">${sigLabel}</span>
+        <a class="prospect-link" href="${p.url}" target="_blank">View on LinkedIn</a>
+      </div>
+    </div>`;
+  }).join('');
+  document.getElementById('signal-hiring-count').textContent=PROSPECTS.filter(p=>p.signal==='hiring').length;
+  document.getElementById('signal-award-count').textContent=PROSPECTS.filter(p=>p.signal==='award').length;
+  document.getElementById('prospect-high-count').textContent=PROSPECTS.filter(p=>p.score>=8).length;
+}
+function filterProspects(q){
+  document.querySelectorAll('.prospect-card').forEach(c=>{
+    c.style.display=(c.getAttribute('data-search')||'').includes(q.toLowerCase())?'':'none';
+  });
+}
+function filterProspectSig(sig,btn){
+  document.querySelectorAll('.filter-btn').forEach(b=>{
+    if(b.closest('#tab-prospects'))b.classList.remove('active');
+  });
+  btn.classList.add('active');
+  document.querySelectorAll('.prospect-card').forEach(c=>{
+    c.style.display=sig==='all'||c.getAttribute('data-sig')===sig?'':'none';
+  });
+}
+
 // ============ INIT ============
 renderOverview();
 renderMatrix();
@@ -1327,6 +1457,7 @@ renderObjections();
 updateCalc();
 initDealForm();
 renderFunding();
+renderProspects();
 </script>
 </body>
 </html>
