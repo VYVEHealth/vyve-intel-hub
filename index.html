@@ -940,12 +940,7 @@ function renderProfiles() {
  <div class="profile-header-right">${ovBadge}<button class="btn-battle" onclick="openBattleCard('${c.id}')">Battle Card</button></div>
  </div>
  <div class="profile-body">
- ${COMP_PROPS[c.id]?`<div class="profile-section prop-section">
-   <div class="prop-who-label">Who they sell to</div>
-   <div class="prop-who-text">${COMP_PROPS[c.id].who}</div>
-   <div class="prop-what-label">What they offer</div>
-   <div class="prop-what-text">${COMP_PROPS[c.id].what}</div>
- </div>`:''}
+ ${COMP_PROPS[c.id]?('<div class="profile-section prop-section"><div class="prop-who-label">Who they sell to</div><div class="prop-who-text">'+COMP_PROPS[c.id].who+'</div><div class="prop-what-label">What they offer</div><div class="prop-what-text">'+COMP_PROPS[c.id].what+'</div></div>'):''}
  <div class="profile-section">
  <h4>Market Intelligence</h4>
  <div class="info-row"><span class="info-label">Segment</span><span class="info-val">${c.segment}</span></div>
