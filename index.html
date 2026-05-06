@@ -339,6 +339,16 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 .diff-content p{font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:8px;}
 .diff-who{font-size:11px;color:var(--accent);font-style:italic;}
 
+
+.prop-section{background:rgba(0,229,160,0.04);border:1px solid rgba(0,229,160,0.15);border-radius:10px;padding:14px 16px;}
+.prop-who-label,.prop-what-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;margin-bottom:4px;}
+.prop-who-label{color:var(--mint);}
+.prop-what-label{color:var(--accent);margin-top:10px;}
+.prop-who-text{font-size:12px;color:var(--text);font-weight:600;line-height:1.5;}
+.prop-what-text{font-size:12px;color:var(--muted);line-height:1.6;}
+.vertical-positioning{background:rgba(79,172,254,0.06);border-left:3px solid #4facfe;padding:10px 14px;border-radius:0 8px 8px 0;font-size:12px;color:var(--muted);line-height:1.6;margin-top:10px;}
+.vertical-positioning strong{color:#4facfe;display:block;margin-bottom:4px;font-size:10px;text-transform:uppercase;letter-spacing:.5px;}
+
 </style>
 </head>
 <body>
@@ -930,6 +940,12 @@ function renderProfiles() {
  <div class="profile-header-right">${ovBadge}<button class="btn-battle" onclick="openBattleCard('${c.id}')">Battle Card</button></div>
  </div>
  <div class="profile-body">
+ ${COMP_PROPS[c.id]?`<div class="profile-section prop-section">
+   <div class="prop-who-label">Who they sell to</div>
+   <div class="prop-who-text">${COMP_PROPS[c.id].who}</div>
+   <div class="prop-what-label">What they offer</div>
+   <div class="prop-what-text">${COMP_PROPS[c.id].what}</div>
+ </div>`:''}
  <div class="profile-section">
  <h4>Market Intelligence</h4>
  <div class="info-row"><span class="info-label">Segment</span><span class="info-val">${c.segment}</span></div>
@@ -1471,6 +1487,7 @@ function filterProspectSig(sig,btn){
 // ============ PARTNERSHIPS DATA ============
 const PARTNERSHIPS = [
  { id:'insurance', label:'Insurance & Group Risk', icon:'', score:88,
+    tier:'best', tierLabel:'Priority Partnership', bestPartner:'Aviva UK', positioning:'Position VYVE as the prevention layer that protects their book. Our engagement data directly reduces mental health claims. Lead with: Every 10% improvement in workforce mental health reduces your group claims. Ask for a pilot with 3 SME clients.',
  why:'Group insurers need wellbeing evidence to reduce claims. VYVE data = lower premiums = mutual ROI.',
  model:'White-label VYVE inside group health policies; revenue share on reduced claims',
  partners:[
@@ -1480,6 +1497,7 @@ const PARTNERSHIPS = [
  ]
  },
  { id:'benefits', label:'Employee Benefits Platforms', icon:'', score:85,
+    tier:'best', tierLabel:'Priority Partnership', bestPartner:'Perkbox', positioning:'Position VYVE as the wellbeing depth Perkbox lacks — their platform is discounts, ours is culture change. Pitch as a premium tier upgrade for their existing client base. Revenue share on upsells.',
  why:'Benefits portals need differentiated wellbeing content. VYVE adds community and physical activation missing from most platforms.',
  model:'API integration into benefits marketplace; per-seat referral fee',
  partners:[
@@ -1489,6 +1507,7 @@ const PARTNERSHIPS = [
  ]
  },
  { id:'payroll', label:'Payroll & HR Software', icon:'', score:82,
+    tier:'pick', tierLabel:'Strong Fit', bestPartner:'Sage HR', positioning:'Position VYVE as the wellbeing layer that makes Sage stickier with SME clients. Pitch to their partner team, not their clients directly. Revenue share on referrals from their 13,000 UK customers is a significant distribution opportunity.',
  why:'Payroll platforms touch every employee monthly. VYVE as a bolt-on turns transactional software into a wellbeing channel.',
  model:'App marketplace listing + co-sell with HR implementation partners',
  partners:[
@@ -1498,6 +1517,7 @@ const PARTNERSHIPS = [
  ]
  },
  { id:'recruitment', label:'Recruitment & Staffing', icon:'', score:79,
+    tier:'pick', tierLabel:'Strong Fit', bestPartner:'Hays UK', positioning:'Position VYVE as a tool that helps Hays clients retain the talent Hays places. Frame it as an employer brand differentiator in a tight hiring market — reduces replacement fees and strengthens the client relationship.',
  why:'Recruiters sell culture and wellbeing as retention tools. VYVE helps employers win talent and keeps placed candidates healthy, reducing replacement costs.',
  model:'Referral partnership — recruiters recommend VYVE to clients; affiliate commission',
  partners:[
@@ -1507,6 +1527,7 @@ const PARTNERSHIPS = [
  ]
  },
  { id:'occupational', label:'Occupational Health', icon:'', score:84,
+    tier:'best', tierLabel:'Priority Partnership', bestPartner:'BHSF', positioning:'Position VYVE as the digital front door before OH intervention — we reduce their referral load and improve client outcomes. Lead with: VYVE prevents the cases that end up on your desk. A prevention-plus-intervention bundle is a genuinely differentiated enterprise proposition.',
  why:'OH providers need digital preventative tools. VYVE is the proactive layer before OH intervention — reduces referral load and costs.',
  model:'Clinical referral pathway; OH firms resell VYVE as digital prevention tier',
  partners:[
@@ -1516,6 +1537,7 @@ const PARTNERSHIPS = [
  ]
  },
  { id:'financial', label:'Financial Wellbeing', icon:'', score:76,
+    tier:'pick', tierLabel:'Strong Fit', bestPartner:'Nudge Global', positioning:'Position VYVE as the mental and social wrapper around Nudge\'s financial content. A joint proposition tackles the root cause of stress (financial) and the impact (mental health) in one platform.',
  why:'Financial stress is the top driver of mental ill health at work. VYVE + finwellbeing = holistic proposition that addresses root causes.',
  model:'In-app financial wellbeing module co-developed; shared subscription revenue',
  partners:[
@@ -1525,6 +1547,7 @@ const PARTNERSHIPS = [
  ]
  },
  { id:'fitness', label:'Fitness & Gym Networks', icon:'', score:80,
+    tier:'pick', tierLabel:'Strong Fit', bestPartner:'Everyone Active', positioning:'Position VYVE as the reason employees visit — our physical challenge calendar drives footfall to Everyone Active sites. Their members become VYVE users; VYVE users become members. Mutual acquisition at no cost to either party.',
  why:'VYVE tracks physical wellbeing — gym partners provide the physical activation infrastructure to back it up.',
  model:'Gym discount scheme inside VYVE app; gyms pay for qualified leads',
  partners:[
@@ -1534,6 +1557,7 @@ const PARTNERSHIPS = [
  ]
  },
  { id:'workspace', label:'Workspace & Facilities', icon:'', score:72,
+    tier:'later', tierLabel:'Later Stage', bestPartner:'IWG / Regus', positioning:'Position VYVE as the community layer that makes flexible workspace feel less transient. Strong fit but lower urgency — pursue once the community events programme is established and replicable.',
  why:'Flexible workspace providers need wellbeing as a tenant retention tool. VYVE adds community layer to physical space.',
  model:'VYVE deployed as standard wellbeing layer for all tenants in cowork buildings',
  partners:[
@@ -1543,6 +1567,7 @@ const PARTNERSHIPS = [
  ]
  },
  { id:'pension', label:'Pension & Retirement', icon:'', score:74,
+    tier:'later', tierLabel:'Later Stage', bestPartner:'Nest Pensions', positioning:'A strong medium-term play once VYVE has data showing impact on financial stress. Position as a member engagement tool that reduces pension anxiety — but this vertical needs financial wellbeing content built out first.',
  why:'Pension providers increasingly required to consider financial and mental wellbeing of savers. VYVE adds engagement layer.',
  model:'VYVE bundled with workplace pension onboarding; provider pays per member activated',
  partners:[
@@ -1552,6 +1577,7 @@ const PARTNERSHIPS = [
  ]
  },
  { id:'diversity', label:'D&I & Culture Consultancies', icon:'', score:77,
+    tier:'pick', tierLabel:'Strong Fit', bestPartner:'EW Group', positioning:'Position VYVE as the measurement infrastructure for D&I programmes — their clients get inclusion consultancy, VYVE provides the ongoing data that proves it worked. Makes their ROI case for them.',
  why:'D&I consultancies need measurable wellbeing outcomes. VYVE data proves culture change beyond training days.',
  model:'VYVE as measurement tool for D&I programmes; consultancy refers clients',
  partners:[
@@ -1561,6 +1587,7 @@ const PARTNERSHIPS = [
  ]
  },
  { id:'charity', label:'Mental Health Charities', icon:'', score:86,
+    tier:'best', tierLabel:'Priority Partnership', bestPartner:'Mind', positioning:'Position VYVE as Mind\'s corporate delivery partner — our platform gives Mind reach into hundreds of workplaces without operational cost. Lead with the 1-in-5 pledge and ask for a formal endorsement. A Mind badge on VYVE is worth more than most paid marketing campaigns.',
  why:'VYVE is a CIC with a 1-in-5 pledge. Charity partnerships amplify mission credibility and unlock B2B trust.',
  model:'1% of revenue donated; joint campaigns; charity endorsement of VYVE platform',
  partners:[
@@ -1570,6 +1597,7 @@ const PARTNERSHIPS = [
  ]
  },
  { id:'food', label:'Food & Nutrition', icon:'', score:70,
+    tier:'later', tierLabel:'Later Stage', bestPartner:'Mindful Chef', positioning:'Lowest priority vertical — nutrition is a supporting pillar, not a lead proposition. Revisit when physical content is fully built and VYVE needs a reward mechanic for challenge completions.',
  why:'Nutrition is part of physical wellbeing. Food delivery and meal plan partners add tangible benefit to VYVE physical pillar.',
  model:'VYVE physical pillar content + branded nutrition challenges; food partner pays for placement',
  partners:[
@@ -1581,46 +1609,59 @@ const PARTNERSHIPS = [
 ];
 
 function renderPartnerships() {
- const container = document.getElementById('partnerships-container');
- if(!container) return;
-
- const totalPartners = PARTNERSHIPS.reduce((s,v)=>s+v.partners.length,0);
- const topScore = Math.max(...PARTNERSHIPS.map(v=>v.score));
- const avgScore = Math.round(PARTNERSHIPS.reduce((s,v)=>s+v.score,0)/PARTNERSHIPS.length);
-
- container.innerHTML = `
- <div class="partnership-stats">
- <div class="p-stat"><div class="p-num">${PARTNERSHIPS.length}</div><div class="p-label">Verticals Identified</div></div>
- <div class="p-stat"><div class="p-num">${totalPartners}</div><div class="p-label">Potential Partners</div></div>
- <div class="p-stat"><div class="p-num">${topScore}%</div><div class="p-label">Highest Fit Score</div></div>
- <div class="p-stat"><div class="p-num">${avgScore}%</div><div class="p-label">Average Fit Score</div></div>
- </div>
- <div class="vertical-grid">
- ${PARTNERSHIPS.sort((a,b)=>b.score-a.score).map(v=>`
- <div class="vertical-card">
- <div class="vertical-header">
- <span class="vertical-icon">${v.icon}</span>
- <span class="vertical-label">${v.label}</span>
- <span class="vertical-score">${v.score}% fit</span>
- </div>
- <div class="vertical-why">${v.why}</div>
- <div class="vertical-model"><strong>Model:</strong> ${v.model}</div>
- <div class="partner-list">
- ${v.partners.map(p=>{
- const cls = p.fit>=85?'high':'mid';
- return `<div class="partner-item">
- <div style="flex:1">
- <div class="partner-name">${p.name}</div>
- <div class="partner-role">${p.role}</div>
- </div>
- <div class="partner-fit ${cls}">${p.fit}%</div>
- </div>`;
- }).join('')}
- </div>
- </div>
- `).join('')}
- </div>
- `;
+  const container = document.getElementById('partnerships-container');
+  if(!container) return;
+  const totalPartners = PARTNERSHIPS.reduce((s,v)=>s+v.partners.length,0);
+  const topScore = Math.max(...PARTNERSHIPS.map(v=>v.score));
+  const priorityCount = PARTNERSHIPS.filter(v=>v.tier==='best').length;
+  const tierOrder = {best:0,pick:1,later:2};
+  const sorted = [...PARTNERSHIPS].sort((a,b)=>(tierOrder[a.tier]||1)-(tierOrder[b.tier]||1)||b.score-a.score);
+  const tc = {best:'var(--mint)',pick:'var(--amber)',later:'var(--muted)'};
+  const tb = {best:'rgba(0,229,160,0.10)',pick:'rgba(247,151,30,0.10)',later:'rgba(136,136,136,0.08)'};
+  container.innerHTML = `
+    <div class="partnership-stats">
+      <div class="p-stat"><div class="p-num">${PARTNERSHIPS.length}</div><div class="p-label">Verticals Mapped</div></div>
+      <div class="p-stat"><div class="p-num">${priorityCount}</div><div class="p-label">Priority Partnerships</div></div>
+      <div class="p-stat"><div class="p-num">${topScore}%</div><div class="p-label">Highest Fit Score</div></div>
+      <div class="p-stat"><div class="p-num">${totalPartners}</div><div class="p-label">Named Companies</div></div>
+    </div>
+    <div style="margin-bottom:20px;padding:14px 18px;background:rgba(0,229,160,0.06);border:1px solid rgba(0,229,160,0.15);border-radius:12px;font-size:12px;color:var(--muted);line-height:1.7;">
+      <span style="color:var(--mint);font-weight:700;">Priority</span> — pursue in 2026 &nbsp;|&nbsp;
+      <span style="color:var(--amber);font-weight:700;">Strong Fit</span> — explore once core partnerships are live &nbsp;|&nbsp;
+      <span style="color:var(--muted);font-weight:700;">Later Stage</span> — real opportunities requiring product or scale threshold first
+    </div>
+    <div class="vertical-grid">
+      ${sorted.map(v=>{
+        const col=tc[v.tier]||'var(--muted)', bg=tb[v.tier]||'rgba(136,136,136,0.08)';
+        const bestP=v.partners.find(p=>p.name===v.bestPartner)||v.partners[0];
+        const borderCol=v.tier==='best'?'rgba(0,229,160,0.35)':v.tier==='pick'?'rgba(247,151,30,0.25)':'var(--border)';
+        return `<div class="vertical-card" style="border-color:${borderCol};">
+          <div class="vertical-header">
+            <span class="vertical-label">${v.label}</span>
+            <span class="vertical-score" style="background:${bg};color:${col};">${v.score}% fit</span>
+          </div>
+          <div style="margin-bottom:10px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+            <span style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.6px;color:${col};background:${bg};padding:3px 9px;border-radius:4px;">${v.tierLabel||'Partner'}</span>
+            ${bestP?`<span style="font-size:11px;color:var(--muted);">Lead with: <strong style="color:var(--text);">${bestP.name}</strong></span>`:''}
+          </div>
+          <div class="vertical-why">${v.why}</div>
+          <div class="vertical-model"><strong>Model:</strong> ${v.model}</div>
+          ${v.positioning?`<div class="vertical-positioning"><strong>VYVE Positioning</strong>${v.positioning}</div>`:''}
+          <div class="partner-list" style="margin-top:12px;">
+            ${v.partners.map(p=>{
+              const isBest=p.name===v.bestPartner;
+              return `<div class="partner-item" style="${isBest?'border-color:rgba(0,229,160,0.25);background:rgba(0,229,160,0.04);':''}">
+                <div style="flex:1;">
+                  <div class="partner-name">${p.name}${isBest?'<span style="font-size:9px;font-weight:700;color:var(--mint);background:rgba(0,229,160,0.12);padding:1px 6px;border-radius:3px;margin-left:6px;">Best pick</span>':''}</div>
+                  <div class="partner-role">${p.role}</div>
+                </div>
+                <div class="partner-fit ${p.fit>=85?'high':'mid'}">${p.fit}%</div>
+              </div>`;
+            }).join('')}
+          </div>
+        </div>`;
+      }).join('')}
+    </div>`;
 }
 
 // ============ INIT ============
