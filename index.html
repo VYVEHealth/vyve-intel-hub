@@ -1611,52 +1611,60 @@ function renderPartnerships() {
   const priorityCount = PARTNERSHIPS.filter(v=>v.tier==='best').length;
   const tierOrder = {best:0,pick:1,later:2};
   const sorted = [...PARTNERSHIPS].sort((a,b)=>(tierOrder[a.tier]||1)-(tierOrder[b.tier]||1)||b.score-a.score);
-  const tc = {best:'var(--mint)',pick:'var(--amber)',later:'var(--muted)'};
-  const tb = {best:'rgba(0,229,160,0.10)',pick:'rgba(247,151,30,0.10)',later:'rgba(136,136,136,0.08)'};
-  container.innerHTML = `
-    <div class="partnership-stats">
-      <div class="p-stat"><div class="p-num">${PARTNERSHIPS.length}</div><div class="p-label">Verticals Mapped</div></div>
-      <div class="p-stat"><div class="p-num">${priorityCount}</div><div class="p-label">Priority Partnerships</div></div>
-      <div class="p-stat"><div class="p-num">${topScore}%</div><div class="p-label">Highest Fit Score</div></div>
-      <div class="p-stat"><div class="p-num">${totalPartners}</div><div class="p-label">Named Companies</div></div>
-    </div>
-    <div style="margin-bottom:20px;padding:14px 18px;background:rgba(0,229,160,0.06);border:1px solid rgba(0,229,160,0.15);border-radius:12px;font-size:12px;color:var(--muted);line-height:1.7;">
-      <span style="color:var(--mint);font-weight:700;">Priority</span> — pursue in 2026 &nbsp;|&nbsp;
-      <span style="color:var(--amber);font-weight:700;">Strong Fit</span> — explore once core partnerships are live &nbsp;|&nbsp;
-      <span style="color:var(--muted);font-weight:700;">Later Stage</span> — real opportunities requiring product or scale threshold first
-    </div>
-    <div class="vertical-grid">
-      ${sorted.map(v=>{
-        const col=tc[v.tier]||'var(--muted)', bg=tb[v.tier]||'rgba(136,136,136,0.08)';
-        const bestP=v.partners.find(p=>p.name===v.bestPartner)||v.partners[0];
-        const borderCol=v.tier==='best'?'rgba(0,229,160,0.35)':v.tier==='pick'?'rgba(247,151,30,0.25)':'var(--border)';
-        return `<div class="vertical-card" style="border-color:${borderCol};">
-          <div class="vertical-header">
-            <span class="vertical-label">${v.label}</span>
-            <span class="vertical-score" style="background:${bg};color:${col};">${v.score}% fit</span>
-          </div>
-          <div style="margin-bottom:10px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
-            <span style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.6px;color:${col};background:${bg};padding:3px 9px;border-radius:4px;">${v.tierLabel||'Partner'}</span>
-            ${bestP?`<span style="font-size:11px;color:var(--muted);">Lead with: <strong style="color:var(--text);">${bestP.name}</strong></span>`:''}
-          </div>
-          <div class="vertical-why">${v.why}</div>
-          <div class="vertical-model"><strong>Model:</strong> ${v.model}</div>
-          ${v.positioning?`<div class="vertical-positioning"><strong>VYVE Positioning</strong>${v.positioning}</div>`:''}
-          <div class="partner-list" style="margin-top:12px;">
-            ${v.partners.map(p=>{
-              const isBest=p.name===v.bestPartner;
-              return `<div class="partner-item" style="${isBest?'border-color:rgba(0,229,160,0.25);background:rgba(0,229,160,0.04);':''}">
-                <div style="flex:1;">
-                  <div class="partner-name">${p.name}${isBest?'<span style="font-size:9px;font-weight:700;color:var(--mint);background:rgba(0,229,160,0.12);padding:1px 6px;border-radius:3px;margin-left:6px;">Best pick</span>':''}</div>
-                  <div class="partner-role">${p.role}</div>
-                </div>
-                <div class="partner-fit ${p.fit>=85?'high':'mid'}">${p.fit}%</div>
-              </div>`;
-            }).join('')}
-          </div>
-        </div>`;
-      }).join('')}
-    </div>`;
+  const tcMap = {best:'var(--mint)',pick:'var(--amber)',later:'var(--muted)'};
+  const tbMap = {best:'rgba(0,229,160,0.10)',pick:'rgba(247,151,30,0.10)',later:'rgba(136,136,136,0.08)'};
+  const borderMap = {best:'rgba(0,229,160,0.35)',pick:'rgba(247,151,30,0.25)',later:'var(--border)'};
+
+  function buildVerticalCard(v) {
+    const col = tcMap[v.tier]||'var(--muted)';
+    const bg = tbMap[v.tier]||'rgba(136,136,136,0.08)';
+    const borderCol = borderMap[v.tier]||'var(--border)';
+    const bestP = v.partners.find(function(p){return p.name===v.bestPartner;})||v.partners[0];
+
+    const leadWith = bestP ? ('<span style="font-size:11px;color:var(--muted);">Lead with: <strong style="color:var(--text);">'+bestP.name+'</strong></span>') : '';
+    const positioning = v.positioning ? ('<div class="vertical-positioning"><strong>VYVE Positioning</strong>'+v.positioning+'</div>') : '';
+
+    const partnerItems = v.partners.map(function(p) {
+      const isBest = p.name===v.bestPartner;
+      const bestBadge = isBest ? '<span style="font-size:9px;font-weight:700;color:var(--mint);background:rgba(0,229,160,0.12);padding:1px 6px;border-radius:3px;margin-left:6px;">Best pick</span>' : '';
+      const itemStyle = isBest ? 'border-color:rgba(0,229,160,0.25);background:rgba(0,229,160,0.04);' : '';
+      const fitCls = p.fit>=85?'high':'mid';
+      return '<div class="partner-item" style="'+itemStyle+'">'
+        +'<div style="flex:1;"><div class="partner-name">'+p.name+bestBadge+'</div>'
+        +'<div class="partner-role">'+p.role+'</div></div>'
+        +'<div class="partner-fit '+fitCls+'">'+p.fit+'%</div></div>';
+    }).join('');
+
+    return '<div class="vertical-card" style="border-color:'+borderCol+';">'
+      +'<div class="vertical-header">'
+      +'<span class="vertical-label">'+v.label+'</span>'
+      +'<span class="vertical-score" style="background:'+bg+';color:'+col+';">'+v.score+'% fit</span>'
+      +'</div>'
+      +'<div style="margin-bottom:10px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;">'
+      +'<span style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.6px;color:'+col+';background:'+bg+';padding:3px 9px;border-radius:4px;">'+(v.tierLabel||'Partner')+'</span>'
+      +leadWith+'</div>'
+      +'<div class="vertical-why">'+v.why+'</div>'
+      +'<div class="vertical-model"><strong>Model:</strong> '+v.model+'</div>'
+      +positioning
+      +'<div class="partner-list" style="margin-top:12px;">'+partnerItems+'</div>'
+      +'</div>';
+  }
+
+  const statsHtml = '<div class="partnership-stats">'
+    +'<div class="p-stat"><div class="p-num">'+PARTNERSHIPS.length+'</div><div class="p-label">Verticals Mapped</div></div>'
+    +'<div class="p-stat"><div class="p-num">'+priorityCount+'</div><div class="p-label">Priority Partnerships</div></div>'
+    +'<div class="p-stat"><div class="p-num">'+topScore+'%</div><div class="p-label">Highest Fit Score</div></div>'
+    +'<div class="p-stat"><div class="p-num">'+totalPartners+'</div><div class="p-label">Named Companies</div></div>'
+    +'</div>';
+
+  const legendHtml = '<div style="margin-bottom:20px;padding:14px 18px;background:rgba(0,229,160,0.06);border:1px solid rgba(0,229,160,0.15);border-radius:12px;font-size:12px;color:var(--muted);line-height:1.7;">'
+    +'<span style="color:var(--mint);font-weight:700;">Priority</span> — pursue in 2026 &nbsp;|&nbsp;'
+    +'<span style="color:var(--amber);font-weight:700;">Strong Fit</span> — explore once core partnerships are live &nbsp;|&nbsp;'
+    +'<span style="color:var(--muted);font-weight:700;">Later Stage</span> — real opportunities requiring product or scale threshold first'
+    +'</div>';
+
+  const cardsHtml = sorted.map(buildVerticalCard).join('');
+  container.innerHTML = statsHtml + legendHtml + '<div class="vertical-grid">' + cardsHtml + '</div>';
 }
 
 // ============ INIT ============
